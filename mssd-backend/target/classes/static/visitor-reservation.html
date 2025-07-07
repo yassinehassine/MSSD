@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Reservation - Visitor Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .calendar-select {
+            margin-bottom: 20px;
+        }
+
+        .calendar-info {
+            background: #f8f9fa;
+            border: 1px solid #e1e5e9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .calendar-info.show {
+            display: block;
+        }
+
+        .calendar-info h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .calendar-info .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .calendar-info .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calendar-info .info-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .calendar-info .info-value {
+            color: #333;
+            font-size: 1em;
+        }
+
+        .calendar-info .description {
+            color: #666;
+            font-style: italic;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e1e5e9;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .available-spots {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .full-event {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .no-events {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .calendar-info .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Event Reservation</h1>
+            <p>Book your spot for upcoming events</p>
+        </div>
+
+        <div id="alert" class="alert"></div>
+
+        <form id="reservationForm">
+            <div class="form-group calendar-select">
+                <label for="calendarId">Select Event:</label>
+                <select id="calendarId" name="calendarId" required>
+                    <option value="">Choose an event...</option>
+                </select>
+            </div>
+
+            <div id="calendarInfo" class="calendar-info">
+                <h3>Event Details</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Event Title:</span>
+                        <span class="info-value" id="eventTitle"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Date & Time:</span>
+                        <span class="info-value" id="eventDateTime"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Location:</span>
+                        <span class="info-value" id="eventLocation"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Available Spots:</span>
+                        <span class="info-value" id="availableSpots"></span>
+                    </div>
+                </div>
+                <div class="description" id="eventDescription"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="visitorName">Your Full Name:</label>
+                <input type="text" id="visitorName" name="visitorName" required placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="visitorEmail">Email Address:</label>
+                <input type="email" id="visitorEmail" name="visitorEmail" required placeholder="Enter your email address">
+            </div>
+
+            <div class="form-group">
+                <label for="visitorPhone">Phone Number:</label>
+                <input type="tel" id="visitorPhone" name="visitorPhone" placeholder="Enter your phone number (optional)">
+            </div>
+
+            <div class="form-group">
+                <label for="numberOfPeople">Number of People:</label>
+                <select id="numberOfPeople" name="numberOfPeople" required>
+                    <option value="1">1 person</option>
+                    <option value="2">2 people</option>
+                    <option value="3">3 people</option>
+                    <option value="4">4 people</option>
+                    <option value="5">5 people</option>
+                    <option value="6">6 people</option>
+                    <option value="7">7 people</option>
+                    <option value="8">8 people</option>
+                    <option value="9">9 people</option>
+                    <option value="10">10 people</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Additional Notes:</label>
+                <textarea id="notes" name="notes" rows="4" placeholder="Any special requirements, dietary restrictions, or additional notes..."></textarea>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing your reservation...</p>
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn">Make Reservation</button>
+        </form>
+    </div>
+
+    <script>
+        const API_BASE_URL = '/api';
+        let availableCalendars = [];
+
+        // Load available calendars on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAvailableCalendars();
+        });
+
+        // Load available calendars
+        async function loadAvailableCalendars() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/calendars/available`);
+                if (!response.ok) throw new Error('Failed to load events');
+                
+                availableCalendars = await response.json();
+                populateCalendarSelect(availableCalendars);
+                
+                if (availableCalendars.length === 0) {
+                    showNoEventsMessage();
+                }
+            } catch (error) {
+                showAlert('Error loading events: ' + error.message, 'error');
+            }
+        }
+
+        // Show no events message
+        function showNoEventsMessage() {
+            const select = document.getElementById('calendarId');
+            select.innerHTML = '<option value="">No events available at the moment</option>';
+            select.disabled = true;
+            
+            const form = document.getElementById('reservationForm');
+            const noEventsDiv = document.createElement('div');
+            noEventsDiv.className = 'no-events';
+            noEventsDiv.innerHTML = '<p>No events are currently available for reservation. Please check back later!</p>';
+            form.appendChild(noEventsDiv);
+        }
+
+        // Populate calendar select dropdown
+        function populateCalendarSelect(calendars) {
+            const select = document.getElementById('calendarId');
+            select.innerHTML = '<option value="">Choose an event...</option>';
+            
+            calendars.forEach(calendar => {
+                const option = document.createElement('option');
+                option.value = calendar.id;
+                option.textContent = `${calendar.title} - ${formatDateTime(calendar.startTime)}`;
+                select.appendChild(option);
+            });
+        }
+
+        // Handle calendar selection
+        document.getElementById('calendarId').addEventListener('change', function() {
+            const calendarId = this.value;
+            if (calendarId) {
+                const calendar = availableCalendars.find(c => c.id == calendarId);
+                if (calendar) {
+                    showCalendarInfo(calendar);
+                }
+            } else {
+                hideCalendarInfo();
+            }
+        });
+
+        // Show calendar information
+        function showCalendarInfo(calendar) {
+            const info = document.getElementById('calendarInfo');
+            document.getElementById('eventTitle').textContent = calendar.title;
+            document.getElementById('eventDateTime').textContent = formatDateTime(calendar.startTime);
+            document.getElementById('eventLocation').textContent = calendar.location;
+            document.getElementById('eventDescription').textContent = calendar.description || 'No description available';
+            
+            const spotsSpan = document.getElementById('availableSpots');
+            if (calendar.availableSpots > 0) {
+                spotsSpan.textContent = `${calendar.availableSpots} spots available`;
+                spotsSpan.className = 'available-spots';
+            } else {
+                spotsSpan.textContent = 'Event is full';
+                spotsSpan.className = 'full-event';
+            }
+            
+            info.classList.add('show');
+        }
+
+        // Hide calendar information
+        function hideCalendarInfo() {
+            document.getElementById('calendarInfo').classList.remove('show');
+        }
+
+        // Handle form submission
+        document.getElementById('reservationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const reservationData = {
+                calendarId: parseInt(formData.get('calendarId')),
+                visitorName: formData.get('visitorName'),
+                visitorEmail: formData.get('visitorEmail'),
+                visitorPhone: formData.get('visitorPhone'),
+                numberOfPeople: parseInt(formData.get('numberOfPeople')),
+                notes: formData.get('notes')
+            };
+
+            // Validate number of people
+            const selectedCalendar = availableCalendars.find(c => c.id == reservationData.calendarId);
+            if (selectedCalendar && reservationData.numberOfPeople > selectedCalendar.availableSpots) {
+                showAlert(`Sorry, only ${selectedCalendar.availableSpots} spots are available for this event.`, 'error');
+                return;
+            }
+
+            await submitReservation(reservationData);
+        });
+
+        // Submit reservation
+        async function submitReservation(data) {
+            const loading = document.getElementById('loading');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            loading.style.display = 'block';
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/reservations`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to create reservation');
+                }
+
+                const result = await response.json();
+                showAlert('Reservation created successfully! You will receive a confirmation email shortly.', 'success');
+                document.getElementById('reservationForm').reset();
+                hideCalendarInfo();
+                
+                // Reload available calendars to update availability
+                await loadAvailableCalendars();
+                
+            } catch (error) {
+                showAlert('Error creating reservation: ' + error.message, 'error');
+            } finally {
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Show alert message
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert ${type}`;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        // Format date and time
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    </script>
+</body>
+</html> 

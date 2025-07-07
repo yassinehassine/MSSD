@@ -1,0 +1,39 @@
+package com.mssd.dto;
+
+import com.mssd.model.Calendar;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Future;
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CalendarRequestDto {
+    @NotBlank(message = "Title is required")
+    private String title;
+    
+    private String description;
+    
+    @NotNull(message = "Start time is required")
+    @Future(message = "Start time must be in the future")
+    private LocalDateTime startTime;
+    
+    @NotNull(message = "End time is required")
+    @Future(message = "End time must be in the future")
+    private LocalDateTime endTime;
+    
+    @NotBlank(message = "Location is required")
+    private String location;
+    
+    @NotNull(message = "Maximum capacity is required")
+    @Positive(message = "Maximum capacity must be positive")
+    private Integer maxCapacity;
+    
+    private Calendar.CalendarStatus status = Calendar.CalendarStatus.AVAILABLE;
+} 

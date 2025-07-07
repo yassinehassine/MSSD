@@ -1,0 +1,48 @@
+/* Minimal styles for the Team section */
+.team .member {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  padding: 30px 20px;
+  transition: 0.3s;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.team .member-img {
+  margin-bottom: 15px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.team .member-img img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.team .member-info h4 {
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+.team .member-info span {
+  display: block;
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+.team .social {
+  margin-top: 10px;
+}
+.team .social a {
+  color: #6c757d;
+  margin: 0 5px;
+  display: inline-block;
+  transition: color 0.3s;
+}
+.team .social a:hover {
+  color: #0d6efd;
+} 
