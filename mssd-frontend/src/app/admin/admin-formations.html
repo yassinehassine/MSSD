@@ -1,0 +1,90 @@
+<div class="container mt-4">
+  <h2>Manage Formations</h2>
+  <button class="btn btn-success mb-3" (click)="startAdd()">Add New Formation</button>
+
+  <div *ngIf="formError" class="alert alert-danger">{{ formError }}</div>
+  <div *ngIf="formSuccess" class="alert alert-success">{{ formSuccess }}</div>
+
+  <form (ngSubmit)="submitForm($event)" class="mb-4">
+    <div class="row g-2">
+      <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Title" [(ngModel)]="form.title" name="title" required>
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Slug" [(ngModel)]="form.slug" name="slug" required>
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Category" [(ngModel)]="form.category" name="category" required>
+      </div>
+      <div class="col-md-1">
+        <input type="number" class="form-control" placeholder="Price" [(ngModel)]="form.price" name="price" required min="0">
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Duration" [(ngModel)]="form.duration" name="duration" required>
+      </div>
+      <div class="col-md-2">
+        <input type="file" class="form-control" (change)="onImageSelected($event)" accept="image/*">
+        <div *ngIf="imageUploading" class="text-info small">Uploading...</div>
+        <div *ngIf="form.imageUrl && !imageUploading" class="mt-1">
+          <img [src]="form.imageUrl" alt="Image preview" style="max-width: 100px; max-height: 60px; border: 1px solid #ccc;">
+        </div>
+      </div>
+      <div class="col-md-2 mt-2">
+        <select class="form-select" [(ngModel)]="form.level" name="level" required>
+          <option value="BEGINNER">Beginner</option>
+          <option value="INTERMEDIATE">Intermediate</option>
+          <option value="EXPERT">Expert</option>
+        </select>
+      </div>
+      <div class="col-md-1 mt-2">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" [(ngModel)]="form.published" name="published" id="published">
+          <label class="form-check-label" for="published">Published</label>
+        </div>
+      </div>
+      <div class="col-md-2 mt-2">
+        <button type="submit" class="btn btn-primary">{{ editingId ? 'Update' : 'Add' }}</button>
+        <button *ngIf="editingId" type="button" class="btn btn-secondary ms-2" (click)="cancelEdit()">Cancel</button>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-12">
+        <textarea class="form-control" placeholder="Description" [(ngModel)]="form.description" name="description" rows="2"></textarea>
+      </div>
+    </div>
+  </form>
+
+  <div *ngIf="isLoading">Loading formations...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <table class="table table-bordered table-striped" *ngIf="!isLoading && formations.length">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Slug</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Duration</th>
+        <th>Level</th>
+        <th>Published</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let f of formations">
+        <td>{{ f.title }}</td>
+        <td>{{ f.slug }}</td>
+        <td>{{ f.category }}</td>
+        <td>{{ f.price | currency }}</td>
+        <td>{{ f.duration }}</td>
+        <td>{{ f.level }}</td>
+        <td>{{ f.published ? 'Yes' : 'No' }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary me-2" (click)="startEdit(f)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteFormation(f.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="!isLoading && !formations.length" class="alert alert-info">No formations found.</div>
+</div> 

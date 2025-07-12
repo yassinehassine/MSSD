@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h2>Booked Formations</h2>
+  <div *ngIf="isLoading">Loading bookings...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <table class="table table-bordered table-striped" *ngIf="!isLoading && bookings.length">
+    <thead>
+      <tr>
+        <th>Formation ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Company</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let b of bookings">
+        <td>{{ b.formationId }}</td>
+        <td>{{ b.name }}</td>
+        <td>{{ b.email }}</td>
+        <td>{{ b.phone }}</td>
+        <td>{{ b.company }}</td>
+        <td>{{ b.createdAt | date:'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="!isLoading && !bookings.length" class="alert alert-info">No bookings found.</div>
+</div> 

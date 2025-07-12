@@ -1,0 +1,61 @@
+<div class="container mt-4">
+  <h2>Custom Requests</h2>
+  <div *ngIf="isLoading">Loading custom requests...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <table class="table table-bordered table-striped" *ngIf="!isLoading && requests.length">
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>Contact</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Subject</th>
+        <th>Details</th>
+        <th>Budget</th>
+        <th>Preferred Start</th>
+        <th>Status</th>
+        <th>Admin Notes</th>
+        <th>Date Submitted</th>
+        <th>Date Updated</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of requests">
+        <td>{{ r.companyName }}</td>
+        <td>{{ r.contactPerson }}</td>
+        <td>{{ r.email }}</td>
+        <td>{{ r.phone }}</td>
+        <td>{{ r.subject }}</td>
+        <td>{{ r.details }}</td>
+        <td>{{ r.budget | currency }}</td>
+        <td>{{ r.preferredStartDate | date:'shortDate' }}</td>
+        <td>
+          <span *ngIf="editingId !== r.id">{{ r.status }}</span>
+          <select *ngIf="editingId === r.id" class="form-select form-select-sm" [(ngModel)]="editStatus">
+            <option value="PENDING">PENDING</option>
+            <option value="REVIEWING">REVIEWING</option>
+            <option value="APPROVED">APPROVED</option>
+            <option value="REJECTED">REJECTED</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="COMPLETED">COMPLETED</option>
+          </select>
+        </td>
+        <td>
+          <span *ngIf="editingId !== r.id">{{ r.adminNotes }}</span>
+          <input *ngIf="editingId === r.id" type="text" class="form-control form-control-sm" [(ngModel)]="editNotes">
+        </td>
+        <td>{{ r.dateSubmitted | date:'short' }}</td>
+        <td>{{ r.dateUpdated | date:'short' }}</td>
+        <td>
+          <button *ngIf="editingId !== r.id" class="btn btn-sm btn-primary" (click)="startEdit(r)">Edit</button>
+          <button *ngIf="editingId === r.id" class="btn btn-sm btn-success me-1" (click)="saveEdit(r)">Save</button>
+          <button *ngIf="editingId === r.id" class="btn btn-sm btn-secondary" (click)="cancelEdit()">Cancel</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="!isLoading && !requests.length" class="alert alert-info">No custom requests found.</div>
+  <div *ngIf="updateSuccess" class="alert alert-success mt-2">{{ updateSuccess }}</div>
+  <div *ngIf="updateError" class="alert alert-danger mt-2">{{ updateError }}</div>
+</div> 

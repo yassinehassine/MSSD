@@ -10,6 +10,9 @@ import { Error401 } from './error401';
 import { Error404 } from './error404';
 import { Error500 } from './error500';
 import { AdminContacts } from './admin-contacts';
+import { AdminFormations } from './admin-formations';
+import { AdminBookings } from './admin-bookings';
+import { AdminCustomRequests } from './admin-custom-requests';
 
 export const adminRoutes: Routes = [
   {
@@ -20,6 +23,9 @@ export const adminRoutes: Routes = [
       { path: 'charts', component: Charts },
       { path: 'tables', component: Tables },
       { path: 'contacts', component: AdminContacts },
+      { path: 'formations', component: AdminFormations },
+      { path: 'bookings', component: AdminBookings },
+      { path: 'custom-requests', component: AdminCustomRequests },
       { path: 'login', component: Login },
       { path: 'register', component: Register },
       { path: 'password', component: Password },
