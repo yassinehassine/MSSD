@@ -74,6 +74,7 @@ public class ReservationServiceImpl implements ReservationService {
         }
         
         Reservation reservation = reservationMapper.toEntity(dto);
+        reservation.setStatus(Reservation.ReservationStatus.CONFIRMED); // Auto-confirm
         Reservation savedReservation = reservationRepository.save(reservation);
         
         // Update calendar capacity

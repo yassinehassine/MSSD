@@ -103,4 +103,14 @@ public class CalendarController {
         calendarService.deleteCalendar(id);
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * Join a calendar event (increment currentCapacity)
+     * POST /api/calendars/{id}/join
+     */
+    @PostMapping("/{id}/join")
+    public ResponseEntity<CalendarDto> joinEvent(@PathVariable Long id) {
+        CalendarDto updated = calendarService.joinEvent(id);
+        return ResponseEntity.ok(updated);
+    }
 } 

@@ -13,6 +13,8 @@ import { AdminContacts } from './admin-contacts';
 import { AdminFormations } from './admin-formations';
 import { AdminBookings } from './admin-bookings';
 import { AdminCustomRequests } from './admin-custom-requests';
+import { AdminCalendar } from './admin-calendar';
+import { AdminReservations } from './admin-reservations';
 
 export const adminRoutes: Routes = [
   {
@@ -26,6 +28,8 @@ export const adminRoutes: Routes = [
       { path: 'formations', component: AdminFormations },
       { path: 'bookings', component: AdminBookings },
       { path: 'custom-requests', component: AdminCustomRequests },
+      { path: 'calendar', component: AdminCalendar },
+      { path: 'reservations', component: AdminReservations },
       { path: 'login', component: Login },
       { path: 'register', component: Register },
       { path: 'password', component: Password },

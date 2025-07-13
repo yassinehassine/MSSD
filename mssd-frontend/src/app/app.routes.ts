@@ -9,6 +9,7 @@ import { Contact } from './pages/contact/contact';
 import { ServiceDetails } from './pages/service-details/service-details';
 import { StarterPage } from './pages/starter-page/starter-page';
 import { Team } from './pages/team/team';
+import { Calendar } from './pages/calendar/calendar';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,7 @@ export const routes: Routes = [
       { path: 'service-details', component: ServiceDetails },
       { path: 'starter-page', component: StarterPage },
       { path: 'team', component: Team },
+      { path: 'calendar', component: Calendar },
     ]
   },
   {

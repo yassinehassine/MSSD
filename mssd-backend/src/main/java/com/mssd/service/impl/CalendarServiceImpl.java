@@ -110,4 +110,18 @@ public class CalendarServiceImpl implements CalendarService {
         
         calendarRepository.save(calendar);
     }
+
+    @Override
+    public CalendarDto joinEvent(Long id) {
+        Calendar calendar = calendarRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Calendar not found"));
+        if (calendar.getCurrentCapacity() < calendar.getMaxCapacity()) {
+            calendar.setCurrentCapacity(calendar.getCurrentCapacity() + 1);
+            if (calendar.getCurrentCapacity() == calendar.getMaxCapacity()) {
+                calendar.setStatus(Calendar.CalendarStatus.FULL);
+            }
+            calendarRepository.save(calendar);
+        }
+        return calendarMapper.toDto(calendar);
+    }
 } 

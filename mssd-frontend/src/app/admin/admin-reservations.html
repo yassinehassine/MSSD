@@ -1,0 +1,113 @@
+<div class="container-fluid px-4">
+  <h1 class="mt-4">Reservations</h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a routerLink="/admin">Dashboard</a></li>
+    <li class="breadcrumb-item active">Reservations</li>
+  </ol>
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading reservations...</p>
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  <div *ngIf="!loading && reservations.length === 0" class="alert alert-info">No reservations found.</div>
+  <div *ngIf="!loading && reservations.length > 0">
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Search by name, email, or event" [(ngModel)]="searchTerm">
+      </div>
+      <div class="col-md-3">
+        <select class="form-select" [(ngModel)]="eventFilter">
+          <option value="">All Events</option>
+          <option *ngFor="let e of eventOptions" [value]="e">{{ e }}</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select class="form-select" [(ngModel)]="statusFilter">
+          <option value="">All Status</option>
+          <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+    </div>
+    <div *ngFor="let event of (groupedReservations | keyvalue)">
+      <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"><i class="fas fa-calendar-alt"></i> {{ event.key }}</h5>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>People</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let r of event.value">
+                <td>{{ r.visitorName }}</td>
+                <td>{{ r.visitorEmail }}</td>
+                <td>{{ r.visitorPhone }}</td>
+                <td>{{ r.numberOfPeople }}</td>
+                <td><span class="badge bg-success">{{ r.status }}</span></td>
+                <td>{{ r.createdAt | date:'short' }}</td>
+                <td>
+                  <button *ngIf="r.status !== 'CONFIRMED'" class="btn btn-success btn-sm me-1" (click)="confirmReservation(r.id)">Confirm</button>
+                  <button *ngIf="r.status !== 'CANCELLED'" class="btn btn-warning btn-sm me-1" (click)="cancelReservation(r.id)">Cancel</button>
+                  <button class="btn btn-primary btn-sm me-1" (click)="openEditModal(r)">Edit</button>
+                  <button class="btn btn-danger btn-sm" (click)="deleteReservation(r.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" [class.show]="showEditModal" [style.display]="showEditModal ? 'block' : 'none'" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Reservation</h5>
+        <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="submitEdit()">
+          <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" [(ngModel)]="editForm.visitorName" name="editVisitorName" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" [(ngModel)]="editForm.visitorEmail" name="editVisitorEmail" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Phone</label>
+            <input type="text" class="form-control" [(ngModel)]="editForm.visitorPhone" name="editVisitorPhone">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">People</label>
+            <input type="number" class="form-control" [(ngModel)]="editForm.numberOfPeople" name="editNumberOfPeople" min="1">
+          </div>
+          <div *ngIf="editError" class="alert alert-danger">{{ editError }}</div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary" (click)="submitEdit()" [disabled]="editLoading">
+          <span *ngIf="editLoading" class="spinner-border spinner-border-sm me-2"></span>
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showEditModal" class="modal-backdrop fade show"></div>

@@ -16,4 +16,5 @@ public interface CalendarService {
     CalendarDto updateCalendar(Long id, CalendarRequestDto dto);
     void deleteCalendar(Long id);
     void updateCalendarCapacity(Long calendarId);
+    CalendarDto joinEvent(Long id);
 } 
