@@ -15,6 +15,7 @@ import { AdminBookings } from './admin-bookings';
 import { AdminCustomRequests } from './admin-custom-requests';
 import { AdminCalendar } from './admin-calendar';
 import { AdminReservations } from './admin-reservations';
+import {AdminReviewsComponent} from './admin-reviews';
 
 export const adminRoutes: Routes = [
   {
@@ -33,11 +34,14 @@ export const adminRoutes: Routes = [
       { path: 'login', component: Login },
       { path: 'register', component: Register },
       { path: 'password', component: Password },
+      { path: 'reviews',
+        component: AdminReviewsComponent},
       { path: '401', component: Error401 },
       { path: '404', component: Error404 },
       { path: '500', component: Error500 },
       { path: '**', component: Error404 },
+
     ]
   }
   // Removed non-existent pages: login, register, password, 401, 404, 500
-]; 
+];

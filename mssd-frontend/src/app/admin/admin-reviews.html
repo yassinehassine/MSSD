@@ -1,0 +1,29 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Reviews Management</h2>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Formation</th>
+      <th>Author</th>
+      <th>Rating</th>
+      <th>Comment</th>
+      <th>Created</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let review of reviews">
+      <td>{{ review.id }}</td>
+      <td>{{ review.formationTitle }}</td>
+      <td>{{ review.authorName }}</td>
+      <td>{{ review.rating }} ★</td>
+      <td>{{ review.comment }}</td>
+      <td>{{ review.createdAt | date: 'short' }}</td>
+      <td>
+        <button class="btn btn-danger btn-sm" (click)="deleteReview(review.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

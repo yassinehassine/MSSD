@@ -45,8 +45,8 @@ public class SeedDataConfig {
                 if (formationRepository.count() == 0) {
                     log.info("Seeding formations...");
                     formationRepository.saveAll(List.of(
-                            new Formation(null, "Leadership Essentials", "leadership-essentials", "Learn the basics of leadership.", "Management", new BigDecimal("1200.00"), "3 days", null, Formation.Level.BEGINNER, true, null, null),
-                            new Formation(null, "Advanced Sales Techniques", "advanced-sales-techniques", "Master advanced sales skills.", "Sales", new BigDecimal("1500.00"), "2 days", null, Formation.Level.EXPERT, true, null, null)
+                            new Formation(null, "Leadership Essentials", "leadership-essentials", "Learn the basics of leadership.", "Management", new BigDecimal("1200.00"), "3 days", null, Formation.Level.BEGINNER, true, null, null,null),
+                            new Formation(null, "Advanced Sales Techniques", "advanced-sales-techniques", "Master advanced sales skills.", "Sales", new BigDecimal("1500.00"), "2 days", null, Formation.Level.EXPERT, true, null, null,null)
                     ));
                     log.info("Formations seeded successfully");
                 } else {

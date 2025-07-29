@@ -66,4 +66,7 @@ public class Formation {
     public enum Level {
         BEGINNER, INTERMEDIATE, EXPERT
     }
+    @OneToMany(mappedBy = "formation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<Review> reviews = new java.util.ArrayList<>();
+
 } 
