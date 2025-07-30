@@ -1,5 +1,6 @@
 package com.mssd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +27,7 @@ public class Review {
     private String comment;
 
     private LocalDateTime createdAt;
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "formation_id")
     private Formation formation;

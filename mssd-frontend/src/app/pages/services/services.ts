@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormationBookingService, Formation, FormationBookingRequest } from '../../services/formation-booking.service';
 import { CustomRequestService, CustomRequest } from '../../services/custom-request.service';
 
-const BACKEND_URL = 'http://localhost:8080'; // Change if your backend runs elsewhere
+const BACKEND_URL = 'http://localhost:8080';
 
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './services.html',
   styleUrl: './services.scss'
 })
@@ -36,7 +38,8 @@ export class Services {
 
   constructor(
     private formationBookingService: FormationBookingService,
-    private customRequestService: CustomRequestService
+    private customRequestService: CustomRequestService,
+    private router: Router
   ) {
     this.loadFormations();
   }
@@ -44,7 +47,6 @@ export class Services {
   loadFormations() {
     this.formationBookingService.getPublishedFormations().subscribe({
       next: (data) => {
-        // Prepend backend URL to imageUrl if it's a relative path
         this.formations = data.map(f => ({
           ...f,
           imageUrl: f.imageUrl && !/^https?:\/\//.test(f.imageUrl) ? BACKEND_URL + f.imageUrl : f.imageUrl
@@ -105,5 +107,9 @@ export class Services {
         this.customRequestError = 'Failed to submit your request. Please try again.';
       }
     });
+  }
+
+  goToReviews(formationId: number) {
+    this.router.navigate(['/formation', formationId, 'reviews']);
   }
 }

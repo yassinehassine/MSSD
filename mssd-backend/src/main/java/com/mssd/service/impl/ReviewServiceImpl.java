@@ -10,6 +10,8 @@ import com.mssd.repository.ReviewRepository;
 import com.mssd.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,10 +37,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewDto> getReviewsByFormationId(Long formationId) {
-        List<Review> reviews = reviewRepository.findByFormationId(formationId);
-        return reviews.stream().map(reviewMapper::toDto).collect(Collectors.toList());
+    public List<Review> getReviewsByFormationId(Long formationId) {
+        return reviewRepository.findByFormation_Id(formationId);
     }
+
 
     @Override
     public void deleteReview(Long id) {
@@ -55,4 +57,5 @@ public class ReviewServiceImpl implements ReviewService {
                 .map(reviewMapper::toDto)
                 .collect(Collectors.toList());
     }
+
 }

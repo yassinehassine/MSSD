@@ -1,10 +1,13 @@
 package com.mssd.controller;
 
 import com.mssd.dto.ReviewDto;
+import com.mssd.model.Review;
+import com.mssd.repository.ReviewRepository;
 import com.mssd.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -14,6 +17,7 @@ import java.util.List;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final ReviewRepository reviewRepository;
 
     @PostMapping
     public ResponseEntity<ReviewDto> createReview(@RequestBody ReviewDto dto) {
@@ -21,12 +25,11 @@ public class ReviewController {
         return ResponseEntity.ok(created);
     }
 
-    @GetMapping("/formation/{formationId}")
-    public ResponseEntity<List<ReviewDto>> getReviewsByFormation(@PathVariable Long formationId) {
-        List<ReviewDto> reviews = reviewService.getReviewsByFormationId(formationId);
+    @GetMapping
+    public ResponseEntity<List<Review>> getReviewsByFormation(@RequestParam("formationId") Long formationId) {
+        List<Review> reviews = reviewService.getReviewsByFormationId(formationId);
         return ResponseEntity.ok(reviews);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
         reviewService.deleteReview(id);
@@ -37,4 +40,6 @@ public class ReviewController {
     public ResponseEntity<List<ReviewDto>> getAllReviews() {
         return ResponseEntity.ok(reviewService.getAllReviews());
     }
+
+
 }

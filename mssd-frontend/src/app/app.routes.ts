@@ -27,10 +27,14 @@ export const routes: Routes = [
       { path: 'starter-page', component: StarterPage },
       { path: 'team', component: Team },
       { path: 'calendar', component: Calendar },
+      { path: 'formation/:id/reviews', loadComponent: () => import('./pages/Reviews/reviews-page').then(m => m.ReviewsPage) }
+
     ]
   },
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.routes').then(m => m.adminRoutes)
+
   }
+
 ];
