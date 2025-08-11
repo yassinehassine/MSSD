@@ -1,5 +1,9 @@
 import { Component, AfterViewInit } from '@angular/core';
-import {Router, NavigationEnd, RouterOutlet, RouterLink, RouterLinkActive} from '@angular/router';
+import { Router, NavigationEnd, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
+import { User } from '../model/user.model';
+
 declare var bootstrap: any;
 
 @Component({
@@ -7,6 +11,7 @@ declare var bootstrap: any;
   standalone: true,
   templateUrl: './admin-layout.html',
   imports: [
+    CommonModule,
     RouterOutlet,
     RouterLink,
     RouterLinkActive
@@ -14,7 +19,17 @@ declare var bootstrap: any;
   styleUrl: './dashboard.scss'
 })
 export class AdminLayout implements AfterViewInit {
-  constructor(private router: Router) {}
+  currentUser: User | null = null;
+
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {
+    // Subscribe to current user changes
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
+  }
 
   ngAfterViewInit() {
     this.initSidebarToggle();
@@ -48,5 +63,9 @@ export class AdminLayout implements AfterViewInit {
         new bootstrap.Dropdown(dropdownToggleEl);
       }
     });
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

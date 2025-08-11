@@ -5,22 +5,47 @@
             <div class="card shadow-lg border-0 rounded-lg mt-5">
                 <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                 <div class="card-body">
-                    <form>
+                    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+                        <div class="alert alert-danger" *ngIf="errorMessage">
+                            {{ errorMessage }}
+                        </div>
+                        
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+                            <input 
+                                class="form-control" 
+                                id="inputEmail" 
+                                type="email" 
+                                placeholder="name@example.com"
+                                [(ngModel)]="loginData.email"
+                                name="email"
+                                required
+                            />
                             <label for="inputEmail">Email address</label>
                         </div>
+                        
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                            <input 
+                                class="form-control" 
+                                id="inputPassword" 
+                                type="password" 
+                                placeholder="Password"
+                                [(ngModel)]="loginData.password"
+                                name="password"
+                                required
+                            />
                             <label for="inputPassword">Password</label>
                         </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                            <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
-                        </div>
+                        
                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                             <a class="small" routerLink="/admin/password">Forgot Password?</a>
-                            <a class="btn btn-primary" routerLink="/admin">Login</a>
+                            <button 
+                                type="submit" 
+                                class="btn btn-primary"
+                                [disabled]="isLoading || !loginForm.valid"
+                            >
+                                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                                {{ isLoading ? 'Logging in...' : 'Login' }}
+                            </button>
                         </div>
                     </form>
                 </div>

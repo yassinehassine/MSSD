@@ -1,6 +1,9 @@
 <div class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand ps-3" routerLink="/admin">Start Bootstrap</a>
+        <a class="navbar-brand ps-3" routerLink="/admin">
+            <img src="assets/img/logo1.png" alt="Admin Logo" style="height: 40px; margin-right: 8px;">
+            Admin Panel
+        </a>
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button"><i class="fas fa-bars"></i></button>
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             <div class="input-group">
@@ -10,15 +13,14 @@
         </form>
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user fa-fw"></i>
+                    <span class="ms-1" *ngIf="currentUser">{{ currentUser.username }}</span>
+                </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" routerLink="/admin/login">Login</a></li>
-                    <li><a class="dropdown-item" routerLink="/admin/register">Register</a></li>
-                    <li><a class="dropdown-item" routerLink="/admin/password">Password Reset</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" routerLink="/admin/401">401 Error</a></li>
-                    <li><a class="dropdown-item" routerLink="/admin/404">404 Error</a></li>
-                    <li><a class="dropdown-item" routerLink="/admin/500">500 Error</a></li>
+                    <li *ngIf="currentUser"><h6 class="dropdown-header">{{ currentUser.email }}</h6></li>
+                    <li *ngIf="currentUser"><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -62,34 +64,22 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
                             Calendar Management
                         </a>
-                        <a class="nav-link" routerLink="/admin/login" routerLinkActive="active">
-                            <div class="sb-nav-link-icon"><i class="fas fa-sign-in-alt"></i></div>
-                            Login
+                        <a class="nav-link" routerLink="/admin/reservations" routerLinkActive="active">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
+                            Reservations
                         </a>
-                        <a class="nav-link" routerLink="/admin/register" routerLinkActive="active">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
-                            Register
+                        <a class="nav-link" routerLink="/admin/reviews" routerLinkActive="active">
+                            <div class="sb-nav-link-icon"><i class="fas fa-star"></i></div>
+                            Reviews
                         </a>
-                        <a class="nav-link" routerLink="/admin/password" routerLinkActive="active">
-                            <div class="sb-nav-link-icon"><i class="fas fa-key"></i></div>
-                            Password Reset
+                        <a class="nav-link" routerLink="/admin/portfolio" routerLinkActive="active">
+                            <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
+                            Portfolio Management
                         </a>
-                        <a class="nav-link" routerLink="/admin/401" routerLinkActive="active">
-                            <div class="sb-nav-link-icon"><i class="fas fa-ban"></i></div>
-                            401 Error
+                        <a class="nav-link" routerLink="/admin/reviews" routerLinkActive="active">
+                            <div class="sb-nav-link-icon"><i class="fas fa-star"></i></div>
+                            Reviews Management
                         </a>
-                        <a class="nav-link" routerLink="/admin/404" routerLinkActive="active">
-                            <div class="sb-nav-link-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                            404 Error
-                        </a>
-                        <a class="nav-link" routerLink="/admin/500" routerLinkActive="active">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bug"></i></div>
-                            500 Error
-                        </a>
-                      <a class="nav-link" routerLink="/admin/reviews" routerLinkActive="active">
-                        <div class="sb-nav-link-icon"><i class="fas fa-bug"></i></div>
-                        Reviews Management
-                      </a>
                         <a class="nav-link" routerLink="/admin/reservations" routerLinkActive="active">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Reservations
