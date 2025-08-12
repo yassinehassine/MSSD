@@ -141,7 +141,7 @@ export class PortfolioService {
   // Get image URL with enhanced support for any image source
   getImageUrl(imagePath: string): string {
     if (!imagePath || imagePath.trim() === '') {
-      return 'assets/img/portfolio-1.jpg'; // Default portfolio image
+      return 'assets/img/portfolio/app-1.jpg'; // Default portfolio image (exists)
     }
     
     // If it's already a complete URL (external image), return as-is
@@ -154,15 +154,18 @@ export class PortfolioService {
       return imagePath;
     }
     
+  // Normalize common stored patterns like 'uploads/filename.ext'
+  const normalized = imagePath.startsWith('uploads/') ? imagePath.substring('uploads/'.length) : imagePath;
+
     // For uploaded files (just filename) or any other paths,
-    // use the enhanced image serving endpoint
-    return `http://localhost:8080/api/files/image/${imagePath}`;
+    // use the backend files endpoint (matches upload response url base)
+  return `http://localhost:8080/api/files/${normalized}`;
   }
 
   // Alternative method for direct asset access (for backwards compatibility)
   getAssetImageUrl(imagePath: string): string {
     if (!imagePath) {
-      return 'assets/img/portfolio-1.jpg';
+      return 'assets/img/portfolio/app-1.jpg';
     }
     if (imagePath.startsWith('assets/')) {
       return imagePath;

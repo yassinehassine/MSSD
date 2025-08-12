@@ -19,7 +19,7 @@
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
     </nav>
-    <a class="btn-getstarted flex-md-shrink-0" routerLink="/about">Get Started</a>
+  <!-- Removed Get Started button -->
   </div>
 </header>
 
@@ -28,11 +28,52 @@
   <router-outlet></router-outlet>
 </main>
 
-<!-- FlexStart Footer -->
-<footer id="footer" class="footer">
-  <!-- Footer content from FlexStart, with all asset paths corrected to 'assets/img/...' -->
-  <!-- ... (footer HTML will be inserted here, with correct asset paths) ... -->
+<!-- Global Footer (shows on all front-office pages) -->
+<footer id="footer" class="footer light-background">
+  <div class="footer-content">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a routerLink="/home" class="logo d-flex align-items-center">
+            <img src="assets/img/logo1.png" alt="MSSD Logo" height="40" />
+            <span class="ms-2">MSSD</span>
+          </a>
+          <p class="mt-3">Management Solutions & Sales Développement. Nous accompagnons vos équipes vers la performance commerciale.</p>
+          <div class="social-links d-flex mt-2">
+            <a href="https://www.facebook.com/" target="_blank" class="d-flex align-items-center justify-content-center" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/" target="_blank" class="d-flex align-items-center justify-content-center" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.linkedin.com/" target="_blank" class="d-flex align-items-center justify-content-center" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            <a href="mailto:contact@mssd.tn" class="d-flex align-items-center justify-content-center" aria-label="Email"><i class="bi bi-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 footer-contact text-md-start">
+          <h4>Contact</h4>
+          <p class="mb-1">Adresse: Tunis, Tunisie</p>
+          <p class="mb-1"><strong>Tél:</strong> <a href="tel:+21600000000">+216 00 000 000</a></p>
+          <p class="mb-0"><strong>Email:</strong> <a href="mailto:contact@mssd.tn">contact&#64;mssd.tn</a></p>
+        </div>
+
+        <div class="col-lg-4 col-md-6 footer-links">
+          <h4>Liens Utiles</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a routerLink="/about">À propos</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a routerLink="/services">Services</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a routerLink="/portfolio">Portfolio</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a routerLink="/contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-legal">
+    <div class="container d-flex justify-content-between align-items-center flex-column flex-md-row">
+      <div class="copyright">© <span>2025</span> <strong>MSSD</strong>. Tous droits réservés.</div>
+      <div class="credits">Design propulsé par MSSD</div>
+    </div>
+  </div>
 </footer>
 
 <!-- Scroll Top -->
-<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a> 
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

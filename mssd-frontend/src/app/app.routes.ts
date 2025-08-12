@@ -16,7 +16,8 @@ export const routes: Routes = [
     path: '',
     component: AppFlexstartLayout,
     children: [
-      { path: '', redirectTo: '/calendar', pathMatch: 'full' }, // Redirect to calendar
+      // Make Home the landing page
+      { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'home', component: Home },
       { path: 'about', component: About },
       { path: 'services', component: Services },

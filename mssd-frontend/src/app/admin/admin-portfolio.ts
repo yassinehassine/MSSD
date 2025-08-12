@@ -197,7 +197,7 @@ export class AdminPortfolio implements OnInit {
   // Get image URL using the portfolio service
   getImageUrl(imagePath: string | undefined): string {
     if (!imagePath || imagePath.trim() === '') {
-      return 'assets/img/portfolio-default.jpg'; // Default portfolio image
+      return 'assets/img/portfolio/app-1.jpg'; // Default portfolio image (exists)
     }
     return this.portfolioService.getImageUrl(imagePath);
   }
@@ -206,8 +206,9 @@ export class AdminPortfolio implements OnInit {
   onImageError(event: any): void {
     console.error('Portfolio image failed to load:', event.target.src);
     // Set a fallback default image to prevent infinite loop
-    if (!event.target.src.includes('portfolio-default.jpg')) {
-      event.target.src = 'assets/img/portfolio-default.jpg';
+    const fallback = 'assets/img/portfolio/app-1.jpg';
+    if (!event.target.src.includes('portfolio/app-1.jpg')) {
+      event.target.src = fallback;
     }
   }
 

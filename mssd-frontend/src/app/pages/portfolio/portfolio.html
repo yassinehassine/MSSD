@@ -42,13 +42,19 @@
       >
         <div class="portfolio-wrap">
           <img [src]="getImageUrl(portfolio.imageUrl)"
-               class="img-fluid"
+               class="img-fluid portfolio-image"
                [alt]="portfolio.title"
                (error)="onImageError($event)"
-               loading="lazy">
+               loading="lazy"
+               style="width: 100%; height: 300px; object-fit: cover; border: 2px solid #ddd;">
           <div class="portfolio-info">
-            <h4>{{ portfolio.title }}</h4>
-            <p>{{ getFormationName(portfolio) }}</p>
+            <h4 class="mb-1">{{ portfolio.title }}</h4>
+            <p class="text-muted mb-2">{{ portfolio.description }}</p>
+            <div class="small text-secondary mb-2">
+              <strong>Client:</strong> {{ portfolio.clientName || 'N/A' }}
+              <span *ngIf="portfolio.projectDate"> • <strong>Date:</strong> {{ formatDate(portfolio.projectDate) }}</span>
+              • <strong>Category:</strong> {{ getFormationCategory(portfolio) }}
+            </div>
             <div class="portfolio-links">
               <a [href]="getImageUrl(portfolio.imageUrl)"
                  data-gallery="portfolioGallery"
@@ -66,16 +72,6 @@
           </div>
         </div>
 
-        <!-- Portfolio Details Card -->
-        <div class="portfolio-details mt-3 p-3 border rounded bg-light">
-          <h5 class="text-primary">{{ portfolio.title }}</h5>
-          <p class="text-muted">{{ portfolio.description }}</p>
-          <div class="portfolio-meta">
-            <p><strong>Client:</strong> {{ portfolio.clientName || 'N/A' }}</p>
-            <p *ngIf="portfolio.projectDate"><strong>Date:</strong> {{ formatDate(portfolio.projectDate) }}</p>
-            <p><strong>Category:</strong> {{ getFormationCategory(portfolio) }}</p>
-          </div>
-        </div>
       </div>
     </div>
 

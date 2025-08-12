@@ -9,7 +9,7 @@ CREATE TABLE portfolio (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     formation_id BIGINT NOT NULL,
-    image_path VARCHAR(255),
+    image_url VARCHAR(500),
     client_name VARCHAR(255),
     project_date DATE,
     project_url VARCHAR(255),
@@ -40,7 +40,7 @@ VALUES
 ON DUPLICATE KEY UPDATE title = title;
 
 -- Insert sample portfolio items
-INSERT INTO portfolio (title, description, formation_id, image_path, client_name, project_date, project_url, active, created_at, updated_at)
+INSERT INTO portfolio (title, description, formation_id, image_url, client_name, project_date, project_url, active, created_at, updated_at)
 VALUES 
 ('E-Commerce Platform', 'Complete e-commerce solution with payment integration and inventory management', 1, 'uploads/app-1.jpg', 'TechCorp Inc', '2024-01-15', 'https://example-ecommerce.com', true, NOW(), NOW()),
 ('Mobile Banking App', 'Secure mobile banking application with biometric authentication', 2, 'uploads/app-2.jpg', 'SecureBank', '2024-02-20', 'https://securebank.com', true, NOW(), NOW()),

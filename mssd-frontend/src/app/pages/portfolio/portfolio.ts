@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import { Portfolio as PortfolioModel, Formation } from '../../model/portfolio.model';
 import { PortfolioService } from '../../services/portfolio.service';
 
@@ -42,14 +42,18 @@ export class Portfolio implements OnInit {
   loadPortfolios(): void {
     this.isLoading = true;
     this.error = null;
-    
+
     this.portfolioService.getActivePortfolios().subscribe({
       next: (portfolios) => {
         this.portfolios = portfolios;
-        this.filteredPortfolios = portfolios;
-        this.extractCategories();
+  this.filteredPortfolios = portfolios;
+  this.extractCategories();
         this.isLoading = false;
         console.log('Active portfolios loaded:', portfolios);
+        // Log image URLs for debugging
+        portfolios.forEach(p => {
+          console.log(`Portfolio "${p.title}" imageUrl:`, p.imageUrl, 'Generated URL:', this.getImageUrl(p.imageUrl));
+        });
       },
       error: (error) => {
         console.error('Error loading portfolios:', error);
@@ -73,13 +77,13 @@ export class Portfolio implements OnInit {
   filterByCategory(category: string): void {
     this.selectedCategory = category;
     console.log('Filtering by category:', category);
-    
+
     if (category === 'all') {
       this.filteredPortfolios = this.portfolios;
     } else {
       this.filteredPortfolios = this.portfolios.filter(p => p.formationCategory === category);
     }
-    
+
     console.log('Filtered portfolios:', this.filteredPortfolios);
   }
 
@@ -89,9 +93,12 @@ export class Portfolio implements OnInit {
 
   getImageUrl(imagePath: string | undefined): string {
     if (!imagePath || imagePath.trim() === '') {
-      return 'assets/img/portfolio-default.jpg'; // Single default image
+      console.log('Portfolio: No image path provided, using default');
+  return 'assets/img/portfolio/app-1.jpg'; // existing default image
     }
-    return this.portfolioService.getImageUrl(imagePath);
+    const url = this.portfolioService.getImageUrl(imagePath);
+    console.log('Portfolio: Generated image URL:', url, 'from path:', imagePath);
+    return url;
   }
 
   getFormationName(portfolio: PortfolioModel): string {
@@ -112,7 +119,7 @@ export class Portfolio implements OnInit {
   // Helper method to format dates
   formatDate(dateString: string | undefined): string {
     if (!dateString) return '';
-    
+
     try {
       const date = new Date(dateString);
       return date.toLocaleDateString('en-US', {
@@ -128,15 +135,16 @@ export class Portfolio implements OnInit {
 
   // Retry loading portfolios
   retryLoad(): void {
-    this.loadPortfolios();
+  this.loadPortfolios();
   }
 
   // Handle image loading errors
   onImageError(event: any): void {
     console.error('Portfolio image failed to load:', event.target.src);
     // Set a fallback default image to prevent infinite loop
-    if (!event.target.src.includes('portfolio-default.jpg')) {
-      event.target.src = 'assets/img/portfolio-default.jpg';
+    const fallback = 'assets/img/portfolio/app-1.jpg';
+    if (!event.target.src.includes('portfolio/app-1.jpg')) {
+      event.target.src = fallback;
     }
   }
 }

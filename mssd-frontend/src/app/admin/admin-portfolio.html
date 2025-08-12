@@ -42,7 +42,11 @@
                                 <img [src]="getImageUrl(portfolio.imageUrl)" 
                                      [alt]="portfolio.title" 
                                      class="portfolio-image"
-                                     (error)="onImageError($event)">
+                                     (error)="onImageError($event)"
+                                     style="width: 100px; height: 80px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px;">
+                                <div class="text-muted small mt-1" style="font-size: 10px; word-break: break-all;">
+                                    {{ getImageUrl(portfolio.imageUrl) }}
+                                </div>
                             </td>
                             <td>{{ portfolio.title }}</td>
                             <td>
@@ -146,10 +150,17 @@
                                    accept="image/*" (change)="onFileSelected($event)">
                             <div *ngIf="isUploading" class="text-info small mt-1">Uploading...</div>
                             <div *ngIf="portfolioForm.imageUrl && !isUploading" class="mt-2">
-                                <img [src]="portfolioForm.imageUrl" 
+                                <div class="mb-2">
+                                    <strong>Current Image:</strong>
+                                </div>
+                                <img [src]="getImageUrl(portfolioForm.imageUrl)" 
                                      [alt]="portfolioForm.title || 'Portfolio image'" 
                                      class="img-thumbnail"
-                                     style="max-width: 150px; max-height: 100px; border: 1px solid #ccc;">
+                                     (error)="onImageError($event)"
+                                     style="max-width: 300px; max-height: 200px; border: 2px solid #ddd; border-radius: 8px;">
+                                <div class="text-muted small mt-1" style="word-break: break-all;">
+                                    <strong>URL:</strong> {{ getImageUrl(portfolioForm.imageUrl) }}
+                                </div>
                             </div>
                         </div>
                     </div>
