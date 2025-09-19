@@ -5,7 +5,7 @@
   <div class="container">
     <div class="row gy-4">
       <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
-  <h1 data-aos="fade-up">We offer modern solutions for growing your business</h1>
+  <h1 data-aos="fade-up">{{ languageService.isEnglish() ? 'We offer modern solutions for growing your business' : 'Nous offrons des solutions modernes pour développer votre entreprise' }}</h1>
       </div>
       <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out">
         <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
@@ -22,9 +22,9 @@
         <img src="assets/img/about.jpg" class="img-fluid rounded-3" alt="About MSSD">
       </div>
       <div class="col-lg-6">
-        <h3 class="text-primary">À propos de MSSD</h3>
-        <p class="mb-3">Management Solutions & Sales Développement. Coaching de proximité, management par objectifs et processus, et accompagnement des transitions.</p>
-        <a routerLink="/about" class="btn btn-primary">En savoir plus</a>
+        <h3 class="text-primary">{{ languageService.isEnglish() ? 'About MSSD' : 'À propos de MSSD' }}</h3>
+        <p class="mb-3">{{ languageService.isEnglish() ? 'Management Solutions & Sales Development. Proximity coaching, management by objectives and processes, and transition support.' : 'Management Solutions & Sales Développement. Coaching de proximité, management par objectifs et processus, et accompagnement des transitions.' }}</p>
+        <a routerLink="/about" class="btn btn-primary">{{ languageService.isEnglish() ? 'Learn more' : 'En savoir plus' }}</a>
       </div>
     </div>
   </div>
@@ -79,8 +79,8 @@
 <!-- Explore MSSD -->
 <section id="explore" class="section">
   <div class="container section-title" data-aos="fade-up">
-    <h2>Explorez MSSD</h2>
-    <p>Accédez rapidement aux sections clés</p>
+    <h2>{{ languageService.isEnglish() ? 'Explore MSSD' : 'Explorez MSSD' }}</h2>
+    <p>{{ languageService.isEnglish() ? 'Quick access to key sections' : 'Accédez rapidement aux sections clés' }}</p>
   </div>
   <div class="container">
     <div class="row gy-4">
@@ -88,8 +88,8 @@
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
             <h4 class="card-title"><i class="bi bi-briefcase me-2"></i>Services</h4>
-            <p class="card-text">Formations, coaching et structuration commerciale.</p>
-            <a routerLink="/services" class="stretched-link">Voir les services</a>
+            <p class="card-text">{{ languageService.isEnglish() ? 'Training, coaching and sales structuring.' : 'Formations, coaching et structuration commerciale.' }}</p>
+            <a routerLink="/services" class="stretched-link">{{ languageService.isEnglish() ? 'View services' : 'Voir les services' }}</a>
           </div>
         </div>
       </div>
@@ -97,17 +97,17 @@
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
             <h4 class="card-title"><i class="bi bi-images me-2"></i>Portfolio</h4>
-            <p class="card-text">Quelques réalisations et projets clients.</p>
-            <a routerLink="/portfolio" class="stretched-link">Voir le portfolio</a>
+            <p class="card-text">{{ languageService.isEnglish() ? 'Some achievements and client projects.' : 'Quelques réalisations et projets clients.' }}</p>
+            <a routerLink="/portfolio" class="stretched-link">{{ languageService.isEnglish() ? 'View portfolio' : 'Voir le portfolio' }}</a>
           </div>
         </div>
       </div>
       <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
-            <h4 class="card-title"><i class="bi bi-calendar-event me-2"></i>Calendrier</h4>
-            <p class="card-text">Consultez nos événements et disponibilités.</p>
-            <a routerLink="/calendar" class="stretched-link">Ouvrir le calendrier</a>
+            <h4 class="card-title"><i class="bi bi-calendar-event me-2"></i>{{ languageService.isEnglish() ? 'Calendar' : 'Calendrier' }}</h4>
+            <p class="card-text">{{ languageService.isEnglish() ? 'Check our events and availability.' : 'Consultez nos événements et disponibilités.' }}</p>
+            <a routerLink="/calendar" class="stretched-link">{{ languageService.isEnglish() ? 'Open calendar' : 'Ouvrir le calendrier' }}</a>
           </div>
         </div>
       </div>
@@ -116,17 +116,17 @@
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
             <h4 class="card-title"><i class="bi bi-telephone me-2"></i>Contact</h4>
-            <p class="card-text">Parlez-nous de vos besoins et projets.</p>
-            <a routerLink="/contact" class="stretched-link">Nous contacter</a>
+            <p class="card-text">{{ languageService.isEnglish() ? 'Tell us about your needs and projects.' : 'Parlez-nous de vos besoins et projets.' }}</p>
+            <a routerLink="/contact" class="stretched-link">{{ languageService.isEnglish() ? 'Contact us' : 'Nous contacter' }}</a>
           </div>
         </div>
       </div>
       <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
-            <h4 class="card-title"><i class="bi bi-people me-2"></i>Équipe</h4>
-            <p class="card-text">Découvrez notre équipe et nos experts.</p>
-            <a routerLink="/team" class="stretched-link">Voir l'équipe</a>
+            <h4 class="card-title"><i class="bi bi-people me-2"></i>{{ languageService.isEnglish() ? 'Team' : 'Équipe' }}</h4>
+            <p class="card-text">{{ languageService.isEnglish() ? 'Discover our team and experts.' : 'Découvrez notre équipe et nos experts.' }}</p>
+            <a routerLink="/team" class="stretched-link">{{ languageService.isEnglish() ? 'View team' : 'Voir l\'équipe' }}</a>
           </div>
         </div>
       </div>
@@ -134,8 +134,8 @@
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
             <h4 class="card-title"><i class="bi bi-journal-text me-2"></i>Blog</h4>
-            <p class="card-text">Lectures et insights de MSSD.</p>
-            <a routerLink="/blog" class="stretched-link">Lire le blog</a>
+            <p class="card-text">{{ languageService.isEnglish() ? 'Readings and insights from MSSD.' : 'Lectures et insights de MSSD.' }}</p>
+            <a routerLink="/blog" class="stretched-link">{{ languageService.isEnglish() ? 'Read blog' : 'Lire le blog' }}</a>
           </div>
         </div>
       </div>
@@ -146,8 +146,8 @@
 <!-- Latest Portfolio (Dynamic) -->
 <section id="latest-portfolio" class="section light-background" *ngIf="latestPortfolios.length">
   <div class="container section-title" data-aos="fade-up">
-    <h2>Derniers Projets</h2>
-    <p>Un aperçu rapide de nos réalisations</p>
+    <h2>{{ languageService.isEnglish() ? 'Latest Projects' : 'Derniers Projets' }}</h2>
+    <p>{{ languageService.isEnglish() ? 'A quick overview of our achievements' : 'Un aperçu rapide de nos réalisations' }}</p>
   </div>
   <div class="container">
     <div class="row gy-4">
@@ -155,14 +155,14 @@
         <div class="card h-100 shadow-sm">
           <img [src]="p.imageUrl?.startsWith('http') ? p.imageUrl : 'http://localhost:8080/api/files/' + (p.imageUrl || '')" class="card-img-top" alt="Portfolio image" onerror="this.src='assets/img/portfolio/app-1.jpg'">
           <div class="card-body">
-            <h5 class="card-title mb-1">{{ p.title || 'Projet' }}</h5>
-            <small class="text-muted">{{ p.category || 'Général' }}</small>
+            <h5 class="card-title mb-1">{{ p.title || (languageService.isEnglish() ? 'Project' : 'Projet') }}</h5>
+            <small class="text-muted">{{ p.category || (languageService.isEnglish() ? 'General' : 'Général') }}</small>
           </div>
         </div>
       </div>
     </div>
     <div class="text-center mt-4">
-      <a routerLink="/portfolio" class="btn btn-outline-primary">Voir tout le portfolio</a>
+      <a routerLink="/portfolio" class="btn btn-outline-primary">{{ languageService.isEnglish() ? 'View full portfolio' : 'Voir tout le portfolio' }}</a>
     </div>
   </div>
   </section>
@@ -170,8 +170,8 @@
 <!-- Upcoming Events (Dynamic) -->
 <section id="upcoming-events" class="section" *ngIf="upcomingEvents.length">
   <div class="container section-title" data-aos="fade-up">
-    <h2>Événements à venir</h2>
-    <p>Ne manquez pas nos prochaines dates</p>
+    <h2>{{ languageService.isEnglish() ? 'Upcoming Events' : 'Événements à venir' }}</h2>
+    <p>{{ languageService.isEnglish() ? 'Don\'t miss our upcoming dates' : 'Ne manquez pas nos prochaines dates' }}</p>
   </div>
   <div class="container">
     <div class="row gy-4">
@@ -183,7 +183,7 @@
             <p class="mb-0"><i class="bi bi-calendar-event me-1"></i>{{ e.startTime | date:'medium' }}</p>
           </div>
           <div class="card-footer bg-transparent">
-            <a routerLink="/calendar" class="btn btn-sm btn-primary">Voir dans le calendrier</a>
+            <a routerLink="/calendar" class="btn btn-sm btn-primary">{{ languageService.isEnglish() ? 'View in calendar' : 'Voir dans le calendrier' }}</a>
           </div>
         </div>
       </div>
@@ -225,8 +225,8 @@
   <div class="container" data-aos="fade-up">
     <div class="row align-items-center">
       <div class="col-lg-8">
-        <h3 class="mb-2">Prêt à accélérer votre performance commerciale ?</h3>
-        <p class="mb-0">Contactez-nous pour une session de découverte gratuite.</p>
+        <h3 class="mb-2">{{ languageService.isEnglish() ? 'Ready to accelerate your sales performance?' : 'Prêt à accélérer votre performance commerciale ?' }}</h3>
+        <p class="mb-0">{{ languageService.isEnglish() ? 'Contact us to discuss your needs and projects.' : 'Contactez-nous pour discuter de vos besoins et projets.' }}</p>
       </div>
       <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
         <a routerLink="/contact" class="btn btn-primary btn-lg"><i class="bi bi-envelope me-2"></i>Contact</a>

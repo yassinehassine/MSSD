@@ -7,20 +7,27 @@
     </a>
     <nav id="navmenu" class="navmenu">
       <ul>
-        <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-        <li><a routerLink="/about" routerLinkActive="active">About</a></li>
+        <li><a routerLink="/home" routerLinkActive="active">{{ languageService.isEnglish() ? 'Home' : 'Accueil' }}</a></li>
+        <li><a routerLink="/about" routerLinkActive="active">{{ languageService.isEnglish() ? 'About' : 'À propos' }}</a></li>
         <li><a routerLink="/services" routerLinkActive="active">Services</a></li>
-        <li><a routerLink="/axe" routerLinkActive="active">Formations</a></li>
+        <li><a routerLink="/axe" routerLinkActive="active">{{ languageService.isEnglish() ? 'Training' : 'Formations' }}</a></li>
         <li><a routerLink="/portfolio" routerLinkActive="active">Portfolio</a></li>
-        <li><a routerLink="/team" routerLinkActive="active">Team</a></li>
+        <li><a routerLink="/team" routerLinkActive="active">{{ languageService.isEnglish() ? 'Team' : 'Équipe' }}</a></li>
         <li><a routerLink="/blog" routerLinkActive="active">Blog</a></li>
-        <li><a routerLink="/service-details" routerLinkActive="active">Service Details</a></li>
-        <li><a routerLink="/calendar" routerLinkActive="active">Calendar</a></li>
+        <li><a routerLink="/service-details" routerLinkActive="active">{{ languageService.isEnglish() ? 'Service Details' : 'Détails Services' }}</a></li>
+        <li><a routerLink="/calendar" routerLinkActive="active">{{ languageService.isEnglish() ? 'Calendar' : 'Calendrier' }}</a></li>
         <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
     </nav>
-  <!-- Removed Get Started button -->
+    
+    <!-- Language Toggle Button -->
+    <div class="language-toggle ms-3">
+      <button (click)="toggleLanguage()" class="btn btn-outline-primary btn-sm" title="{{ languageService.isEnglish() ? 'Switch to French' : 'Basculer vers l\'anglais' }}">
+        <i class="bi bi-translate me-1"></i>
+        {{ languageService.isEnglish() ? 'FR' : 'EN' }}
+      </button>
+    </div>
   </div>
 </header>
 

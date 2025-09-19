@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { PortfolioService } from '../../services/portfolio.service';
 import { CalendarService, CalendarDto } from '../../services/calendar.service';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,11 @@ export class Home {
   latestPortfolios: any[] = [];
   upcomingEvents: CalendarDto[] = [];
 
-  constructor(private portfolioSvc: PortfolioService, private calendarSvc: CalendarService) {}
+  constructor(
+    private portfolioSvc: PortfolioService, 
+    private calendarSvc: CalendarService,
+    public languageService: LanguageService
+  ) {}
 
   ngOnInit() {
     this.portfolioSvc.getActivePortfolios().subscribe({
