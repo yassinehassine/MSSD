@@ -76,4 +76,9 @@ export class CalendarService {
   joinEvent(id: number): Observable<CalendarDto> {
     return this.http.post<CalendarDto>(`${this.apiUrl}/${id}/join`, {});
   }
+
+  // Get upcoming events for the next 2 weeks
+  getUpcomingEventsNext2Weeks(): Observable<CalendarDto[]> {
+    return this.http.get<CalendarDto[]>(`${this.apiUrl}/upcoming-2weeks`);
+  }
 } 

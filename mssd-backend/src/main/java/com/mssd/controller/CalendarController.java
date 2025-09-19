@@ -113,4 +113,14 @@ public class CalendarController {
         CalendarDto updated = calendarService.joinEvent(id);
         return ResponseEntity.ok(updated);
     }
+
+    /**
+     * Get upcoming events for the next 2 weeks
+     * GET /api/calendars/upcoming-2weeks
+     */
+    @GetMapping("/upcoming-2weeks")
+    public ResponseEntity<List<CalendarDto>> getUpcomingEventsNext2Weeks() {
+        List<CalendarDto> events = calendarService.getUpcomingEventsNext2Weeks();
+        return ResponseEntity.ok(events);
+    }
 } 

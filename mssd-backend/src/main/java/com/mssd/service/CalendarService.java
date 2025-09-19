@@ -17,4 +17,5 @@ public interface CalendarService {
     void deleteCalendar(Long id);
     void updateCalendarCapacity(Long calendarId);
     CalendarDto joinEvent(Long id);
+    List<CalendarDto> getUpcomingEventsNext2Weeks();
 } 

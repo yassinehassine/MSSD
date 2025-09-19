@@ -165,7 +165,35 @@
       <a routerLink="/portfolio" class="btn btn-outline-primary">Voir tout le portfolio</a>
     </div>
   </div>
-  </section>
+</section>
+
+<!-- Company Logos Horizontal Scrolling Animation -->
+<section id="company-logos" class="section" *ngIf="getCompanyLogos().length > 0">
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Nos Clients</h2>
+    <p>Des entreprises qui nous font confiance</p>
+  </div>
+  <div class="company-logos-section" data-aos="fade-up" data-aos-delay="100">
+    <div class="logos-scroll-container">
+      <div class="logos-scroll-track">
+        <!-- First set of logos -->
+        <div *ngFor="let logo of getCompanyLogos()" class="logo-item">
+          <img [src]="logo" 
+               alt="Company Logo" 
+               class="company-logo"
+               (error)="onLogoError($event)">
+        </div>
+        <!-- Duplicate set for seamless looping -->
+        <div *ngFor="let logo of getCompanyLogos()" class="logo-item">
+          <img [src]="logo" 
+               alt="Company Logo" 
+               class="company-logo"
+               (error)="onLogoError($event)">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- Upcoming Events (Dynamic) -->
 <section id="upcoming-events" class="section" *ngIf="upcomingEvents.length">

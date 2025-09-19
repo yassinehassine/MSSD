@@ -124,4 +124,13 @@ public class CalendarServiceImpl implements CalendarService {
         }
         return calendarMapper.toDto(calendar);
     }
+
+    @Override
+    public List<CalendarDto> getUpcomingEventsNext2Weeks() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime twoWeeksFromNow = now.plusWeeks(2);
+        return calendarRepository.findByStartTimeBetween(now, twoWeeksFromNow).stream()
+                .map(calendarMapper::toDto)
+                .collect(Collectors.toList());
+    }
 } 
