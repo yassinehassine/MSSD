@@ -18,6 +18,8 @@ import { AdminCalendar } from './admin-calendar';
 import { AdminReservations } from './admin-reservations';
 import { AdminReviewsComponent } from './admin-reviews';
 import { AdminPortfolio } from './admin-portfolio';
+import { AdminBlog } from './admin-blog';
+import { AdminBlogForm } from './admin-blog-form';
 import { AuthGuard } from '../guards/auth.guard';
 
 export const adminRoutes: Routes = [
@@ -44,6 +46,9 @@ export const adminRoutes: Routes = [
       { path: 'reservations', component: AdminReservations },
       { path: 'reviews', component: AdminReviewsComponent },
       { path: 'portfolio', component: AdminPortfolio },
+      { path: 'blog', component: AdminBlog },
+      { path: 'blog/new', component: AdminBlogForm },
+      { path: 'blog/edit/:id', component: AdminBlogForm },
       { path: '401', component: Error401 },
       { path: '404', component: Error404 },
       { path: '500', component: Error500 },

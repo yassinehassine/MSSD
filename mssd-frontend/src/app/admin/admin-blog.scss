@@ -1,0 +1,86 @@
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.btn-group .btn {
+  margin-right: 0.2rem;
+}
+
+.btn-group .btn:last-child {
+  margin-right: 0;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.img-thumbnail {
+  border-radius: 4px;
+}
+
+.badge-info {
+  color: #fff;
+  background-color: #17a2b8;
+}
+
+.text-gray-800 {
+  color: #5a5c69 !important;
+}
+
+.card-header h6 {
+  margin: 0;
+}
+
+.spinner-border {
+  width: 2rem;
+  height: 2rem;
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.page-link {
+  cursor: pointer;
+}
+
+.page-item.disabled .page-link {
+  cursor: not-allowed;
+}
+
+.pagination {
+  margin-bottom: 0;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .d-sm-flex {
+    display: block !important;
+    
+    h1 {
+      margin-bottom: 1rem;
+    }
+    
+    .btn {
+      width: 100%;
+    }
+  }
+  
+  .table-responsive {
+    font-size: 0.875rem;
+  }
+  
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    
+    .btn {
+      margin-bottom: 0.25rem;
+      margin-right: 0;
+    }
+  }
+}

@@ -1,0 +1,282 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <h1 class="h3 mb-0 text-gray-800">Blog Management</h1>
+  <a routerLink="/admin/blog/new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+    <i class="fas fa-plus fa-sm text-white-50"></i> Create New Blog
+  </a>
+</div>
+
+<!-- Search and Filters -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Search & Filters</h6>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="searchKeyword">Search</label>
+          <input
+            type="text"
+            class="form-control"
+            id="searchKeyword"
+            [(ngModel)]="searchKeyword"
+            placeholder="Search by title, content, or author..."
+            (keyup.enter)="onSearch()"
+          >
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="categoryFilter">Category</label>
+          <select
+            class="form-control"
+            id="categoryFilter"
+            [(ngModel)]="selectedCategory"
+            (change)="onFilterChange()"
+          >
+            <option value="">All Categories</option>
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="authorFilter">Author</label>
+          <select
+            class="form-control"
+            id="authorFilter"
+            [(ngModel)]="selectedAuthor"
+            (change)="onFilterChange()"
+          >
+            <option value="">All Authors</option>
+            <option *ngFor="let author of authors" [value]="author">{{ author }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="statusFilter">Status</label>
+          <select
+            class="form-control"
+            id="statusFilter"
+            [(ngModel)]="selectedStatus"
+            (change)="onFilterChange()"
+          >
+            <option value="">All</option>
+            <option value="published">Published</option>
+            <option value="unpublished">Draft</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>&nbsp;</label>
+          <div class="d-flex">
+            <button type="button" class="btn btn-primary me-2" (click)="onSearch()">
+              <i class="fas fa-search"></i> Search
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="clearFilters()">
+              <i class="fas fa-times"></i> Clear
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Blog List -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">
+      Blogs ({{ totalElements }} total)
+    </h6>
+  </div>
+  <div class="card-body">
+    <div *ngIf="isLoading" class="text-center py-4">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading && blogs.length === 0" class="text-center py-4">
+      <p class="text-muted">No blogs found.</p>
+      <a routerLink="/admin/blog/new" class="btn btn-primary">Create Your First Blog</a>
+    </div>
+
+    <div *ngIf="!isLoading && blogs.length > 0" class="table-responsive">
+      <table class="table table-bordered" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Published Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let blog of blogs">
+            <td style="width: 80px;">
+              <img
+                [src]="getImageUrl(blog.imageUrl || '')"
+                [alt]="blog.title"
+                class="img-thumbnail"
+                style="width: 60px; height: 60px; object-fit: cover;"
+                (error)="$any($event.target).src = 'assets/img/blog/blog-1.jpg'"
+              >
+            </td>
+            <td>
+              <div>
+                <strong>{{ blog.title }}</strong>
+                <br>
+                <small class="text-muted">{{ blog.slug }}</small>
+              </div>
+              <div *ngIf="blog.excerpt" class="mt-1">
+                <small class="text-muted">{{ truncateText(blog.excerpt, 80) }}</small>
+              </div>
+            </td>
+            <td>
+              {{ blog.author || 'Unknown' }}
+            </td>
+            <td>
+              <span class="badge badge-info">{{ blog.category || 'General' }}</span>
+            </td>
+            <td>
+              <span [class]="getStatusBadgeClass(blog)">
+                {{ getStatusText(blog) }}
+              </span>
+            </td>
+            <td>
+              <div *ngIf="blog.publishedAt">
+                {{ formatDate(blog.publishedAt) }}
+              </div>
+              <div *ngIf="!blog.publishedAt" class="text-muted">
+                Not published
+              </div>
+              <small class="text-muted">
+                Created: {{ formatDate(blog.createdAt) }}
+              </small>
+            </td>
+            <td>
+              <div class="btn-group" role="group">
+                <a
+                  [routerLink]="['/admin/blog/edit', blog.id]"
+                  class="btn btn-sm btn-outline-primary"
+                  title="Edit"
+                >
+                  <i class="fas fa-edit"></i>
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-sm"
+                  [class.btn-outline-success]="!blog.published"
+                  [class.btn-outline-warning]="blog.published"
+                  [title]="blog.published ? 'Unpublish' : 'Publish'"
+                  (click)="togglePublishStatus(blog)"
+                >
+                  <i [class]="blog.published ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </button>
+                <a
+                  [href]="'/blog/' + blog.slug"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-info"
+                  title="View"
+                  *ngIf="blog.published"
+                >
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger"
+                  title="Delete"
+                  (click)="confirmDelete(blog)"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="!isLoading && blogs.length > 0 && totalPages > 1" class="d-flex justify-content-between align-items-center mt-3">
+      <div>
+        Showing {{ (currentPage * pageSize) + 1 }} to {{ getMaxElement() }} of {{ totalElements }} entries
+      </div>
+      <nav aria-label="Blog pagination">
+        <ul class="pagination mb-0">
+          <li class="page-item" [class.disabled]="currentPage === 0">
+            <button class="page-link" (click)="goToFirstPage()" [disabled]="currentPage === 0">
+              First
+            </button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === 0">
+            <button class="page-link" (click)="goToPreviousPage()" [disabled]="currentPage === 0">
+              Previous
+            </button>
+          </li>
+          <li 
+            *ngFor="let page of getPageNumbers()" 
+            class="page-item" 
+            [class.active]="page === currentPage"
+          >
+            <button class="page-link" (click)="goToPage(page)">
+              {{ page + 1 }}
+            </button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+            <button class="page-link" (click)="goToNextPage()" [disabled]="currentPage === totalPages - 1">
+              Next
+            </button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+            <button class="page-link" (click)="goToLastPage()" [disabled]="currentPage === totalPages - 1">
+              Last
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div 
+  class="modal fade" 
+  [class.show]="showDeleteConfirm" 
+  [style.display]="showDeleteConfirm ? 'block' : 'none'"
+  tabindex="-1" 
+  role="dialog"
+  *ngIf="showDeleteConfirm"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Delete</h5>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete the blog post "{{ blogToDelete?.title }}"?</p>
+        <p class="text-danger"><strong>This action cannot be undone.</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cancelDelete()">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-danger" (click)="deleteBlog()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div 
+  class="modal-backdrop fade" 
+  [class.show]="showDeleteConfirm"
+  *ngIf="showDeleteConfirm"
+  (click)="cancelDelete()"
+></div>
