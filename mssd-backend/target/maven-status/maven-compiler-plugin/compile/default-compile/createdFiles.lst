@@ -9,6 +9,7 @@ com/mssd/model/Theme.class
 com/mssd/service/impl/ThemeServiceImpl.class
 com/mssd/model/CustomRequest.class
 com/mssd/model/Company.class
+com/mssd/mapper/BlogMapper.class
 com/mssd/model/RequestStatus.class
 com/mssd/dto/NewsletterDto.class
 com/mssd/service/impl/PortfolioServiceImpl.class
@@ -19,15 +20,18 @@ com/mssd/dto/ReviewDto$ReviewDtoBuilder.class
 com/mssd/dto/LoginRequest.class
 com/mssd/MssdApplication.class
 com/mssd/controller/CustomRequestController.class
+com/mssd/model/Blog.class
 com/mssd/service/impl/CompanyServiceImpl.class
 com/mssd/service/impl/ReservationServiceImpl.class
 com/mssd/repository/CategoryRepository.class
+com/mssd/repository/BlogRepository.class
 com/mssd/exception/GlobalExceptionHandler.class
 com/mssd/service/impl/ContactServiceImpl.class
 com/mssd/repository/CalendarRepository.class
 com/mssd/model/Reservation$ReservationStatus.class
 com/mssd/config/WebConfig.class
 com/mssd/model/Calendar$CalendarStatus.class
+com/mssd/service/BlogService.class
 com/mssd/service/UserService.class
 com/mssd/mapper/CustomRequestMapper.class
 com/mssd/dto/ReservationDto.class
@@ -57,6 +61,8 @@ com/mssd/model/Formation.class
 com/mssd/service/CalendarService.class
 com/mssd/repository/FormationRepository.class
 com/mssd/service/impl/HighlightServiceImpl.class
+com/mssd/dto/BlogRequestDto.class
+com/mssd/dto/BlogRequestDto$BlogRequestDtoBuilder.class
 com/mssd/dto/FormationBookingDto.class
 com/mssd/repository/NewsletterRepository.class
 com/mssd/service/impl/NewsletterServiceImpl.class
@@ -82,6 +88,8 @@ com/mssd/repository/ContactRepository.class
 com/mssd/dto/UserDto.class
 com/mssd/mapper/FormationBookingMapper.class
 com/mssd/service/CategoryService.class
+com/mssd/dto/BlogDto$BlogDtoBuilder.class
+com/mssd/controller/BlogController.class
 com/mssd/repository/PortfolioRepository.class
 com/mssd/mapper/PortfolioMapper.class
 com/mssd/controller/FormationBookingController.class
@@ -96,7 +104,9 @@ com/mssd/model/Reservation.class
 com/mssd/model/Highlight.class
 com/mssd/dto/ThemeDto.class
 com/mssd/controller/ReservationController.class
+com/mssd/service/impl/BlogServiceImpl.class
 com/mssd/mapper/CalendarMapper.class
+com/mssd/dto/BlogDto.class
 com/mssd/service/impl/ReviewServiceImpl.class
 com/mssd/dto/CustomRequestResponseDto.class
 com/mssd/model/User$Role.class
@@ -107,6 +117,7 @@ com/mssd/dto/UserDto$UserDtoBuilder.class
 com/mssd/service/ReviewService.class
 com/mssd/controller/CalendarController.class
 com/mssd/mapper/ReservationMapper.class
+com/mssd/model/Blog$BlogBuilder.class
 com/mssd/model/Contact.class
 com/mssd/controller/ThemeController.class
 com/mssd/service/CompanyService.class
