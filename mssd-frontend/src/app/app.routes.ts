@@ -8,7 +8,7 @@ import { Blog } from './pages/blog/blog';
 import { Contact } from './pages/contact/contact';
 import { ServiceDetails } from './pages/service-details/service-details';
 import { StarterPage } from './pages/starter-page/starter-page';
-import { Team } from './pages/team/team';
+
 import { Calendar } from './pages/calendar/calendar';
 import { Axe } from './pages/axe/axe';
 import { ThemeDetail } from './pages/theme/theme-detail';
@@ -29,7 +29,7 @@ export const routes: Routes = [
       { path: 'contact', component: Contact },
       { path: 'service-details', component: ServiceDetails },
       { path: 'starter-page', component: StarterPage },
-      { path: 'team', component: Team },
+
       { path: 'calendar', component: Calendar },
       { path: 'axe', component: Axe },
       { path: 'theme/:slug', component: ThemeDetail },
