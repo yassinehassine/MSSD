@@ -167,26 +167,51 @@
   </div>
   </section>
 
-<!-- Upcoming Events (Dynamic) -->
+<!-- Upcoming Events for Next 2 Weeks (Dynamic) -->
 <section id="upcoming-events" class="section" *ngIf="upcomingEvents.length">
   <div class="container section-title" data-aos="fade-up">
-    <h2>Événements à venir</h2>
-    <p>Ne manquez pas nos prochaines dates</p>
+    <h2>Événements des 2 prochaines semaines</h2>
+    <p>Nos prochaines dates disponibles - Mise à jour automatique</p>
   </div>
   <div class="container">
     <div class="row gy-4">
       <div class="col-md-6 col-lg-4" *ngFor="let e of upcomingEvents">
-        <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm event-card">
           <div class="card-body">
-            <h5 class="card-title">{{ e.title }}</h5>
-            <p class="mb-2 text-muted">{{ e.location }}</p>
-            <p class="mb-0"><i class="bi bi-calendar-event me-1"></i>{{ e.startTime | date:'medium' }}</p>
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">{{ e.title }}</h5>
+              <span class="badge bg-success">{{ e.status | lowercase }}</span>
+            </div>
+            <p class="mb-2 text-muted">
+              <i class="bi bi-geo-alt me-1"></i>{{ e.location }}
+            </p>
+            <p class="mb-2">
+              <i class="bi bi-calendar-event me-1"></i>{{ e.startTime | date:'EEEE d MMM y':'fr' }}
+            </p>
+            <p class="mb-2">
+              <i class="bi bi-clock me-1"></i>{{ e.startTime | date:'HH:mm' }} - {{ e.endTime | date:'HH:mm' }}
+            </p>
+            <p class="mb-0 small">
+              <i class="bi bi-people me-1"></i>{{ e.availableSpots }} places disponibles sur {{ e.maxCapacity }}
+            </p>
+            <div class="progress mt-2" style="height: 5px;">
+              <div class="progress-bar bg-success" 
+                   [style.width.%]="(e.maxCapacity - e.availableSpots) / e.maxCapacity * 100">
+              </div>
+            </div>
           </div>
           <div class="card-footer bg-transparent">
-            <a routerLink="/calendar" class="btn btn-sm btn-primary">Voir dans le calendrier</a>
+            <a routerLink="/calendar" class="btn btn-sm btn-primary w-100">
+              <i class="bi bi-calendar2-check me-1"></i>Voir détails
+            </a>
           </div>
         </div>
       </div>
+    </div>
+    <div class="text-center mt-4">
+      <a routerLink="/calendar" class="btn btn-outline-primary">
+        <i class="bi bi-calendar3 me-2"></i>Voir le calendrier complet
+      </a>
     </div>
   </div>
 </section>
