@@ -6,22 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
-@Table(name = "formations")
+@Table(name = "themes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Formation {
+public class Theme {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column(nullable = false)
-    private String title;
+    private String name;
     
     @Column(nullable = false, unique = true)
     private String slug;
@@ -29,20 +30,7 @@ public class Formation {
     @Column(columnDefinition = "TEXT")
     private String description;
     
-    @Column(nullable = false)
-    private String category;
-    
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal price;
-    
-    @Column(nullable = false)
-    private String duration;
-    
     private String imageUrl;
-    
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Level level;
     
     @Column(nullable = false)
     private boolean published = false;
@@ -52,6 +40,10 @@ public class Formation {
     
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    
+    @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Formation> formations = new ArrayList<>();
     
     @PrePersist
     protected void onCreate() {
@@ -63,17 +55,4 @@ public class Formation {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-    
-    public enum Level {
-        BEGINNER, INTERMEDIATE, EXPERT
-    }
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "theme_id")
-    private Theme theme;
-    
-    @OneToMany(mappedBy = "formation", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private java.util.List<Review> reviews = new java.util.ArrayList<>();
-
-} 
+}

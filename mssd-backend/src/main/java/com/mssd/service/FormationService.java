@@ -12,6 +12,8 @@ public interface FormationService {
     List<FormationDto> getFormationsByCategory(String category);
     List<FormationDto> getPublishedFormations();
     List<FormationDto> getFormationsByLevel(String level);
+    List<FormationDto> getFormationsByTheme(Long themeId);
+    List<FormationDto> getPublishedFormationsByTheme(Long themeId);
     FormationDto createFormation(FormationRequestDto dto);
     FormationDto updateFormation(Long id, FormationRequestDto dto);
     void deleteFormation(Long id);

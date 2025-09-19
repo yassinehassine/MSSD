@@ -44,10 +44,27 @@ public class SeedDataConfig {
                 // Seed Formations
                 if (formationRepository.count() == 0) {
                     log.info("Seeding formations...");
-                    formationRepository.saveAll(List.of(
-                            new Formation(null, "Leadership Essentials", "leadership-essentials", "Learn the basics of leadership.", "Management", new BigDecimal("1200.00"), "3 days", null, Formation.Level.BEGINNER, true, null, null,null),
-                            new Formation(null, "Advanced Sales Techniques", "advanced-sales-techniques", "Master advanced sales skills.", "Sales", new BigDecimal("1500.00"), "2 days", null, Formation.Level.EXPERT, true, null, null,null)
-                    ));
+                    Formation formation1 = new Formation();
+                    formation1.setTitle("Leadership Essentials");
+                    formation1.setSlug("leadership-essentials");
+                    formation1.setDescription("Learn the basics of leadership.");
+                    formation1.setCategory("Management");
+                    formation1.setPrice(new BigDecimal("1200.00"));
+                    formation1.setDuration("3 days");
+                    formation1.setLevel(Formation.Level.BEGINNER);
+                    formation1.setPublished(true);
+                    
+                    Formation formation2 = new Formation();
+                    formation2.setTitle("Advanced Sales Techniques");
+                    formation2.setSlug("advanced-sales-techniques");
+                    formation2.setDescription("Master advanced sales skills.");
+                    formation2.setCategory("Sales");
+                    formation2.setPrice(new BigDecimal("1500.00"));
+                    formation2.setDuration("2 days");
+                    formation2.setLevel(Formation.Level.EXPERT);
+                    formation2.setPublished(true);
+                    
+                    formationRepository.saveAll(List.of(formation1, formation2));
                     log.info("Formations seeded successfully");
                 } else {
                     log.info("Formations already exist, skipping...");

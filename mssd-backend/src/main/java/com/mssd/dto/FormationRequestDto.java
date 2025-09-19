@@ -38,4 +38,6 @@ public class FormationRequestDto {
     private Formation.Level level;
     
     private boolean published = false;
+    
+    private Long themeId;
 } 

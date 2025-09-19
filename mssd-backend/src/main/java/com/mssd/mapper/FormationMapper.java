@@ -25,7 +25,9 @@ public class FormationMapper {
             formation.getLevel(),
             formation.isPublished(),
             formation.getCreatedAt(),
-            formation.getUpdatedAt()
+            formation.getUpdatedAt(),
+            formation.getTheme() != null ? formation.getTheme().getId() : null,
+            formation.getTheme() != null ? formation.getTheme().getName() : null
         );
     }
     
@@ -44,6 +46,7 @@ public class FormationMapper {
         formation.setImageUrl(dto.getImageUrl());
         formation.setLevel(dto.getLevel());
         formation.setPublished(dto.isPublished());
+        // Note: Theme relationship should be set in the service layer
         
         return formation;
     }
@@ -62,6 +65,7 @@ public class FormationMapper {
         formation.setImageUrl(dto.getImageUrl());
         formation.setLevel(dto.getLevel());
         formation.setPublished(dto.isPublished());
+        // Note: Theme relationship should be set in the service layer
         
         return formation;
     }

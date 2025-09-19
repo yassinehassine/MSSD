@@ -50,6 +50,13 @@ public class CustomRequest {
     @Column(name = "admin_notes", columnDefinition = "TEXT")
     private String adminNotes;
     
+    @Column(name = "is_existing_program", nullable = false)
+    private boolean isExistingProgram = false;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "formation_id")
+    private Formation formation;
+    
     @Column(name = "date_submitted", nullable = false)
     private LocalDateTime dateSubmitted;
     

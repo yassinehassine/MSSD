@@ -26,5 +26,10 @@ public interface FormationRepository extends JpaRepository<Formation, Long> {
     @Query("SELECT f FROM Formation f WHERE f.published = true AND f.level = :level")
     List<Formation> findPublishedByLevel(@Param("level") Formation.Level level);
     
+    List<Formation> findByThemeId(Long themeId);
+    
+    @Query("SELECT f FROM Formation f WHERE f.published = true AND f.theme.id = :themeId")
+    List<Formation> findPublishedByThemeId(@Param("themeId") Long themeId);
+    
     boolean existsBySlug(String slug);
 } 

@@ -26,4 +26,7 @@ public class CustomRequestResponseDto {
     private String adminNotes;
     private LocalDateTime dateSubmitted;
     private LocalDateTime dateUpdated;
+    private boolean isExistingProgram;
+    private Long formationId;
+    private String formationTitle;
 } 

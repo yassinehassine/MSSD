@@ -37,4 +37,8 @@ public class CustomRequestDto {
     private BigDecimal budget;
     
     private LocalDate preferredStartDate;
+    
+    private boolean isExistingProgram = false;
+    
+    private Long formationId;
 } 

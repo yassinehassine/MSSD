@@ -4,7 +4,9 @@ import com.mssd.dto.FormationDto;
 import com.mssd.dto.FormationRequestDto;
 import com.mssd.mapper.FormationMapper;
 import com.mssd.model.Formation;
+import com.mssd.model.Theme;
 import com.mssd.repository.FormationRepository;
+import com.mssd.repository.ThemeRepository;
 import com.mssd.service.FormationService;
 import com.mssd.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class FormationServiceImpl implements FormationService {
     private final FormationRepository formationRepository;
+    private final ThemeRepository themeRepository;
     private final FormationMapper formationMapper;
 
     @Override
@@ -69,11 +72,33 @@ public class FormationServiceImpl implements FormationService {
     }
 
     @Override
+    public List<FormationDto> getFormationsByTheme(Long themeId) {
+        return formationRepository.findByThemeId(themeId).stream()
+                .map(formationMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FormationDto> getPublishedFormationsByTheme(Long themeId) {
+        return formationRepository.findPublishedByThemeId(themeId).stream()
+                .map(formationMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public FormationDto createFormation(FormationRequestDto dto) {
         if (formationRepository.existsBySlug(dto.getSlug())) {
             throw new IllegalArgumentException("Formation with this slug already exists");
         }
         Formation formation = formationMapper.toEntity(dto);
+        
+        // Set theme if provided
+        if (dto.getThemeId() != null) {
+            Theme theme = themeRepository.findById(dto.getThemeId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Theme not found with id: " + dto.getThemeId()));
+            formation.setTheme(theme);
+        }
+        
         return formationMapper.toDto(formationRepository.save(formation));
     }
 
@@ -82,6 +107,16 @@ public class FormationServiceImpl implements FormationService {
         Formation formation = formationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Formation not found with id: " + id));
         formationMapper.updateEntity(formation, dto);
+        
+        // Update theme if provided
+        if (dto.getThemeId() != null) {
+            Theme theme = themeRepository.findById(dto.getThemeId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Theme not found with id: " + dto.getThemeId()));
+            formation.setTheme(theme);
+        } else {
+            formation.setTheme(null);
+        }
+        
         return formationMapper.toDto(formationRepository.save(formation));
     }
 

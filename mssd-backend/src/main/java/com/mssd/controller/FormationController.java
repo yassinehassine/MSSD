@@ -109,4 +109,24 @@ public class FormationController {
         List<FormationDto> filteredFormations = formationService.getFormationsByLevel(level);
         return ResponseEntity.ok(filteredFormations);
     }
+
+    /**
+     * Get formations by theme
+     * GET /api/formations/theme/{themeId}
+     */
+    @GetMapping("/theme/{themeId}")
+    public ResponseEntity<List<FormationDto>> getFormationsByTheme(@PathVariable Long themeId) {
+        List<FormationDto> formations = formationService.getFormationsByTheme(themeId);
+        return ResponseEntity.ok(formations);
+    }
+
+    /**
+     * Get published formations by theme
+     * GET /api/formations/theme/{themeId}/published
+     */
+    @GetMapping("/theme/{themeId}/published")
+    public ResponseEntity<List<FormationDto>> getPublishedFormationsByTheme(@PathVariable Long themeId) {
+        List<FormationDto> formations = formationService.getPublishedFormationsByTheme(themeId);
+        return ResponseEntity.ok(formations);
+    }
 } 
