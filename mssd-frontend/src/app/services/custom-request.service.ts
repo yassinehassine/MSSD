@@ -16,6 +16,9 @@ export interface CustomRequestResponse {
   adminNotes: string;
   dateSubmitted: string;
   dateUpdated: string;
+  isExistingProgram: boolean;
+  formationId?: number;
+  formationTitle?: string;
 }
 
 export interface CustomRequest {
@@ -27,6 +30,8 @@ export interface CustomRequest {
   details: string;
   budget?: number;
   preferredStartDate?: string;
+  isExistingProgram: boolean;
+  formationId?: number;
 }
 
 export interface CustomRequestUpdate {

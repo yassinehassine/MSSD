@@ -1,0 +1,50 @@
+<!-- Axe Section - Display All Themes -->
+<section id="axe" class="axe">
+  <div class="container" data-aos="fade-up">
+
+    <header class="section-header">
+      <h2>Nos Axes de Formation</h2>
+      <p>Découvrez nos différents thèmes de formation professionnelle</p>
+    </header>
+
+    <div class="row">
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error" class="alert alert-danger text-center">
+        {{ error }}
+      </div>
+
+      <!-- Themes Grid -->
+      <div *ngIf="!isLoading && !error">
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-4 col-md-6" *ngFor="let theme of themes">
+            <div class="service-box blue">
+              <img *ngIf="theme.imageUrl" [src]="theme.imageUrl" [alt]="theme.name" class="theme-image">
+              <div class="theme-content">
+                <h3>{{ theme.name }}</h3>
+                <p *ngIf="theme.description">{{ theme.description }}</p>
+                <a [routerLink]="['/theme', theme.slug]" class="read-more">
+                  <span>Voir les formations</span> 
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Themes Message -->
+        <div *ngIf="themes.length === 0" class="text-center">
+          <p class="text-muted">Aucun thème de formation disponible pour le moment.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

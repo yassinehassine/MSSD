@@ -1,0 +1,213 @@
+<!-- Formation Detail Section -->
+<section id="formation-detail" class="formation-detail">
+  <div class="container" data-aos="fade-up">
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Chargement...</span>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="alert alert-danger text-center">
+      {{ error }}
+    </div>
+
+    <!-- Formation Content -->
+    <div *ngIf="!isLoading && !error && formation">
+      
+      <!-- Breadcrumb -->
+      <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/home">Accueil</a></li>
+          <li class="breadcrumb-item"><a routerLink="/axe">Nos Axes</a></li>
+          <li class="breadcrumb-item" *ngIf="formation.themeName">
+            <a [routerLink]="['/theme', formation.themeName.toLowerCase()]">{{ formation.themeName }}</a>
+          </li>
+          <li class="breadcrumb-item active">{{ formation.title }}</li>
+        </ol>
+      </nav>
+
+      <!-- Formation Details -->
+      <div class="row mb-5">
+        <div class="col-lg-8">
+          <div class="formation-info">
+            <h1 class="formation-title">{{ formation.title }}</h1>
+            
+            <div class="formation-meta mb-4">
+              <div class="meta-item">
+                <i class="bi bi-clock-fill"></i>
+                <span>Durée: {{ formation.duration }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="bi bi-currency-euro"></i>
+                <span>Prix: {{ formation.price }} €</span>
+              </div>
+              <div class="meta-item">
+                <i class="bi bi-award-fill"></i>
+                <span>Niveau: {{ formation.level }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="bi bi-tags-fill"></i>
+                <span>Catégorie: {{ formation.category }}</span>
+              </div>
+            </div>
+            
+            <div class="formation-description" *ngIf="formation.description">
+              <h3>Description</h3>
+              <p>{{ formation.description }}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4">
+          <div class="formation-sidebar">
+            <div class="formation-image" *ngIf="formation.imageUrl">
+              <img [src]="formation.imageUrl" [alt]="formation.title" class="img-fluid rounded">
+            </div>
+            
+            <div class="formation-actions mt-4">
+              <button class="btn btn-primary btn-lg w-100" (click)="toggleRequestForm()">
+                <i class="bi bi-envelope-fill me-2"></i>
+                Faire une demande
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Request Form -->
+      <div class="custom-request-form" *ngIf="showRequestForm">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="mb-0">
+                  <i class="bi bi-envelope-fill me-2"></i>
+                  Demande de Formation
+                </h3>
+                <p class="mb-0 text-muted">Toutes les réservations passent par ce formulaire</p>
+              </div>
+              
+              <div class="card-body">
+                <form (submit)="submitRequest($event)">
+                  
+                  <!-- Program Type Selection -->
+                  <div class="mb-4">
+                    <label class="form-label">Type de demande *</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" 
+                             [(ngModel)]="requestForm.isExistingProgram" 
+                             [value]="true" 
+                             name="programType" 
+                             id="existingProgram"
+                             (change)="onProgramTypeChange()">
+                      <label class="form-check-label" for="existingProgram">
+                        Formation existante ({{ formation.title }})
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" 
+                             [(ngModel)]="requestForm.isExistingProgram" 
+                             [value]="false" 
+                             name="programType" 
+                             id="customProgram"
+                             (change)="onProgramTypeChange()">
+                      <label class="form-check-label" for="customProgram">
+                        Formation personnalisée
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Company Information -->
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="companyName" class="form-label">Nom de l'entreprise *</label>
+                      <input type="text" class="form-control" id="companyName" 
+                             [(ngModel)]="requestForm.companyName" name="companyName" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="contactPerson" class="form-label">Personne de contact *</label>
+                      <input type="text" class="form-control" id="contactPerson" 
+                             [(ngModel)]="requestForm.contactPerson" name="contactPerson" required>
+                    </div>
+                  </div>
+
+                  <!-- Contact Information -->
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="email" class="form-label">Email *</label>
+                      <input type="email" class="form-control" id="email" 
+                             [(ngModel)]="requestForm.email" name="email" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="phone" class="form-label">Téléphone</label>
+                      <input type="tel" class="form-control" id="phone" 
+                             [(ngModel)]="requestForm.phone" name="phone">
+                    </div>
+                  </div>
+
+                  <!-- Subject -->
+                  <div class="mb-3">
+                    <label for="subject" class="form-label">Sujet *</label>
+                    <input type="text" class="form-control" id="subject" 
+                           [(ngModel)]="requestForm.subject" name="subject" 
+                           [readonly]="requestForm.isExistingProgram" required>
+                  </div>
+
+                  <!-- Details -->
+                  <div class="mb-3">
+                    <label for="details" class="form-label">
+                      {{ requestForm.isExistingProgram ? 'Détails de votre demande *' : 'Description de la formation personnalisée *' }}
+                    </label>
+                    <textarea class="form-control" id="details" rows="4" 
+                              [(ngModel)]="requestForm.details" name="details" 
+                              [placeholder]="requestForm.isExistingProgram ? 'Décrivez vos besoins spécifiques, nombre de participants, dates souhaitées...' : 'Décrivez en détail la formation personnalisée que vous souhaitez...'"
+                              required></textarea>
+                  </div>
+
+                  <!-- Budget and Date -->
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="budget" class="form-label">Budget (€)</label>
+                      <input type="number" class="form-control" id="budget" 
+                             [(ngModel)]="requestForm.budget" name="budget" min="0">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="preferredStartDate" class="form-label">Date de début souhaitée</label>
+                      <input type="date" class="form-control" id="preferredStartDate" 
+                             [(ngModel)]="requestForm.preferredStartDate" name="preferredStartDate">
+                    </div>
+                  </div>
+
+                  <!-- Error/Success Messages -->
+                  <div class="alert alert-danger" *ngIf="formError">
+                    {{ formError }}
+                  </div>
+                  <div class="alert alert-success" *ngIf="formSuccess">
+                    {{ formSuccess }}
+                  </div>
+
+                  <!-- Submit Buttons -->
+                  <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary" [disabled]="submitting">
+                      <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2"></span>
+                      {{ submitting ? 'Envoi en cours...' : 'Envoyer la demande' }}
+                    </button>
+                    <button type="button" class="btn btn-secondary" (click)="toggleRequestForm()">
+                      Annuler
+                    </button>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

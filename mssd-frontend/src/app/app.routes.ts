@@ -10,6 +10,9 @@ import { ServiceDetails } from './pages/service-details/service-details';
 import { StarterPage } from './pages/starter-page/starter-page';
 import { Team } from './pages/team/team';
 import { Calendar } from './pages/calendar/calendar';
+import { Axe } from './pages/axe/axe';
+import { ThemeDetail } from './pages/theme/theme-detail';
+import { FormationDetail } from './pages/formation-detail/formation-detail';
 
 export const routes: Routes = [
   {
@@ -28,6 +31,9 @@ export const routes: Routes = [
       { path: 'starter-page', component: StarterPage },
       { path: 'team', component: Team },
       { path: 'calendar', component: Calendar },
+      { path: 'axe', component: Axe },
+      { path: 'theme/:slug', component: ThemeDetail },
+      { path: 'formation/:id', component: FormationDetail },
       { path: 'formation/:id/reviews', loadComponent: () => import('./pages/Reviews/reviews-page').then(m => m.ReviewsPage) }
 
     ]

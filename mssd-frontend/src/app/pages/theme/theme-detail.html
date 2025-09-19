@@ -1,0 +1,93 @@
+<!-- Theme Detail Section -->
+<section id="theme-detail" class="theme-detail">
+  <div class="container" data-aos="fade-up">
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Chargement...</span>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="alert alert-danger text-center">
+      {{ error }}
+    </div>
+
+    <!-- Theme Content -->
+    <div *ngIf="!isLoading && !error && theme">
+      <!-- Theme Header -->
+      <div class="theme-header text-center mb-5">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <h1 class="theme-title">{{ theme.name }}</h1>
+            <p class="theme-description" *ngIf="theme.description">{{ theme.description }}</p>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item"><a routerLink="/home">Accueil</a></li>
+                <li class="breadcrumb-item"><a routerLink="/axe">Nos Axes</a></li>
+                <li class="breadcrumb-item active">{{ theme.name }}</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-6" *ngIf="theme.imageUrl">
+            <img [src]="theme.imageUrl" [alt]="theme.name" class="theme-hero-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- Formations Section -->
+      <div class="formations-section">
+        <header class="section-header text-center mb-5">
+          <h2>Formations disponibles</h2>
+          <p>Choisissez la formation qui correspond à vos besoins</p>
+        </header>
+
+        <!-- Formations Grid -->
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="200" *ngIf="formations.length > 0">
+          <div class="col-lg-4 col-md-6" *ngFor="let formation of formations">
+            <div class="formation-card">
+              <div class="formation-image" *ngIf="formation.imageUrl">
+                <img [src]="formation.imageUrl" [alt]="formation.title">
+                <div class="level-badge">{{ formation.level }}</div>
+              </div>
+              <div class="formation-content">
+                <h3>{{ formation.title }}</h3>
+                <p class="formation-description" *ngIf="formation.description">
+                  {{ formation.description | slice:0:120 }}...
+                </p>
+                <div class="formation-meta">
+                  <div class="formation-info">
+                    <span class="duration"><i class="bi bi-clock"></i> {{ formation.duration }}</span>
+                    <span class="price"><i class="bi bi-currency-euro"></i> {{ formation.price }}</span>
+                  </div>
+                  <div class="formation-category">
+                    <span class="badge bg-primary">{{ formation.category }}</span>
+                  </div>
+                </div>
+                <div class="formation-actions">
+                  <a [routerLink]="['/formation', formation.id]" class="btn btn-primary">
+                    Voir détails
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Formations Message -->
+        <div *ngIf="formations.length === 0" class="text-center mt-5">
+          <div class="no-formations">
+            <i class="bi bi-info-circle display-1 text-muted"></i>
+            <h3 class="mt-3">Aucune formation disponible</h3>
+            <p class="text-muted">Les formations pour ce thème seront bientôt disponibles.</p>
+            <a routerLink="/axe" class="btn btn-outline-primary mt-3">
+              Retour aux thèmes
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -30,7 +30,9 @@ export class Services {
     subject: '',
     details: '',
     budget: undefined,
-    preferredStartDate: undefined
+    preferredStartDate: undefined,
+    isExistingProgram: false,
+    formationId: undefined
   };
   isSubmittingCustomRequest = false;
   customRequestSuccess = false;
@@ -99,7 +101,9 @@ export class Services {
           subject: '',
           details: '',
           budget: undefined,
-          preferredStartDate: undefined
+          preferredStartDate: undefined,
+          isExistingProgram: false,
+          formationId: undefined
         };
       },
       error: () => {
