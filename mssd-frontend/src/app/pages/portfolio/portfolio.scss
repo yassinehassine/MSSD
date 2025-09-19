@@ -89,3 +89,117 @@
 .spinner-border {
   margin: 50px auto;
 }
+
+/* Company Logos Horizontal Scrolling Animation */
+.company-logos-section {
+  margin: 40px 0;
+  padding: 30px 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.logos-scroll-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+}
+
+.logos-scroll-track {
+  display: inline-flex;
+  animation: scroll-logos 30s linear infinite;
+  gap: 40px;
+  align-items: center;
+}
+
+.logo-item {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  min-width: 120px;
+  height: 80px;
+}
+
+.company-logo {
+  max-width: 100px;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.7);
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.company-logo:hover {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.05);
+}
+
+@keyframes scroll-logos {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .company-logos-section {
+    margin: 20px 0;
+    padding: 20px 0;
+  }
+  
+  .logos-scroll-track {
+    animation-duration: 20s;
+    gap: 30px;
+  }
+  
+  .logo-item {
+    min-width: 80px;
+    height: 60px;
+  }
+  
+  .company-logo {
+    max-width: 70px;
+    max-height: 45px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logos-scroll-track {
+    animation-duration: 15s;
+    gap: 20px;
+  }
+  
+  .logo-item {
+    min-width: 60px;
+    height: 50px;
+  }
+  
+  .company-logo {
+    max-width: 50px;
+    max-height: 35px;
+  }
+}

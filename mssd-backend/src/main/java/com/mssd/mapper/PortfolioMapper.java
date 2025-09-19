@@ -27,6 +27,7 @@ public class PortfolioMapper {
             .formationCategory(portfolio.getFormation() != null ? portfolio.getFormation().getCategory() : null)
             .category(portfolio.getCategory())
             .imageUrl(portfolio.getImageUrl())
+            .companyLogo(portfolio.getCompanyLogo())
             .clientName(portfolio.getClientName())
             .projectDate(portfolio.getProjectDate())
             .projectUrl(portfolio.getProjectUrl())
@@ -57,6 +58,7 @@ public class PortfolioMapper {
         }
         
         portfolio.setImageUrl(dto.getImageUrl());
+        portfolio.setCompanyLogo(dto.getCompanyLogo());
         portfolio.setClientName(dto.getClientName());
         portfolio.setProjectDate(dto.getProjectDate());
         portfolio.setProjectUrl(dto.getProjectUrl());

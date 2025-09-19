@@ -138,6 +138,24 @@ export class Portfolio implements OnInit {
   this.loadPortfolios();
   }
 
+  // Get company logos for horizontal scrolling animation
+  getCompanyLogos(): string[] {
+    const logos = this.portfolios
+      .filter(p => p.companyLogo && p.companyLogo.trim() !== '')
+      .map(p => this.getLogoUrl(p.companyLogo!));
+    // Remove duplicates
+    return [...new Set(logos)];
+  }
+
+  // Get logo URL similar to image URL handling
+  getLogoUrl(logoPath: string | undefined): string {
+    if (!logoPath || logoPath.trim() === '') {
+      // Use a default company logo or return empty string
+      return '';
+    }
+    return this.portfolioService.getImageUrl(logoPath);
+  }
+
   // Handle image loading errors
   onImageError(event: any): void {
     console.error('Portfolio image failed to load:', event.target.src);
@@ -146,5 +164,12 @@ export class Portfolio implements OnInit {
     if (!event.target.src.includes('portfolio/app-1.jpg')) {
       event.target.src = fallback;
     }
+  }
+
+  // Handle logo loading errors
+  onLogoError(event: any): void {
+    console.error('Company logo failed to load:', event.target.src);
+    // Hide the logo if it fails to load
+    (event.target as HTMLElement).style.display = 'none';
   }
 }

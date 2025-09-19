@@ -34,6 +34,9 @@ public class Portfolio {
     @Column(name = "image_url", length = 500)
     private String imageUrl;
     
+    @Column(name = "company_logo", length = 500)
+    private String companyLogo;
+    
     @Column(name = "client_name", length = 255)
     private String clientName;
     

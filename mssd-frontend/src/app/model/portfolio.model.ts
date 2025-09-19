@@ -7,6 +7,7 @@ export interface Portfolio {
   formationCategory?: string;
   category?: string; // Portfolio's own category
   imageUrl?: string;
+  companyLogo?: string;
   clientName?: string;
   projectDate?: string; // Format: YYYY-MM-DD
   projectUrl?: string;

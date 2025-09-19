@@ -32,6 +32,7 @@ public class PortfolioDto {
     private String formationCategory;
     private String category; // Portfolio's own category field
     private String imageUrl;
+    private String companyLogo;
     private String clientName;
     
     @JsonFormat(pattern = "yyyy-MM-dd")
