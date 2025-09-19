@@ -17,24 +17,45 @@
   --nav-font: "Poppins",  sans-serif;
 }
 
-/* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
+/* Global Colors - Modern Red, Blue & White Color Scheme */
 :root { 
-  --background-color: #ffffff; /* Background color for the entire website, including individual sections */
-  --default-color: #444444; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #012970; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #4154f1; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
-  --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
-  --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+  --background-color: #ffffff; /* Pure white background for clean modern look */
+  --default-color: #2c3e50; /* Modern dark blue-gray for text readability */
+  --heading-color: #1a365d; /* Deep navy blue for headings */
+  --accent-color: #dc3545; /* Modern red as primary accent color */
+  --secondary-color: #007bff; /* Vibrant blue as secondary color */
+  --surface-color: #ffffff; /* White surface for cards and boxes */
+  --contrast-color: #ffffff; /* White text for colored backgrounds */
+  
+  /* Modern Color Palette Extensions */
+  --primary-red: #dc3545;
+  --primary-blue: #007bff;
+  --light-red: #f8d7da;
+  --light-blue: #cce7ff;
+  --dark-red: #b02a37;
+  --dark-blue: #0056b3;
+  
+  /* Gradient Colors */
+  --gradient-red-blue: linear-gradient(135deg, #dc3545 0%, #007bff 100%);
+  --gradient-blue-red: linear-gradient(135deg, #007bff 0%, #dc3545 100%);
+  --gradient-light: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  
+  /* Modern Shadows */
+  --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.12);
+  --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.16);
+  --shadow-red: 0 4px 20px rgba(220, 53, 69, 0.2);
+  --shadow-blue: 0 4px 20px rgba(0, 123, 255, 0.2);
 }
 
-/* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
+/* Nav Menu Colors - Modern Red, Blue & White Navigation Theme */
 :root {
-  --nav-color: #012970;  /* The default color of the main navmenu links */
-  --nav-hover-color: #4154f1; /* Applied to main navmenu links when they are hovered over or active */
-  --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
-  --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
-  --nav-dropdown-color: #212529; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #4154f1; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  --nav-color: #1a365d;  /* Deep navy blue for navigation links */
+  --nav-hover-color: #dc3545; /* Modern red for hover and active states */
+  --nav-mobile-background-color: #ffffff; /* Clean white background for mobile menu */
+  --nav-dropdown-background-color: #ffffff; /* White background for dropdown menus */
+  --nav-dropdown-color: #2c3e50; /* Dark blue-gray for dropdown text */
+  --nav-dropdown-hover-color: #dc3545; /* Red hover effect for dropdown items */
 }
 
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
@@ -2769,4 +2790,339 @@ section,
 
 .main {
   padding-top: 90px;
+}
+
+/*--------------------------------------------------------------
+# Modern MSSD Design Enhancements
+--------------------------------------------------------------*/
+
+/* Modern Typography */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* Modern Buttons */
+.btn {
+  font-weight: 600;
+  text-transform: none;
+  border-radius: 12px;
+  padding: 12px 32px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: var(--gradient-red-blue);
+  color: white;
+  box-shadow: var(--shadow-red);
+}
+
+.btn-primary:hover {
+  background: var(--gradient-blue-red);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-heavy);
+}
+
+.btn-outline-primary {
+  border: 2px solid var(--accent-color);
+  color: var(--accent-color);
+  background: transparent;
+}
+
+.btn-outline-primary:hover {
+  background: var(--accent-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-red);
+}
+
+/* Modern Cards */
+.card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: var(--shadow-light);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-heavy);
+}
+
+.quick-card {
+  border: 1px solid rgba(220, 53, 69, 0.1);
+  background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
+  position: relative;
+}
+
+.quick-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-red-blue);
+}
+
+.quick-card:hover {
+  border-color: rgba(220, 53, 69, 0.3);
+  box-shadow: var(--shadow-red);
+}
+
+/* Modern Hero Section */
+.hero {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f8ff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(220, 53, 69, 0.05) 0%, transparent 70%);
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: var(--gradient-red-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+
+/* Modern Header */
+.header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(220, 53, 69, 0.1);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+}
+
+.logo img {
+  transition: all 0.3s ease;
+}
+
+.logo:hover img {
+  transform: scale(1.05);
+}
+
+/* Modern Navigation */
+.navmenu ul li a {
+  font-weight: 500;
+  position: relative;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.navmenu ul li a:hover,
+.navmenu ul li a.active {
+  background: rgba(220, 53, 69, 0.1);
+  color: var(--accent-color);
+}
+
+.navmenu ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-red-blue);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navmenu ul li a:hover::after,
+.navmenu ul li a.active::after {
+  width: 80%;
+}
+
+/* Modern Stats Section */
+.stats {
+  background: var(--gradient-light);
+  position: relative;
+}
+
+.stats-item {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-light);
+  transition: all 0.3s ease;
+  border-left: 4px solid var(--accent-color);
+}
+
+.stats-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-medium);
+}
+
+.stats-item i {
+  font-size: 2.5rem;
+  margin-right: 20px;
+  background: var(--gradient-red-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Modern Footer */
+.footer {
+  background: linear-gradient(135deg, #1a365d 0%, #2c3e50 100%);
+  color: white;
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-red-blue);
+}
+
+.footer h4 {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.footer a {
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+
+.footer a:hover {
+  color: #dc3545;
+}
+
+.social-links a {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  background: var(--accent-color);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-red);
+}
+
+/* Modern Event Cards */
+.event-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: var(--shadow-light);
+  transition: all 0.3s ease;
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.event-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-blue-red);
+}
+
+.event-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-blue);
+}
+
+/* Modern Sections */
+.section {
+  padding: 80px 0;
+}
+
+.section-title h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 20px;
+  background: var(--gradient-red-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-title p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--default-color);
+  margin-bottom: 50px;
+}
+
+/* Modern Light Background */
+.light-background {
+  background: radial-gradient(circle at top right, rgba(0, 123, 255, 0.02) 0%, transparent 50%),
+              radial-gradient(circle at bottom left, rgba(220, 53, 69, 0.02) 0%, transparent 50%),
+              #f8f9fa;
+}
+
+/* Modern Scroll Top Button */
+.scroll-top {
+  background: var(--gradient-red-blue);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  box-shadow: var(--shadow-medium);
+  transition: all 0.3s ease;
+}
+
+.scroll-top:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-heavy);
+}
+
+/* Mobile Responsive Enhancements */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .btn {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+  
+  .section {
+    padding: 60px 0;
+  }
+  
+  .section-title h2 {
+    font-size: 2rem;
+  }
 }

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" style="enable-background:new 0 0 300 80;">
+  <defs>
+    <linearGradient id="redBlueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#dc3545;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#007bff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="blueRedGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#007bff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dc3545;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Modern geometric logo icon -->
+  <g id="logo-icon">
+    <!-- Main circle with gradient -->
+    <circle cx="40" cy="40" r="30" fill="url(#redBlueGradient)" opacity="0.1"/>
+    
+    <!-- Letter M - Modern geometric style -->
+    <path d="M20 25 L25 45 L30 30 L35 45 L40 25" 
+          stroke="url(#redBlueGradient)" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+    
+    <!-- Letter S - First S -->
+    <path d="M45 25 Q50 20 55 25 Q50 30 55 35 Q60 40 55 45 Q50 50 45 45" 
+          stroke="#dc3545" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round"/>
+    
+    <!-- Letter S - Second S -->
+    <path d="M65 25 Q70 20 75 25 Q70 30 75 35 Q80 40 75 45 Q70 50 65 45" 
+          stroke="#007bff" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round"/>
+    
+    <!-- Letter D -->
+    <path d="M85 25 L85 45 Q95 45 95 35 Q95 25 85 25" 
+          stroke="url(#blueRedGradient)" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Company text -->
+  <g id="company-text">
+    <text x="115" y="30" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#1a365d">
+      MSSD
+    </text>
+    <text x="115" y="50" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="500" fill="#6c757d">
+      Management Solutions &amp; Sales Développement
+    </text>
+  </g>
+  
+  <!-- Modern accent elements -->
+  <rect x="115" y="52" width="40" height="2" fill="url(#redBlueGradient)" rx="1"/>
+  <circle cx="162" cy="53" r="2" fill="#dc3545"/>
+  <circle cx="170" cy="53" r="2" fill="#007bff"/>
+</svg>

@@ -1,28 +1,124 @@
+/* Modern Home Page Styles */
+
 .quick-card {
-	border: 1px solid #eef0f4;
-	transition: transform .2s ease, box-shadow .2s ease;
+	border: 1px solid rgba(220, 53, 69, 0.1);
+	transition: all 0.3s ease;
+	background: white;
+	position: relative;
+	overflow: hidden;
 }
+
+.quick-card::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	background: var(--gradient-red-blue);
+}
+
 .quick-card:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 8px 24px rgba(1,41,112,.08);
+	transform: translateY(-8px);
+	border-color: rgba(220, 53, 69, 0.3);
+	box-shadow: var(--shadow-red);
+}
+
+.quick-card .icon-wrapper {
+	transition: all 0.3s ease;
+}
+
+.quick-card:hover .icon-wrapper {
+	transform: scale(1.1);
 }
 
 .event-card {
-	border: 1px solid #e8f4fd;
-	transition: transform .2s ease, box-shadow .2s ease;
-	border-left: 4px solid #007bff;
+	border: none;
+	border-radius: 16px;
+	box-shadow: var(--shadow-light);
+	transition: all 0.3s ease;
+	background: white;
+	position: relative;
+	overflow: hidden;
+}
+
+.event-card::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	background: var(--gradient-blue-red);
 }
 
 .event-card:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 8px 24px rgba(0,123,255,.1);
+	transform: translateY(-8px);
+	box-shadow: var(--shadow-blue);
 }
 
 .event-card .progress {
-	border-radius: 2px;
+	border-radius: 10px;
+	height: 6px;
+	background: rgba(0, 123, 255, 0.1);
+}
+
+.event-card .progress-bar {
+	border-radius: 10px;
+	background: var(--gradient-blue-red);
 }
 
 .event-card .badge {
-	font-size: 0.7rem;
+	font-size: 0.8rem;
 	text-transform: capitalize;
+	font-weight: 600;
+	padding: 8px 12px;
+	border-radius: 8px;
+}
+
+/* Hero section specific styles */
+.hero .animated {
+	animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+	0%, 100% { transform: translateY(0px); }
+	50% { transform: translateY(-10px); }
+}
+
+/* Stats animation enhancement */
+.stats-item {
+	background: white;
+	padding: 30px;
+	border-radius: 16px;
+	box-shadow: var(--shadow-light);
+	transition: all 0.3s ease;
+	border-left: 4px solid transparent;
+	background-image: linear-gradient(white, white), var(--gradient-red-blue);
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+}
+
+.stats-item:hover {
+	transform: translateY(-5px);
+	box-shadow: var(--shadow-medium);
+}
+
+/* Modern button hover effects */
+.btn.stretched-link {
+	position: static;
+}
+
+.quick-card .btn {
+	border: none;
+	background: transparent;
+	color: var(--accent-color);
+	font-weight: 600;
+	padding: 8px 0;
+	transition: all 0.3s ease;
+}
+
+.quick-card:hover .btn {
+	color: var(--secondary-color);
+	transform: translateX(5px);
 }

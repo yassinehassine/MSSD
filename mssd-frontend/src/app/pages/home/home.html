@@ -1,73 +1,136 @@
 <!-- Home Page Content from FlexStart -->
 
-<!-- Hero Section -->
+<!-- Modern Hero Section -->
 <section id="hero" class="hero section">
   <div class="container">
     <div class="row gy-4">
       <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
-  <h1 data-aos="fade-up">We offer modern solutions for growing your business</h1>
+        <h1 data-aos="fade-up">Nous proposons des solutions modernes pour faire croître votre entreprise</h1>
+        <p class="mt-4 mb-4" data-aos="fade-up" data-aos-delay="100" style="font-size: 1.2rem; color: var(--default-color);">
+          Transformez votre performance commerciale avec nos méthodes innovantes de management et de développement des ventes.
+        </p>
+        <div class="d-flex flex-column flex-sm-row gap-3" data-aos="fade-up" data-aos-delay="200">
+          <a routerLink="/contact" class="btn btn-primary btn-lg">
+            <i class="bi bi-calendar-check me-2"></i>Consultation Gratuite
+          </a>
+          <a routerLink="/services" class="btn btn-outline-primary btn-lg">
+            <i class="bi bi-play-circle me-2"></i>Découvrir nos Services
+          </a>
+        </div>
+        
+        <!-- Modern stats mini-section -->
+        <div class="row mt-5" data-aos="fade-up" data-aos-delay="300">
+          <div class="col-4">
+            <div class="text-center">
+              <h3 class="mb-1" style="color: var(--accent-color); font-weight: 800;">200+</h3>
+              <p class="small mb-0">Clients Satisfaits</p>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="text-center">
+              <h3 class="mb-1" style="color: var(--secondary-color); font-weight: 800;">500+</h3>
+              <p class="small mb-0">Formations Données</p>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="text-center">
+              <h3 class="mb-1" style="color: var(--accent-color); font-weight: 800;">95%</h3>
+              <p class="small mb-0">Taux de Succès</p>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out">
-        <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
+        <img src="assets/img/hero-img.png" class="img-fluid animated" alt="Solutions modernes MSSD">
       </div>
     </div>
   </div>
 </section>
 
-<!-- Quick About Teaser -->
+<!-- Modern About Teaser -->
 <section id="about-teaser" class="about section light-background">
   <div class="container" data-aos="fade-up">
-    <div class="row gx-4 gy-4 align-items-center">
+    <div class="row gx-5 gy-4 align-items-center">
       <div class="col-lg-6">
-        <img src="assets/img/about.jpg" class="img-fluid rounded-3" alt="About MSSD">
+        <div class="position-relative">
+          <img src="assets/img/about.jpg" class="img-fluid rounded-3" alt="À propos de MSSD" style="box-shadow: var(--shadow-medium);">
+          <!-- Modern overlay element -->
+          <div class="position-absolute top-0 start-0 w-100 h-100 rounded-3" style="background: var(--gradient-red-blue); opacity: 0.1;"></div>
+        </div>
       </div>
       <div class="col-lg-6">
-        <h3 class="text-primary">À propos de MSSD</h3>
-        <p class="mb-3">Management Solutions & Sales Développement. Coaching de proximité, management par objectifs et processus, et accompagnement des transitions.</p>
-        <a routerLink="/about" class="btn btn-primary">En savoir plus</a>
+        <div class="ps-lg-4">
+          <h3 class="mb-4" style="color: var(--heading-color); font-weight: 800; font-size: 2.2rem;">
+            À propos de MSSD
+          </h3>
+          <p class="mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+            <strong>Management Solutions & Sales Développement.</strong> Nous transformons vos équipes commerciales grâce à un coaching de proximité, un management par objectifs et processus, et un accompagnement personnalisé des transitions.
+          </p>
+          <div class="row mb-4">
+            <div class="col-6">
+              <div class="d-flex align-items-center mb-3">
+                <div class="icon-box me-3" style="width: 50px; height: 50px; background: var(--light-red); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                  <i class="bi bi-check-circle" style="color: var(--accent-color); font-size: 1.5rem;"></i>
+                </div>
+                <span style="font-weight: 600;">Solutions Innovantes</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center mb-3">
+                <div class="icon-box me-3" style="width: 50px; height: 50px; background: var(--light-blue); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                  <i class="bi bi-people" style="color: var(--secondary-color); font-size: 1.5rem;"></i>
+                </div>
+                <span style="font-weight: 600;">Équipe Experte</span>
+              </div>
+            </div>
+          </div>
+          <a routerLink="/about" class="btn btn-primary btn-lg">
+            <i class="bi bi-arrow-right me-2"></i>En savoir plus
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- Stats Section -->
+<!-- Modern Stats Section -->
 <section id="stats" class="stats section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="row gy-4">
       <div class="col-lg-3 col-md-6">
         <div class="stats-item d-flex align-items-center w-100 h-100">
-          <i class="bi bi-emoji-smile color-blue flex-shrink-0"></i>
+          <i class="bi bi-emoji-smile flex-shrink-0"></i>
           <div>
-            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Happy Clients</p>
+            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter" style="font-size: 2.5rem; font-weight: 800; color: var(--accent-color);"></span>
+            <p style="font-weight: 600; margin: 0;">Clients Heureux</p>
           </div>
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
         <div class="stats-item d-flex align-items-center w-100 h-100">
-          <i class="bi bi-journal-richtext color-orange flex-shrink-0" style="color: #ee6c20;"></i>
+          <i class="bi bi-journal-richtext flex-shrink-0"></i>
           <div>
-            <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Projects</p>
+            <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter" style="font-size: 2.5rem; font-weight: 800; color: var(--secondary-color);"></span>
+            <p style="font-weight: 600; margin: 0;">Projets Réalisés</p>
           </div>
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
         <div class="stats-item d-flex align-items-center w-100 h-100">
-          <i class="bi bi-headset color-green flex-shrink-0" style="color: #15be56;"></i>
+          <i class="bi bi-headset flex-shrink-0"></i>
           <div>
-            <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Hours Of Support</p>
+            <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter" style="font-size: 2.5rem; font-weight: 800; color: var(--accent-color);"></span>
+            <p style="font-weight: 600; margin: 0;">Heures de Support</p>
           </div>
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
         <div class="stats-item d-flex align-items-center w-100 h-100">
-          <i class="bi bi-people color-pink flex-shrink-0" style="color: #bb0852;"></i>
+          <i class="bi bi-people flex-shrink-0"></i>
           <div>
-            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Hard Workers</p>
+            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter" style="font-size: 2.5rem; font-weight: 800; color: var(--secondary-color);"></span>
+            <p style="font-weight: 600; margin: 0;">Experts Dédiés</p>
           </div>
         </div>
       </div>
@@ -76,38 +139,53 @@
 </section>
 
 
-<!-- Explore MSSD -->
+<!-- Modern Explore MSSD Section -->
 <section id="explore" class="section">
   <div class="container section-title" data-aos="fade-up">
     <h2>Explorez MSSD</h2>
-    <p>Accédez rapidement aux sections clés</p>
+    <p>Découvrez nos solutions et services pour transformer votre performance</p>
   </div>
   <div class="container">
     <div class="row gy-4">
       <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
-            <h4 class="card-title"><i class="bi bi-briefcase me-2"></i>Services</h4>
-            <p class="card-text">Formations, coaching et structuration commerciale.</p>
-            <a routerLink="/services" class="stretched-link">Voir les services</a>
+            <div class="icon-wrapper mb-3" style="width: 60px; height: 60px; background: var(--light-red); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+              <i class="bi bi-briefcase" style="color: var(--accent-color); font-size: 1.8rem;"></i>
+            </div>
+            <h4 class="card-title mb-3" style="font-weight: 700;">Services</h4>
+            <p class="card-text mb-4">Formations sur mesure, coaching personnalisé et structuration commerciale innovante.</p>
+            <a routerLink="/services" class="stretched-link btn btn-outline-primary btn-sm">
+              Voir les services <i class="bi bi-arrow-right ms-1"></i>
+            </a>
           </div>
         </div>
       </div>
       <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="150">
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
-            <h4 class="card-title"><i class="bi bi-images me-2"></i>Portfolio</h4>
-            <p class="card-text">Quelques réalisations et projets clients.</p>
-            <a routerLink="/portfolio" class="stretched-link">Voir le portfolio</a>
+            <div class="icon-wrapper mb-3" style="width: 60px; height: 60px; background: var(--light-blue); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+              <i class="bi bi-images" style="color: var(--secondary-color); font-size: 1.8rem;"></i>
+            </div>
+            <h4 class="card-title mb-3" style="font-weight: 700;">Portfolio</h4>
+            <p class="card-text mb-4">Découvrez nos réalisations et projets clients qui témoignent de notre expertise.</p>
+            <a routerLink="/portfolio" class="stretched-link btn btn-outline-primary btn-sm">
+              Voir le portfolio <i class="bi bi-arrow-right ms-1"></i>
+            </a>
           </div>
         </div>
       </div>
       <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
-            <h4 class="card-title"><i class="bi bi-calendar-event me-2"></i>Calendrier</h4>
-            <p class="card-text">Consultez nos événements et disponibilités.</p>
-            <a routerLink="/calendar" class="stretched-link">Ouvrir le calendrier</a>
+            <div class="icon-wrapper mb-3" style="width: 60px; height: 60px; background: var(--light-red); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+              <i class="bi bi-calendar-event" style="color: var(--accent-color); font-size: 1.8rem;"></i>
+            </div>
+            <h4 class="card-title mb-3" style="font-weight: 700;">Calendrier</h4>
+            <p class="card-text mb-4">Consultez nos événements et réservez vos sessions de formation.</p>
+            <a routerLink="/calendar" class="stretched-link btn btn-outline-primary btn-sm">
+              Ouvrir le calendrier <i class="bi bi-arrow-right ms-1"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -115,27 +193,42 @@
       <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="250">
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
-            <h4 class="card-title"><i class="bi bi-telephone me-2"></i>Contact</h4>
-            <p class="card-text">Parlez-nous de vos besoins et projets.</p>
-            <a routerLink="/contact" class="stretched-link">Nous contacter</a>
+            <div class="icon-wrapper mb-3" style="width: 60px; height: 60px; background: var(--light-blue); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+              <i class="bi bi-telephone" style="color: var(--secondary-color); font-size: 1.8rem;"></i>
+            </div>
+            <h4 class="card-title mb-3" style="font-weight: 700;">Contact</h4>
+            <p class="card-text mb-4">Parlez-nous de vos besoins et démarrons ensemble votre transformation.</p>
+            <a routerLink="/contact" class="stretched-link btn btn-outline-primary btn-sm">
+              Nous contacter <i class="bi bi-arrow-right ms-1"></i>
+            </a>
           </div>
         </div>
       </div>
       <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
-            <h4 class="card-title"><i class="bi bi-people me-2"></i>Équipe</h4>
-            <p class="card-text">Découvrez notre équipe et nos experts.</p>
-            <a routerLink="/team" class="stretched-link">Voir l'équipe</a>
+            <div class="icon-wrapper mb-3" style="width: 60px; height: 60px; background: var(--light-red); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+              <i class="bi bi-people" style="color: var(--accent-color); font-size: 1.8rem;"></i>
+            </div>
+            <h4 class="card-title mb-3" style="font-weight: 700;">Équipe</h4>
+            <p class="card-text mb-4">Rencontrez notre équipe d'experts en management et développement commercial.</p>
+            <a routerLink="/team" class="stretched-link btn btn-outline-primary btn-sm">
+              Voir l'équipe <i class="bi bi-arrow-right ms-1"></i>
+            </a>
           </div>
         </div>
       </div>
       <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="350">
         <div class="card h-100 shadow-sm quick-card">
           <div class="card-body">
-            <h4 class="card-title"><i class="bi bi-journal-text me-2"></i>Blog</h4>
-            <p class="card-text">Lectures et insights de MSSD.</p>
-            <a routerLink="/blog" class="stretched-link">Lire le blog</a>
+            <div class="icon-wrapper mb-3" style="width: 60px; height: 60px; background: var(--light-blue); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+              <i class="bi bi-journal-text" style="color: var(--secondary-color); font-size: 1.8rem;"></i>
+            </div>
+            <h4 class="card-title mb-3" style="font-weight: 700;">Blog</h4>
+            <p class="card-text mb-4">Lectures et insights pour optimiser votre performance commerciale.</p>
+            <a routerLink="/blog" class="stretched-link btn btn-outline-primary btn-sm">
+              Lire le blog <i class="bi bi-arrow-right ms-1"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -245,16 +338,22 @@
   <!-- ... Clients content from index.html ... -->
 </section>
 
-<!-- Contact CTA -->
-<section id="contact-cta" class="contact section light-background">
+<!-- Modern Contact CTA -->
+<section id="contact-cta" class="contact section" style="background: var(--gradient-red-blue); color: white;">
   <div class="container" data-aos="fade-up">
     <div class="row align-items-center">
       <div class="col-lg-8">
-        <h3 class="mb-2">Prêt à accélérer votre performance commerciale ?</h3>
-        <p class="mb-0">Contactez-nous pour une session de découverte gratuite.</p>
+        <h3 class="mb-3" style="color: white; font-weight: 800; font-size: 2.2rem;">
+          Prêt à transformer votre performance commerciale ?
+        </h3>
+        <p class="mb-0" style="color: rgba(255, 255, 255, 0.9); font-size: 1.1rem;">
+          Contactez-nous dès aujourd'hui pour une session de découverte gratuite et commencez votre transformation.
+        </p>
       </div>
-      <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-        <a routerLink="/contact" class="btn btn-primary btn-lg"><i class="bi bi-envelope me-2"></i>Contact</a>
+      <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+        <a routerLink="/contact" class="btn btn-light btn-lg" style="background: white; color: var(--accent-color); font-weight: 600; box-shadow: var(--shadow-medium);">
+          <i class="bi bi-calendar-check me-2"></i>Consultation Gratuite
+        </a>
       </div>
     </div>
   </div>
