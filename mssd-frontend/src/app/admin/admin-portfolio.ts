@@ -74,6 +74,7 @@ export class AdminPortfolio implements OnInit {
       formationId: defaultFormationId,
       category: '', // Will be set based on formation
       imageUrl: '',
+      companyLogo: '',
       clientName: '',
       projectDate: '',
       projectUrl: '',
@@ -229,5 +230,20 @@ export class AdminPortfolio implements OnInit {
   cancelDelete(): void {
     this.showDeleteConfirm = false;
     this.portfolioToDelete = null;
+  }
+
+  // Get logo URL similar to image URL handling
+  getLogoUrl(logoPath: string | undefined): string {
+    if (!logoPath || logoPath.trim() === '') {
+      return '';
+    }
+    return this.portfolioService.getImageUrl(logoPath);
+  }
+
+  // Handle logo loading errors
+  onLogoError(event: any): void {
+    console.error('Company logo failed to load:', event.target.src);
+    // Hide the logo if it fails to load
+    (event.target as HTMLElement).style.display = 'none';
   }
 }
