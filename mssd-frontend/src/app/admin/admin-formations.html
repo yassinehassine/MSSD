@@ -23,6 +23,12 @@
         <input type="text" class="form-control" placeholder="Duration" [(ngModel)]="form.duration" name="duration" required>
       </div>
       <div class="col-md-2">
+        <select class="form-select" [(ngModel)]="form.themeId" name="themeId">
+          <option value="">No Theme</option>
+          <option *ngFor="let theme of themes" [value]="theme.id">{{ theme.name }}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
         <input type="file" class="form-control" (change)="onImageSelected($event)" accept="image/*">
         <div *ngIf="imageUploading" class="text-info small">Uploading...</div>
         <div *ngIf="form.imageUrl && !imageUploading" class="mt-1">
@@ -63,6 +69,7 @@
         <th>Title</th>
         <th>Slug</th>
         <th>Category</th>
+        <th>Theme</th>
         <th>Price</th>
         <th>Duration</th>
         <th>Level</th>
@@ -75,6 +82,7 @@
         <td>{{ f.title }}</td>
         <td>{{ f.slug }}</td>
         <td>{{ f.category }}</td>
+        <td>{{ f.themeName || 'No Theme' }}</td>
         <td>{{ f.price | currency }}</td>
         <td>{{ f.duration }}</td>
         <td>{{ f.level }}</td>

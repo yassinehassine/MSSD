@@ -6,8 +6,10 @@ import com.mssd.dto.CustomRequestUpdateDto;
 import com.mssd.exception.ResourceNotFoundException;
 import com.mssd.mapper.CustomRequestMapper;
 import com.mssd.model.CustomRequest;
+import com.mssd.model.Formation;
 import com.mssd.model.RequestStatus;
 import com.mssd.repository.CustomRequestRepository;
+import com.mssd.repository.FormationRepository;
 import com.mssd.service.CustomRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class CustomRequestServiceImpl implements CustomRequestService {
     private final CustomRequestRepository customRequestRepository;
+    private final FormationRepository formationRepository;
     private final CustomRequestMapper customRequestMapper;
 
     @Override
@@ -42,6 +45,14 @@ public class CustomRequestServiceImpl implements CustomRequestService {
     @Override
     public CustomRequestResponseDto submitCustomRequest(CustomRequestDto dto) {
         CustomRequest customRequest = customRequestMapper.toEntity(dto);
+        
+        // Set formation if existing program is selected
+        if (dto.isExistingProgram() && dto.getFormationId() != null) {
+            Formation formation = formationRepository.findById(dto.getFormationId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Formation not found with id: " + dto.getFormationId()));
+            customRequest.setFormation(formation);
+        }
+        
         CustomRequest savedRequest = customRequestRepository.save(customRequest);
         return customRequestMapper.toResponseDto(savedRequest);
     }

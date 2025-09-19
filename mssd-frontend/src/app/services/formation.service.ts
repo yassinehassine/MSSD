@@ -1,21 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface Formation {
-  id: number;
-  title: string;
-  slug: string;
-  description: string;
-  category: string;
-  price: number;
-  duration: string;
-  imageUrl?: string;
-  level: string;
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Formation } from '../model/theme.model';
 
 export interface FormationRequest {
   title: string;
@@ -27,6 +13,7 @@ export interface FormationRequest {
   imageUrl?: string;
   level: string;
   published: boolean;
+  themeId?: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -53,5 +40,17 @@ export class FormationService {
 
   deleteFormation(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getFormationsByTheme(themeId: number): Observable<Formation[]> {
+    return this.http.get<Formation[]>(`${this.apiUrl}/theme/${themeId}`);
+  }
+
+  getPublishedFormationsByTheme(themeId: number): Observable<Formation[]> {
+    return this.http.get<Formation[]>(`${this.apiUrl}/theme/${themeId}/published`);
+  }
+
+  getPublishedFormations(): Observable<Formation[]> {
+    return this.http.get<Formation[]>(`${this.apiUrl}/published`);
   }
 } 

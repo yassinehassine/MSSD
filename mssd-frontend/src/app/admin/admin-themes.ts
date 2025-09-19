@@ -1,77 +1,57 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FormationService, FormationRequest } from '../services/formation.service';
 import { ThemeService } from '../services/theme.service';
 import { FileUploadService } from '../services/file-upload.service';
-import { Formation, Theme } from '../model/theme.model';
+import { Theme, ThemeRequest } from '../model/theme.model';
 
 @Component({
-  selector: 'app-admin-formations',
+  selector: 'app-admin-themes',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './admin-formations.html',
+  templateUrl: './admin-themes.html',
   styleUrl: './admin-contacts.scss'
 })
-export class AdminFormations implements OnInit {
-  formations: Formation[] = [];
+export class AdminThemes implements OnInit {
   themes: Theme[] = [];
   isLoading = true;
   error = '';
 
   // For add/edit
-  form: FormationRequest = this.emptyForm();
+  form: ThemeRequest = this.emptyForm();
   editingId: number | null = null;
   formError = '';
   formSuccess = '';
   imageUploading = false;
 
   constructor(
-    private formationService: FormationService, 
-    private themeService: ThemeService,
+    private themeService: ThemeService, 
     private fileUploadService: FileUploadService
   ) {}
 
   ngOnInit() {
-    this.loadFormations();
     this.loadThemes();
   }
 
-  emptyForm(): FormationRequest {
+  emptyForm(): ThemeRequest {
     return {
-      title: '',
+      name: '',
       slug: '',
       description: '',
-      category: '',
-      price: 0,
-      duration: '',
       imageUrl: '',
-      level: 'BEGINNER',
-      published: false,
-      themeId: undefined
+      published: false
     };
   }
 
   loadThemes() {
+    this.isLoading = true;
     this.themeService.getAllThemes().subscribe({
       next: (data) => {
         this.themes = data;
-      },
-      error: () => {
-        console.error('Failed to load themes');
-      }
-    });
-  }
-
-  loadFormations() {
-    this.isLoading = true;
-    this.formationService.getAllFormations().subscribe({
-      next: (data) => {
-        this.formations = data;
         this.isLoading = false;
       },
       error: () => {
-        this.error = 'Failed to load formations.';
+        this.error = 'Failed to load themes.';
         this.isLoading = false;
       }
     });
@@ -84,19 +64,14 @@ export class AdminFormations implements OnInit {
     this.formSuccess = '';
   }
 
-  startEdit(formation: Formation) {
-    this.editingId = formation.id;
+  startEdit(theme: Theme) {
+    this.editingId = theme.id;
     this.form = {
-      title: formation.title,
-      slug: formation.slug,
-      description: formation.description || '',
-      category: formation.category,
-      price: formation.price,
-      duration: formation.duration,
-      imageUrl: formation.imageUrl || '',
-      level: formation.level,
-      published: formation.published,
-      themeId: formation.themeId
+      name: theme.name,
+      slug: theme.slug,
+      description: theme.description || '',
+      imageUrl: theme.imageUrl || '',
+      published: theme.published
     };
     this.formError = '';
     this.formSuccess = '';
@@ -124,41 +99,43 @@ export class AdminFormations implements OnInit {
     event.preventDefault();
     this.formError = '';
     this.formSuccess = '';
-    if (!this.form.title || !this.form.slug || !this.form.category || !this.form.price || !this.form.duration || !this.form.level) {
+    
+    if (!this.form.name || !this.form.slug) {
       this.formError = 'Please fill all required fields.';
       return;
     }
+    
     if (this.editingId) {
-      this.formationService.updateFormation(this.editingId, this.form).subscribe({
+      this.themeService.updateTheme(this.editingId, this.form).subscribe({
         next: () => {
-          this.formSuccess = 'Formation updated!';
-          this.loadFormations();
+          this.formSuccess = 'Theme updated!';
+          this.loadThemes();
           this.editingId = null;
           this.form = this.emptyForm();
         },
         error: () => {
-          this.formError = 'Failed to update formation.';
+          this.formError = 'Failed to update theme.';
         }
       });
     } else {
-      this.formationService.createFormation(this.form).subscribe({
+      this.themeService.createTheme(this.form).subscribe({
         next: () => {
-          this.formSuccess = 'Formation added!';
-          this.loadFormations();
+          this.formSuccess = 'Theme added!';
+          this.loadThemes();
           this.form = this.emptyForm();
         },
         error: () => {
-          this.formError = 'Failed to add formation.';
+          this.formError = 'Failed to add theme.';
         }
       });
     }
   }
 
-  deleteFormation(id: number) {
-    if (!confirm('Delete this formation?')) return;
-    this.formationService.deleteFormation(id).subscribe({
-      next: () => this.loadFormations(),
-      error: () => alert('Failed to delete formation.')
+  deleteTheme(id: number) {
+    if (!confirm('Delete this theme?')) return;
+    this.themeService.deleteTheme(id).subscribe({
+      next: () => this.loadThemes(),
+      error: () => alert('Failed to delete theme.')
     });
   }
 
@@ -168,4 +145,4 @@ export class AdminFormations implements OnInit {
     this.formError = '';
     this.formSuccess = '';
   }
-} 
+}

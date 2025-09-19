@@ -11,6 +11,7 @@ import { Error404 } from './error404';
 import { Error500 } from './error500';
 import { AdminContacts } from './admin-contacts';
 import { AdminFormations } from './admin-formations';
+import { AdminThemes } from './admin-themes';
 import { AdminBookings } from './admin-bookings';
 import { AdminCustomRequests } from './admin-custom-requests';
 import { AdminCalendar } from './admin-calendar';
@@ -35,6 +36,7 @@ export const adminRoutes: Routes = [
       { path: 'charts', component: Charts },
       { path: 'tables', component: Tables },
       { path: 'contacts', component: AdminContacts },
+      { path: 'themes', component: AdminThemes },
       { path: 'formations', component: AdminFormations },
       { path: 'bookings', component: AdminBookings },
       { path: 'custom-requests', component: AdminCustomRequests },

@@ -1,0 +1,147 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="h3 mb-4">Manage Themes</h1>
+      
+      <!-- Add/Edit Form -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">{{ editingId ? 'Edit Theme' : 'Add New Theme' }}</h5>
+        </div>
+        <div class="card-body">
+          <form (submit)="submitForm($event)">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="name" class="form-label">Name *</label>
+                <input type="text" class="form-control" id="name" 
+                       [(ngModel)]="form.name" name="name" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="slug" class="form-label">Slug *</label>
+                <input type="text" class="form-control" id="slug" 
+                       [(ngModel)]="form.slug" name="slug" required>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" rows="3"
+                        [(ngModel)]="form.description" name="description"></textarea>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="imageUrl" class="form-label">Image URL</label>
+                <input type="text" class="form-control" id="imageUrl" 
+                       [(ngModel)]="form.imageUrl" name="imageUrl">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="image" class="form-label">Upload Image</label>
+                <input type="file" class="form-control" id="image" 
+                       (change)="onImageSelected($event)" accept="image/*">
+                @if (imageUploading) {
+                  <small class="text-info">Uploading...</small>
+                }
+              </div>
+            </div>
+            
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="published" 
+                     [(ngModel)]="form.published" name="published">
+              <label class="form-check-label" for="published">Published</label>
+            </div>
+            
+            @if (formError) {
+              <div class="alert alert-danger">{{ formError }}</div>
+            }
+            @if (formSuccess) {
+              <div class="alert alert-success">{{ formSuccess }}</div>
+            }
+            
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="imageUploading">
+                {{ editingId ? 'Update' : 'Add' }} Theme
+              </button>
+              @if (editingId) {
+                <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+                  Cancel
+                </button>
+              }
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Themes List -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Themes List</h5>
+        </div>
+        <div class="card-body">
+          @if (isLoading) {
+            <div class="text-center">
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          } @else if (error) {
+            <div class="alert alert-danger">{{ error }}</div>
+          } @else {
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Slug</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Published</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (theme of themes; track theme.id) {
+                    <tr>
+                      <td>{{ theme.id }}</td>
+                      <td>{{ theme.name }}</td>
+                      <td>{{ theme.slug }}</td>
+                      <td>{{ theme.description || '-' }}</td>
+                      <td>
+                        @if (theme.imageUrl) {
+                          <img [src]="theme.imageUrl" alt="Theme image" 
+                               style="width: 50px; height: 50px; object-fit: cover;">
+                        } @else {
+                          <span class="text-muted">No image</span>
+                        }
+                      </td>
+                      <td>
+                        <span class="badge" [class]="theme.published ? 'bg-success' : 'bg-secondary'">
+                          {{ theme.published ? 'Published' : 'Draft' }}
+                        </span>
+                      </td>
+                      <td>
+                        <div class="btn-group btn-group-sm">
+                          <button class="btn btn-outline-primary" (click)="startEdit(theme)">
+                            Edit
+                          </button>
+                          <button class="btn btn-outline-danger" (click)="deleteTheme(theme.id)">
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="7" class="text-center text-muted">No themes found</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

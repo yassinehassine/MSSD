@@ -28,6 +28,9 @@ public class CustomRequestMapper {
         dto.setAdminNotes(customRequest.getAdminNotes());
         dto.setDateSubmitted(customRequest.getDateSubmitted());
         dto.setDateUpdated(customRequest.getDateUpdated());
+        dto.setExistingProgram(customRequest.isExistingProgram());
+        dto.setFormationId(customRequest.getFormation() != null ? customRequest.getFormation().getId() : null);
+        dto.setFormationTitle(customRequest.getFormation() != null ? customRequest.getFormation().getTitle() : null);
         
         return dto;
     }
@@ -46,6 +49,8 @@ public class CustomRequestMapper {
         customRequest.setDetails(dto.getDetails());
         customRequest.setBudget(dto.getBudget());
         customRequest.setPreferredStartDate(dto.getPreferredStartDate());
+        customRequest.setExistingProgram(dto.isExistingProgram());
+        // Note: Formation relationship should be set in the service layer
         
         return customRequest;
     }
