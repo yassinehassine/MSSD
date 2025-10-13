@@ -1,0 +1,123 @@
+.admin-formation-requests {
+  padding: 1rem;
+
+  // Statistics cards
+  .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  // Avatar for company
+  .avatar-sm {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  // Table improvements
+  .table {
+    .btn-group {
+      .btn {
+        border-radius: 0.25rem;
+        margin-right: 2px;
+        
+        &:hover {
+          transform: translateY(-1px);
+        }
+      }
+    }
+  }
+
+  // Modal improvements
+  .modal {
+    .modal-header {
+      border-bottom: none;
+    }
+    
+    .modal-body {
+      .alert {
+        border-left: 4px solid;
+        
+        &.alert-light {
+          border-left-color: #6c757d;
+        }
+        
+        &.alert-info {
+          border-left-color: #0dcaf0;
+        }
+      }
+    }
+  }
+
+  // Filter section
+  .card-header {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  // Statistics cards colors
+  .bg-primary { background: linear-gradient(135deg, #007bff, #0056b3) !important; }
+  .bg-warning { background: linear-gradient(135deg, #ffc107, #ff9500) !important; }
+  .bg-success { background: linear-gradient(135deg, #28a745, #1e7e34) !important; }
+  .bg-info { background: linear-gradient(135deg, #17a2b8, #117a8b) !important; }
+  .bg-secondary { background: linear-gradient(135deg, #6c757d, #545b62) !important; }
+  .bg-danger { background: linear-gradient(135deg, #dc3545, #bd2130) !important; }
+
+  // Responsive improvements
+  @media (max-width: 768px) {
+    .table-responsive {
+      font-size: 0.9rem;
+    }
+    
+    .btn-group {
+      flex-direction: column;
+      
+      .btn {
+        margin-bottom: 2px;
+        margin-right: 0;
+      }
+    }
+    
+    .row .col-md-2 {
+      margin-bottom: 1rem;
+    }
+  }
+
+  // Loading and error states
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  // Empty state
+  .fa-inbox {
+    opacity: 0.3;
+  }
+
+  // Badge improvements
+  .badge {
+    font-size: 0.85em;
+    padding: 0.5em 0.75em;
+    
+    &.bg-info {
+      background: linear-gradient(135deg, #17a2b8, #117a8b) !important;
+    }
+    
+    &.bg-secondary {
+      background: linear-gradient(135deg, #6c757d, #545b62) !important;
+    }
+  }
+
+  // Animation for status updates
+  .table tbody tr {
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+      background-color: rgba(0, 123, 255, 0.05);
+    }
+  }
+}

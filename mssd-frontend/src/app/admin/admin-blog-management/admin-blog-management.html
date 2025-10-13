@@ -1,0 +1,331 @@
+<div class="container-fluid p-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="h3 mb-0">
+      <i class="bi bi-journal-text me-2"></i>
+      Gestion des Articles de Blog
+    </h2>
+    <button class="btn btn-primary" (click)="showCreateForm()" [disabled]="loading">
+      <i class="bi bi-plus-circle me-2"></i>
+      Nouvel Article
+    </button>
+  </div>
+
+  <!-- Success/Error Messages -->
+  <div *ngIf="success" class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ success }}
+    <button type="button" class="btn-close" (click)="clearMessages()"></button>
+  </div>
+  
+  <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ error }}
+    <button type="button" class="btn-close" (click)="clearMessages()"></button>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card bg-primary text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h5 class="card-title">Total Articles</h5>
+              <h3 class="mb-0">{{ stats.total }}</h3>
+            </div>
+            <div class="align-self-center">
+              <i class="bi bi-journal-text fs-1"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h5 class="card-title">Articles Actifs</h5>
+              <h3 class="mb-0">{{ stats.active }}</h3>
+            </div>
+            <div class="align-self-center">
+              <i class="bi bi-eye fs-1"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card bg-warning text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h5 class="card-title">Articles Inactifs</h5>
+              <h3 class="mb-0">{{ stats.inactive }}</h3>
+            </div>
+            <div class="align-self-center">
+              <i class="bi bi-eye-slash fs-1"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-8">
+          <label for="search" class="form-label">Rechercher</label>
+          <input 
+            type="text" 
+            id="search"
+            class="form-control" 
+            placeholder="Rechercher par titre ou description..."
+            [(ngModel)]="searchTerm"
+            (input)="onSearchChange()">
+        </div>
+        <div class="col-md-4">
+          <label for="statusFilter" class="form-label">Statut</label>
+          <select 
+            id="statusFilter"
+            class="form-select" 
+            [(ngModel)]="statusFilter"
+            (change)="onStatusFilterChange()">
+            <option value="all">Tous les articles</option>
+            <option value="active">Articles actifs</option>
+            <option value="inactive">Articles inactifs</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blog Form Modal -->
+  <div class="modal" [class.show]="showForm" [style.display]="showForm ? 'block' : 'none'" *ngIf="showForm">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            {{ isEditing ? 'Modifier l\'Article' : 'Nouvel Article' }}
+          </h5>
+          <button type="button" class="btn-close" (click)="hideForm()"></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveBlog()" #blogFormRef="ngForm">
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <label for="title" class="form-label">Titre *</label>
+                <input 
+                  type="text" 
+                  id="title"
+                  class="form-control" 
+                  [(ngModel)]="blogForm.title"
+                  name="title"
+                  required
+                  placeholder="Titre de l'article">
+              </div>
+              
+              <div class="col-md-12 mb-3">
+                <label for="description" class="form-label">Description *</label>
+                <textarea 
+                  id="description"
+                  class="form-control" 
+                  rows="4"
+                  [(ngModel)]="blogForm.description"
+                  name="description"
+                  required
+                  placeholder="Description de l'article..."></textarea>
+              </div>
+              
+              <div class="col-md-12 mb-3">
+                <label for="youtubeUrl" class="form-label">URL YouTube</label>
+                <input 
+                  type="url" 
+                  id="youtubeUrl"
+                  class="form-control" 
+                  [(ngModel)]="blogForm.youtubeUrl"
+                  name="youtubeUrl"
+                  placeholder="https://www.youtube.com/watch?v=...">
+                <small class="form-text text-muted">
+                  Lien vers la vidéo YouTube de l'événement
+                </small>
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="publishDate" class="form-label">Date de Publication</label>
+                <input 
+                  type="datetime-local" 
+                  id="publishDate"
+                  class="form-control" 
+                  [(ngModel)]="blogForm.publishDate"
+                  name="publishDate">
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="image" class="form-label">Image</label>
+                <div class="input-group">
+                  <input 
+                    type="file" 
+                    id="image"
+                    class="form-control" 
+                    accept="image/*,image/jpeg,image/png,image/gif,image/webp"
+                    (change)="onImageSelected($event)"
+                    #fileInput>
+                  <button class="btn btn-outline-secondary" type="button" (click)="fileInput.click()">
+                    <i class="bi bi-folder2-open"></i> Parcourir
+                  </button>
+                </div>
+                <small class="form-text text-muted">
+                  Sélectionnez une image depuis votre ordinateur (JPG, PNG, GIF, WebP)
+                </small>
+                <div *ngIf="selectedImageFile" class="mt-2">
+                  <small class="text-success">
+                    <i class="bi bi-check-circle"></i> {{ selectedImageFile.name }}
+                  </small>
+                </div>
+              </div>
+              
+              <div class="col-md-12 mb-3">
+                <div class="form-check">
+                  <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    id="active"
+                    [(ngModel)]="blogForm.active"
+                    name="active">
+                  <label class="form-check-label" for="active">
+                    Publier l'article (visible sur le site)
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="hideForm()" [disabled]="loading">
+            Annuler
+          </button>
+          <button type="button" class="btn btn-primary" (click)="saveBlog()" [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+            {{ isEditing ? 'Mettre à Jour' : 'Créer' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="showForm"></div>
+
+  <!-- Blog List -->
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">
+        Articles de Blog ({{ filteredBlogs.length }})
+      </h5>
+    </div>
+    <div class="card-body">
+      
+      <!-- Loading Spinner -->
+      <div *ngIf="loading && !showForm" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && filteredBlogs.length === 0" class="text-center py-5">
+        <i class="bi bi-journal-x fs-1 text-muted mb-3"></i>
+        <h5 class="text-muted">Aucun article trouvé</h5>
+        <p class="text-muted">
+          {{ searchTerm || statusFilter !== 'all' ? 'Aucun article ne correspond aux critères de recherche.' : 'Commencez par créer votre premier article de blog.' }}
+        </p>
+        <button *ngIf="!searchTerm && statusFilter === 'all'" class="btn btn-primary" (click)="showCreateForm()">
+          <i class="bi bi-plus-circle me-2"></i>
+          Créer le Premier Article
+        </button>
+      </div>
+
+      <!-- Blog Table -->
+      <div *ngIf="!loading && filteredBlogs.length > 0" class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Article</th>
+              <th>Statut</th>
+              <th>Date de Publication</th>
+              <th>Média</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let blog of filteredBlogs" class="align-middle">
+              <td>
+                <div class="d-flex align-items-start">
+                  <img 
+                    [src]="getImageUrl(blog)" 
+                    alt="Image article"
+                    class="rounded me-3"
+                    style="width: 60px; height: 40px; object-fit: cover;"
+                    onerror="this.src='assets/img/blog/blog-default.jpg'">
+                  <div>
+                    <h6 class="mb-1 fw-bold">{{ blog.title }}</h6>
+                    <p class="mb-0 text-muted small">
+                      {{ blog.description.length > 100 ? (blog.description | slice:0:100) + '...' : blog.description }}
+                    </p>
+                    <small class="text-muted">
+                      Créé le {{ formatDate(blog.createdAt!) }}
+                    </small>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="badge" [class]="blog.active ? 'bg-success' : 'bg-secondary'">
+                  {{ blog.active ? 'Actif' : 'Inactif' }}
+                </span>
+              </td>
+              <td>
+                <small>{{ formatDate(blog.publishDate!) }}</small>
+              </td>
+              <td>
+                <div class="d-flex gap-1">
+                  <span *ngIf="blog.imageUrl" class="badge bg-info" title="Image disponible">
+                    <i class="bi bi-image"></i>
+                  </span>
+                  <span *ngIf="blog.youtubeUrl" class="badge bg-danger" title="Vidéo YouTube">
+                    <i class="bi bi-youtube"></i>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="btn-group btn-group-sm" role="group">
+                  <button 
+                    class="btn btn-outline-primary" 
+                    (click)="showEditForm(blog)"
+                    [disabled]="loading"
+                    title="Modifier">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button 
+                    class="btn" 
+                    [class]="blog.active ? 'btn-outline-warning' : 'btn-outline-success'"
+                    (click)="toggleBlogStatus(blog)"
+                    [disabled]="loading"
+                    [title]="blog.active ? 'Désactiver' : 'Activer'">
+                    <i class="bi" [class]="blog.active ? 'bi-eye-slash' : 'bi-eye'"></i>
+                  </button>
+                  <button 
+                    class="btn btn-outline-danger" 
+                    (click)="deleteBlog(blog)"
+                    [disabled]="loading"
+                    title="Supprimer">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

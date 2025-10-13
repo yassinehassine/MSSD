@@ -1,0 +1,34 @@
+
+@use 'sass:color';
+@use 'assets/css/_design-system.scss';
+
+/* Global styles for modern MSSD website */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Poppins', 'Roboto', Arial, sans-serif;
+  line-height: 1.6;
+  color: #222222;
+  background: #f8f9fa;
+}
+
+/* Bootstrap overrides for consistency */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
+}

@@ -1,0 +1,258 @@
+<!-- Annexes Request Form Section -->
+<section id="annexes-request" class="annexes-request section">
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Demande de Formation</h2>
+    <p>Remplissez le formulaire ci-dessous pour votre demande<br></p>
+  </div>
+
+  <div class="container">
+    <!-- Back Button -->
+    <div class="mb-4" data-aos="fade-up">
+      <button type="button" class="btn btn-outline-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-left me-2"></i>
+        Retour aux formations
+      </button>
+    </div>
+
+    <!-- Success Message -->
+    <div *ngIf="success" class="alert alert-success text-center" data-aos="fade-up" role="alert">
+      <i class="bi bi-check-circle-fill me-2"></i>
+      <strong>Demande envoyée avec succès !</strong>
+      <p class="mb-0 mt-2">Nous vous contacterons dans les plus brefs délais. Redirection en cours...</p>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error && !success" class="alert alert-danger" role="alert">
+      <i class="bi bi-exclamation-triangle me-2"></i>
+      {{ error }}
+    </div>
+
+    <!-- Request Form -->
+    <div *ngIf="!success" class="row justify-content-center" data-aos="fade-up">
+      <div class="col-lg-8">
+        <div class="form-container" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+          
+          <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+            
+            <!-- Part 1: Company Information -->
+            <div class="form-section mb-5">
+              <h4 class="section-title mb-4">
+                <i class="bi bi-building me-2 text-primary"></i>
+                Informations de l'entreprise
+              </h4>
+              
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="companyName" class="form-label">
+                    Nom de l'entreprise <span class="text-danger">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    id="companyName"
+                    class="form-control"
+                    [class.is-invalid]="isFieldInvalid('companyName')"
+                    formControlName="companyName"
+                    placeholder="Nom de votre entreprise">
+                  <div *ngIf="isFieldInvalid('companyName')" class="invalid-feedback">
+                    {{ getFieldError('companyName') }}
+                  </div>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="email" class="form-label">
+                    Email <span class="text-danger">*</span>
+                  </label>
+                  <input 
+                    type="email" 
+                    id="email"
+                    class="form-control"
+                    [class.is-invalid]="isFieldInvalid('email')"
+                    formControlName="email"
+                    placeholder="contact@entreprise.com">
+                  <div *ngIf="isFieldInvalid('email')" class="invalid-feedback">
+                    {{ getFieldError('email') }}
+                  </div>
+                </div>
+                
+                <div class="col-12 mb-3">
+                  <label for="phone" class="form-label">Téléphone</label>
+                  <input 
+                    type="tel" 
+                    id="phone"
+                    class="form-control"
+                    formControlName="phone"
+                    placeholder="+33 1 23 45 67 89">
+                </div>
+              </div>
+            </div>
+
+            <!-- Part 2: Training Selection -->
+            <div class="form-section mb-5">
+              <h4 class="section-title mb-4">
+                <i class="bi bi-mortarboard me-2 text-primary"></i>
+                Type de formation
+              </h4>
+              
+              <!-- Training Type Selection -->
+              <div class="mb-4">
+                <div class="form-check mb-3">
+                  <input 
+                    class="form-check-input" 
+                    type="radio" 
+                    id="existingTraining"
+                    [value]="false"
+                    formControlName="isCustom"
+                    (change)="onTrainingTypeChange()">
+                  <label class="form-check-label" for="existingTraining">
+                    <strong>Formation existante</strong>
+                    <br><small class="text-muted">Choisir parmi nos formations disponibles</small>
+                  </label>
+                </div>
+                
+                <div class="form-check">
+                  <input 
+                    class="form-check-input" 
+                    type="radio" 
+                    id="customTraining"
+                    [value]="true"
+                    formControlName="isCustom"
+                    (change)="onTrainingTypeChange()">
+                  <label class="form-check-label" for="customTraining">
+                    <strong>Formation sur mesure</strong>
+                    <br><small class="text-muted">Décrivez vos besoins spécifiques</small>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Existing Formation Selection -->
+              <div *ngIf="requestForm.get('isCustom')?.value === false" class="mb-3">
+                <label for="formationId" class="form-label">
+                  Sélectionner une formation <span class="text-danger">*</span>
+                </label>
+                <select 
+                  id="formationId"
+                  class="form-select"
+                  [class.is-invalid]="isFieldInvalid('formationId')"
+                  formControlName="formationId">
+                  <option value="">-- Choisir une formation --</option>
+                  <optgroup *ngFor="let group of getFormationsByTheme() | keyvalue" [label]="group.key">
+                    <option *ngFor="let formation of group.value" [value]="formation.id">
+                      {{ formation.title }} - {{ formation.price | currency:'EUR':'symbol':'1.0-0' }}
+                    </option>
+                  </optgroup>
+                </select>
+                <div *ngIf="isFieldInvalid('formationId')" class="invalid-feedback">
+                  {{ getFieldError('formationId') }}
+                </div>
+              </div>
+
+              <!-- Custom Training Description -->
+              <div *ngIf="requestForm.get('isCustom')?.value === true" class="mb-3">
+                <label for="customDescription" class="form-label">
+                  Décrivez la formation souhaitée <span class="text-danger">*</span>
+                </label>
+                <textarea 
+                  id="customDescription"
+                  class="form-control"
+                  [class.is-invalid]="isFieldInvalid('customDescription')"
+                  formControlName="customDescription"
+                  rows="4"
+                  placeholder="Décrivez en détail le type de formation que vous recherchez, les compétences à acquérir, les objectifs, etc."></textarea>
+                <div *ngIf="isFieldInvalid('customDescription')" class="invalid-feedback">
+                  {{ getFieldError('customDescription') }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Part 3: Common Fields -->
+            <div class="form-section mb-5">
+              <h4 class="section-title mb-4">
+                <i class="bi bi-gear me-2 text-primary"></i>
+                Détails de la formation
+              </h4>
+              
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="numParticipants" class="form-label">
+                    Nombre de participants <span class="text-danger">*</span>
+                  </label>
+                  <input 
+                    type="number" 
+                    id="numParticipants"
+                    class="form-control"
+                    [class.is-invalid]="isFieldInvalid('numParticipants')"
+                    formControlName="numParticipants"
+                    min="1"
+                    max="500">
+                  <div *ngIf="isFieldInvalid('numParticipants')" class="invalid-feedback">
+                    {{ getFieldError('numParticipants') }}
+                  </div>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                  <label for="modality" class="form-label">
+                    Modalité <span class="text-danger">*</span>
+                  </label>
+                  <select 
+                    id="modality"
+                    class="form-select"
+                    [class.is-invalid]="isFieldInvalid('modality')"
+                    formControlName="modality">
+                    <option value="">-- Choisir une modalité --</option>
+                    <option *ngFor="let option of modalityOptions" [value]="option.value">
+                      {{ option.label }}
+                    </option>
+                  </select>
+                  <div *ngIf="isFieldInvalid('modality')" class="invalid-feedback">
+                    {{ getFieldError('modality') }}
+                  </div>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                  <label for="preferredDate" class="form-label">
+                    Période souhaitée <span class="text-danger">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    id="preferredDate"
+                    class="form-control"
+                    [class.is-invalid]="isFieldInvalid('preferredDate')"
+                    formControlName="preferredDate"
+                    placeholder="Ex: Janvier 2024, Q1 2024, etc.">
+                  <div *ngIf="isFieldInvalid('preferredDate')" class="invalid-feedback">
+                    {{ getFieldError('preferredDate') }}
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="notes" class="form-label">Notes / Attentes particulières</label>
+                <textarea 
+                  id="notes"
+                  class="form-control"
+                  formControlName="notes"
+                  rows="3"
+                  placeholder="Informations complémentaires, attentes particulières, contraintes spécifiques..."></textarea>
+              </div>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="text-center">
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg px-5"
+                [disabled]="isSubmitting">
+                <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status">
+                  <span class="visually-hidden">Envoi en cours...</span>
+                </span>
+                <i *ngIf="!isSubmitting" class="bi bi-send me-2"></i>
+                {{ isSubmitting ? 'Envoi en cours...' : 'Envoyer la demande' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

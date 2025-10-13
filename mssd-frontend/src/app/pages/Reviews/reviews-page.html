@@ -1,0 +1,76 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Avis sur la formation</h2>
+
+  <!-- Liste des avis -->
+  <div *ngIf="reviews.length > 0; else noReviews">
+    <div *ngFor="let review of paginatedReviews" class="card mb-3 p-3 shadow-sm">
+      <div class="d-flex justify-content-between">
+        <strong>{{ review.authorName }}</strong>
+        <span class="badge bg-warning text-dark">{{ review.rating }}/5</span>
+      </div>
+      <p class="mt-2 mb-1">{{ review.comment }}</p>
+      <small class="text-muted">{{ review.createdAt | date: 'medium' }}</small>
+    </div>
+  </div>
+
+  <!-- Template si aucun avis -->
+  <ng-template #noReviews>
+    <p class="text-muted">Aucun avis pour cette formation pour le moment.</p>
+  </ng-template>
+
+  <hr class="my-4" />
+
+  <!-- Formulaire d'ajout -->
+  <h4>Ajouter un avis</h4>
+  <form (submit)="$event.preventDefault(); submitReview();" class="mt-3">
+    <input
+      [(ngModel)]="authorName"
+      name="authorName"
+      class="form-control mb-2"
+      placeholder="Votre nom"
+      required
+    />
+    <textarea
+      [(ngModel)]="comment"
+      name="comment"
+      class="form-control mb-2"
+      placeholder="Votre avis"
+      rows="3"
+      required
+    ></textarea>
+    <input
+      [(ngModel)]="rating"
+      name="rating"
+      type="number"
+      min="1"
+      max="5"
+      class="form-control mb-2"
+      placeholder="Note sur 5"
+      required
+    />
+    <button type="submit" class="btn btn-primary">Soumettre</button>
+  </form>
+
+  <!-- Alertes -->
+  <div *ngIf="submitSuccess" class="alert alert-success mt-3">
+    Avis ajouté avec succès !
+  </div>
+  <div *ngIf="submitError" class="alert alert-danger mt-3">
+    Une erreur est survenue. Merci de réessayer.
+  </div>
+
+  <!-- Pagination -->
+  <app-pagination 
+    [currentPage]="currentPage"
+    [totalItems]="totalItems"
+    [itemsPerPage]="itemsPerPage"
+    (pageChange)="onPageChange($event)"
+    *ngIf="reviews.length > itemsPerPage">
+  </app-pagination>
+
+  <div class="mt-4">
+    <button class="btn btn-outline-secondary" (click)="goBack()">
+      Retour aux services
+    </button>
+  </div>
+</div>

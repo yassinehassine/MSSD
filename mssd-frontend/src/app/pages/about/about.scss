@@ -1,0 +1,36 @@
+.about-mssd {
+	.about-card { background: #ffffff; }
+
+	.about-image {
+		min-height: 420px;
+		border-radius: 12px;
+		overflow: hidden;
+	}
+	.about-image img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+		max-height: none;
+		transform: scale(1.01);
+		transition: transform .4s ease;
+	}
+	.about-image:hover img { transform: scale(1.04); }
+
+	// Make the image column bigger on large screens
+	@media (min-width: 992px) {
+		.row > .col-lg-6:first-child { flex: 0 0 60%; max-width: 60%; }
+		.row > .col-lg-6:last-child { flex: 0 0 40%; max-width: 40%; }
+		.about-image { min-height: 600px; }
+	}
+
+	.btn-icon {
+		--size: 44px;
+		width: var(--size);
+		height: var(--size);
+		border-radius: 50%;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.15rem;
+	}
+}

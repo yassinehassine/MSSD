@@ -1,0 +1,230 @@
+<!-- Services Section -->
+<section id="services" class="services section">
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Services</h2>
+    <p>Check Our Services<br></p>
+  </div>
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-4 col-md-6" *ngFor="let formation of paginatedFormations" [attr.data-aos]="'fade-up'" [attr.data-aos-delay]="100 * (paginatedFormations.indexOf(formation) + 1)">
+        <div class="service-item position-relative">
+          <div class="text-center mb-3">
+            <img *ngIf="formation.imageUrl" [src]="formation.imageUrl" alt="Formation image" style="max-width: 100px; max-height: 60px; border-radius: 6px; border: 1px solid #eee; background: #fff;" />
+            <i *ngIf="!formation.imageUrl" class="bi bi-activity icon" style="font-size: 2rem;"></i>
+          </div>
+          <h3>{{ formation.title }}</h3>
+          <p>{{ formation.description }}</p>
+          <ul>
+            <li><b>Category:</b> {{ formation.category }}</li>
+            <li><b>Level:</b> {{ formation.level }}</li>
+            <li><b>Duration:</b> {{ formation.duration }}</li>
+            <li><b>Price:</b> {{ formation.price | currency }}</li>
+          </ul>
+          <form (ngSubmit)="submitBooking(formation.id, $event)" *ngIf="bookingStatus[formation.id] !== 'success'">
+            <div class="mb-2">
+              <input type="text" class="form-control" placeholder="Your Name" [(ngModel)]="bookingForms[formation.id].name" name="name-{{formation.id}}" required>
+            </div>
+            <div class="mb-2">
+              <input type="email" class="form-control" placeholder="Your Email" [(ngModel)]="bookingForms[formation.id].email" name="email-{{formation.id}}" required>
+            </div>
+            <div class="mb-2">
+              <input type="text" class="form-control" placeholder="Your Phone" [(ngModel)]="bookingForms[formation.id].phone" name="phone-{{formation.id}}" required>
+            </div>
+            <div class="mb-2">
+              <input type="text" class="form-control" placeholder="Your Company" [(ngModel)]="bookingForms[formation.id].company" name="company-{{formation.id}}" required>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" [disabled]="bookingStatus[formation.id] === 'submitting'">Book Now</button>
+            </div>
+            <div *ngIf="bookingStatus[formation.id] === 'submitting'" class="text-info mt-2">Submitting...</div>
+            <div *ngIf="bookingStatus[formation.id] === 'error'" class="text-danger mt-2">{{ bookingError[formation.id] }}</div>
+          </form>
+          <div *ngIf="bookingStatus[formation.id] === 'success'" class="alert alert-success mt-2">Booking successful! Thank you.</div>
+          <div class="text-center mt-2">
+            <button class="btn btn-outline-secondary" (click)="goToReviews(formation.id)">
+              View / Add Reviews
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Pagination -->
+    <app-pagination 
+      [currentPage]="currentPage"
+      [totalItems]="totalItems"
+      [itemsPerPage]="itemsPerPage"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
+  </div>
+</section>
+
+<!-- Custom Request Section for Visitors -->
+<section id="custom-request" class="custom-request section mt-5">
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Custom Request</h2>
+    <p>Didn't find what you need? Submit a custom request and we'll get back to you!</p>
+  </div>
+  <div class="container">
+    <form (ngSubmit)="submitCustomRequest($event)" #customRequestForm="ngForm" class="row g-3 justify-content-center">
+      <div class="col-md-6">
+        <input type="text" class="form-control mb-2" placeholder="Company Name" [(ngModel)]="customRequest.companyName" name="companyName" required>
+        <input type="text" class="form-control mb-2" placeholder="Contact Person" [(ngModel)]="customRequest.contactPerson" name="contactPerson" required>
+        <input type="email" class="form-control mb-2" placeholder="Email" [(ngModel)]="customRequest.email" name="email" required>
+        <input type="text" class="form-control mb-2" placeholder="Phone" [(ngModel)]="customRequest.phone" name="phone">
+        <input type="text" class="form-control mb-2" placeholder="Subject" [(ngModel)]="customRequest.subject" name="subject" required>
+        <textarea class="form-control mb-2" placeholder="Details" [(ngModel)]="customRequest.details" name="details" rows="3" required></textarea>
+        <input type="number" class="form-control mb-2" placeholder="Budget (optional)" [(ngModel)]="customRequest.budget" name="budget">
+        <input type="date" class="form-control mb-2" placeholder="Preferred Start Date (optional)" [(ngModel)]="customRequest.preferredStartDate" name="preferredStartDate">
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-primary" [disabled]="isSubmittingCustomRequest">Submit Request</button>
+        </div>
+        <div *ngIf="customRequestSuccess" class="alert alert-success mt-2">Your request has been submitted. Thank you!</div>
+        <div *ngIf="customRequestError" class="alert alert-danger mt-2">{{ customRequestError }}</div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="pricing section">
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Pricing</h2>
+    <p>Check Our Affordable Pricing<br></p>
+  </div>
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+        <div class="pricing-tem">
+          <h3 style="color: #20c997;">Free Plan</h3>
+          <div class="price"><sup>$</sup>0<span> / mo</span></div>
+          <div class="icon">
+            <i class="bi bi-box" style="color: #20c997;"></i>
+          </div>
+          <ul>
+            <li>Aida dere</li>
+            <li>Nec feugiat nisl</li>
+            <li>Nulla at volutpat dola</li>
+            <li class="na">Pharetra massa</li>
+            <li class="na">Massa ultricies mi</li>
+          </ul>
+          <a href="#" class="btn-buy">Buy Now</a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+        <div class="pricing-tem">
+          <span class="featured">Featured</span>
+          <h3 style="color: #0dcaf0;">Starter Plan</h3>
+          <div class="price"><sup>$</sup>19<span> / mo</span></div>
+          <div class="icon">
+            <i class="bi bi-send" style="color: #0dcaf0;"></i>
+          </div>
+          <ul>
+            <li>Aida dere</li>
+            <li>Nec feugiat nisl</li>
+            <li>Nulla at volutpat dola</li>
+            <li>Pharetra massa</li>
+            <li class="na">Massa ultricies mi</li>
+          </ul>
+          <a href="#" class="btn-buy">Buy Now</a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+        <div class="pricing-tem">
+          <h3 style="color: #fd7e14;">Business Plan</h3>
+          <div class="price"><sup>$</sup>29<span> / mo</span></div>
+          <div class="icon">
+            <i class="bi bi-airplane" style="color: #fd7e14;"></i>
+          </div>
+          <ul>
+            <li>Aida dere</li>
+            <li>Nec feugiat nisl</li>
+            <li>Nulla at volutpat dola</li>
+            <li>Pharetra massa</li>
+            <li>Massa ultricies mi</li>
+          </ul>
+          <a href="#" class="btn-buy">Buy Now</a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+        <div class="pricing-tem">
+          <h3 style="color: #0d6efd;">Ultimate Plan</h3>
+          <div class="price"><sup>$</sup>49<span> / mo</span></div>
+          <div class="icon">
+            <i class="bi bi-rocket" style="color: #0d6efd;"></i>
+          </div>
+          <ul>
+            <li>Aida dere</li>
+            <li>Nec feugiat nisl</li>
+            <li>Nulla at volutpat dola</li>
+            <li>Pharetra massa</li>
+            <li>Massa ultricies mi</li>
+          </ul>
+          <a href="#" class="btn-buy">Buy Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq" class="faq section">
+  <div class="container section-title" data-aos="fade-up">
+    <h2>F.A.Q</h2>
+    <p>Frequently Asked Questions</p>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="faq-container">
+          <div class="faq-item faq-active">
+            <h3>Non consectetur a erat nam at lectus urna duis?</h3>
+            <div class="faq-content">
+              <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
+            </div>
+            <i class="faq-toggle bi bi-chevron-right"></i>
+          </div>
+          <div class="faq-item">
+            <h3>Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?</h3>
+            <div class="faq-content">
+              <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
+            </div>
+            <i class="faq-toggle bi bi-chevron-right"></i>
+          </div>
+          <div class="faq-item">
+            <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
+            <div class="faq-content">
+              <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
+            </div>
+            <i class="faq-toggle bi bi-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="faq-container">
+          <div class="faq-item">
+            <h3>Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla?</h3>
+            <div class="faq-content">
+              <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
+            </div>
+            <i class="faq-toggle bi bi-chevron-right"></i>
+          </div>
+          <div class="faq-item">
+            <h3>Tempus quam pellentesque nec nam aliquam sem et tortor consequat?</h3>
+            <div class="faq-content">
+              <p>Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in</p>
+            </div>
+            <i class="faq-toggle bi bi-chevron-right"></i>
+          </div>
+          <div class="faq-item">
+            <h3>Perspiciatis quod quo quos nulla quo illum ullam?</h3>
+            <div class="faq-content">
+              <p>Enim ea facilis quaerat voluptas quidem et dolorem. Quis et consequatur non sed in suscipit sequi. Distinctio ipsam dolore et.</p>
+            </div>
+            <i class="faq-toggle bi bi-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

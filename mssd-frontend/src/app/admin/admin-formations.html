@@ -1,0 +1,195 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Manage Formations</h2>
+    <div class="btn-group">
+      <a class="btn btn-outline-primary" routerLink="/admin/themes">
+        <i class="fas fa-tags me-1"></i>
+        Gérer les Thèmes 
+      </a>
+      <button class="btn btn-success" (click)="startAdd()">
+        <i class="fas fa-plus me-1"></i>
+        Add New Formation
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="formError" class="alert alert-danger">{{ formError }}</div>
+  <div *ngIf="formSuccess" class="alert alert-success">{{ formSuccess }}</div>
+
+  <form (ngSubmit)="submitForm($event)" class="mb-4">
+    <div class="row g-2">
+      <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Title" [(ngModel)]="form.title" name="title" required>
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Slug" [(ngModel)]="form.slug" name="slug" required>
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Category" [(ngModel)]="form.category" name="category" required>
+      </div>
+      <div class="col-md-2">
+        <select class="form-select" [(ngModel)]="form.themeId" name="themeId">
+          <option [value]="undefined">Aucun thème</option>
+          <option *ngFor="let theme of themes" [value]="theme.id">{{ theme.name }}</option>
+        </select>
+      </div>
+      <div class="col-md-1">
+        <input type="number" class="form-control" placeholder="Price" [(ngModel)]="form.price" name="price" required min="0">
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Duration" [(ngModel)]="form.duration" name="duration" required>
+      </div>
+      <div class="col-md-2">
+        <input type="file" class="form-control" (change)="onImageSelected($event)" accept="image/*">
+        <div *ngIf="imageUploading" class="text-info small">Uploading...</div>
+        <div *ngIf="form.imageUrl && !imageUploading" class="mt-1">
+          <img [src]="form.imageUrl" alt="Image preview" style="max-width: 100px; max-height: 60px; border: 1px solid #ccc;">
+        </div>
+      </div>
+      <div class="col-md-2 mt-2">
+        <select class="form-select" [(ngModel)]="form.level" name="level" required>
+          <option value="BEGINNER">Beginner</option>
+          <option value="INTERMEDIATE">Intermediate</option>
+          <option value="EXPERT">Expert</option>
+        </select>
+      </div>
+      <div class="col-md-1 mt-2">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" [(ngModel)]="form.published" name="published" id="published">
+          <label class="form-check-label" for="published">Published</label>
+        </div>
+      </div>
+      <div class="col-md-2 mt-2">
+        <button type="submit" class="btn btn-primary">{{ editingId ? 'Update' : 'Add' }}</button>
+        <button *ngIf="editingId" type="button" class="btn btn-secondary ms-2" (click)="cancelEdit()">Cancel</button>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-12">
+        <textarea class="form-control" placeholder="Description" [(ngModel)]="form.description" name="description" rows="2"></textarea>
+      </div>
+    </div>
+  </form>
+
+  <div *ngIf="isLoading">Loading formations...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <table class="table table-bordered table-striped" *ngIf="!isLoading && formations.length">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Slug</th>
+        <th>Category</th>
+        <th>Theme</th>
+        <th>Price</th>
+        <th>Duration</th>
+        <th>Level</th>
+        <th>Published</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let f of formations">
+        <td>{{ f.title }}</td>
+        <td>{{ f.slug }}</td>
+        <td>{{ f.category }}</td>
+        <td>{{ f.theme?.name || 'Aucun thème' }}</td>
+        <td>{{ f.price | currency }}</td>
+        <td>{{ f.duration }}</td>
+        <td>{{ f.level }}</td>
+        <td>{{ f.published ? 'Yes' : 'No' }}</td>
+        <td>
+          <button class="btn btn-sm btn-info me-2" (click)="viewDetails(f)">
+            <i class="fas fa-eye me-1"></i>Details
+          </button>
+          <button class="btn btn-sm btn-primary me-2" (click)="startEdit(f)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteFormation(f.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="!isLoading && !formations.length" class="alert alert-info">No formations found.</div>
+</div>
+
+<!-- Modal pour afficher les détails de la formation -->
+<div class="modal fade show" *ngIf="showDetailsModal" style="display: block; background-color: rgba(0,0,0,0.5);" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-info-circle me-2"></i>
+          Détails de la Formation
+        </h5>
+        <button type="button" class="btn-close" (click)="closeDetailsModal()"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedFormation">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title text-primary">{{ selectedFormation.title }}</h4>
+                <div class="row mt-3">
+                  <div class="col-md-6">
+                    <p><strong>Slug:</strong> <code>{{ selectedFormation.slug }}</code></p>
+                    <p><strong>Catégorie:</strong> <span class="badge bg-secondary">{{ selectedFormation.category }}</span></p>
+                    <p><strong>Thème:</strong> 
+                      <span class="badge bg-info" *ngIf="selectedFormation.theme">{{ selectedFormation.theme.name }}</span>
+                      <span class="text-muted" *ngIf="!selectedFormation.theme">Aucun thème assigné</span>
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p><strong>Prix:</strong> <span class="text-success fw-bold">{{ selectedFormation.price | currency }}</span></p>
+                    <p><strong>Durée:</strong> {{ selectedFormation.duration }}</p>
+                    <p><strong>Niveau:</strong> 
+                      <span class="badge" [class]="'bg-' + (selectedFormation.level === 'BEGINNER' ? 'success' : selectedFormation.level === 'INTERMEDIATE' ? 'warning' : 'danger')">
+                        {{ selectedFormation.level }}
+                      </span>
+                    </p>
+                    <p><strong>Statut:</strong> 
+                      <span class="badge" [class]="selectedFormation.published ? 'bg-success' : 'bg-secondary'">
+                        {{ selectedFormation.published ? 'Publié' : 'Brouillon' }}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div class="mt-3" *ngIf="selectedFormation.description">
+                  <h6><strong>Description:</strong></h6>
+                  <p class="text-muted">{{ selectedFormation.description }}</p>
+                </div>
+                <div class="mt-3" *ngIf="selectedFormation.createdAt">
+                  <small class="text-muted">
+                    <i class="fas fa-calendar-plus me-1"></i>
+                    Créé le: {{ selectedFormation.createdAt | date:'dd/MM/yyyy à HH:mm' }}
+                  </small>
+                  <br *ngIf="selectedFormation.updatedAt">
+                  <small class="text-muted" *ngIf="selectedFormation.updatedAt">
+                    <i class="fas fa-calendar-edit me-1"></i>
+                    Modifié le: {{ selectedFormation.updatedAt | date:'dd/MM/yyyy à HH:mm' }}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4" *ngIf="selectedFormation.imageUrl">
+            <div class="card">
+              <img [src]="selectedFormation.imageUrl" [alt]="selectedFormation.title" class="card-img-top" style="max-height: 200px; object-fit: cover;">
+              <div class="card-body">
+                <p class="card-text"><small class="text-muted">Image de la formation</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="editFromModal(selectedFormation!)">
+          <i class="fas fa-edit me-1"></i>
+          Modifier
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="closeDetailsModal()">
+          <i class="fas fa-times me-1"></i>
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

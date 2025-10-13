@@ -1,0 +1,50 @@
+.theme-detail {
+  padding: 60px 0;
+}
+
+.formation-card {
+  transition: transform .2s ease, box-shadow .2s ease;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12) !important;
+  }
+}
+
+// Styles pour le modal de détails des formations
+.modal {
+  .modal-header {
+    background: linear-gradient(135deg, #007bff, #0056b3) !important;
+    border-bottom: none;
+  }
+  
+  .modal-body {
+    padding: 2rem;
+    
+    .info-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      
+      i {
+        width: 20px;
+        text-align: center;
+      }
+    }
+    
+    .alert-light {
+      background-color: #f8f9fa;
+      border-color: #e9ecef;
+    }
+  }
+  
+  .modal-footer {
+    border-top: 1px solid #e9ecef;
+    padding: 1rem 2rem;
+  }
+}
+
+// Animation pour les boutons de détails
+.btn-outline-primary:hover {
+  transform: translateY(-1px);
+  transition: transform 0.2s ease;
+}

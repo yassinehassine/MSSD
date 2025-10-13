@@ -1,0 +1,26 @@
+<div class="admin-contacts">
+  <h2>Contact Messages</h2>
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="error">{{ error }}</div>
+  <table *ngIf="!loading && !error && contacts.length > 0" class="contacts-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Subject</th>
+        <th>Message</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contact of contacts">
+        <td>{{ contact.fullName }}</td>
+        <td>{{ contact.email }}</td>
+        <td>{{ contact.phone }}</td>
+        <td>{{ contact.subject }}</td>
+        <td>{{ contact.message }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="!loading && !error && contacts.length === 0">No contacts found.</div>
+</div> 

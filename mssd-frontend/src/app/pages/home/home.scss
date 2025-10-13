@@ -1,0 +1,864 @@
+// Use modern styles
+// Import all styles
+@import './home-modern.scss';
+@import './home-events.scss';
+
+.quick-card {
+	border: 1px solid #eef0f4;
+	transition: transform .2s ease, box-shadow .2s ease;
+}
+.quick-card:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 8px 24px rgba(1,41,112,.08);
+}
+
+// Premium Horizontal Scrolling Portfolio Section - MSSD Colors
+/* Premium Portfolio Logos Section */
+.premium-logos-section {
+  padding: 100px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1;
+  }
+  
+  // Pause scrolling animation on hover anywhere in the section
+  &:hover .logo-track {
+    animation-play-state: paused !important;
+  }
+}
+
+.premium-logos-container {
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+}
+
+.premium-header {
+  text-align: center;
+  margin-bottom: 60px;
+  padding: 0 20px;
+}
+
+.premium-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 15px;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+.premium-subtitle {
+  font-size: 1.3rem;
+  color: rgba(255,255,255,0.9);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.infinite-scroll-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  
+  // Pause animation when hovering anywhere in the wrapper
+  &:hover .logo-track {
+    animation-play-state: paused;
+  }
+}
+
+.logo-track {
+  display: flex;
+  width: max-content;
+  gap: 60px;
+  padding: 40px 0;
+  
+  &.track-primary {
+    animation: scroll-left 40s linear infinite;
+  }
+}
+
+.logo-group {
+  display: flex;
+  gap: 60px;
+  flex-shrink: 0;
+}
+
+.premium-logo-card {
+  position: relative;
+  width: 400px;
+  height: 240px;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  overflow: hidden;
+  border: 5px solid #f8f9fa;
+  
+  &:hover {
+    transform: translateY(-20px) scale(1.1);
+    box-shadow: 0 30px 70px rgba(102, 126, 234, 0.4);
+    border-color: #667eea;
+    
+    .logo-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .premium-company-logo {
+      transform: scale(1.3);
+    }
+  }
+}
+
+.premium-company-logo {
+  max-width: 90%;
+  max-height: 75%;
+  object-fit: contain;
+  transition: all 0.5s ease;
+}
+
+.logo-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  padding: 15px 20px;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.client-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  display: block;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .premium-logo-card {
+    width: 320px;
+    height: 200px;
+  }
+  
+  .logo-track {
+    gap: 45px;
+  }
+  
+  .logo-group {
+    gap: 45px;
+  }
+  
+  .premium-title {
+    font-size: 2.5rem;
+  }
+  
+  .premium-subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-logo-card {
+    width: 280px;
+    height: 180px;
+  }
+  
+  .logo-track {
+    gap: 35px;
+  }
+  
+  .logo-group {
+    gap: 35px;
+  }
+  
+  .premium-title {
+    font-size: 2rem;
+  }
+}
+
+@keyframes backgroundFloat {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(30px, -30px) rotate(1deg); }
+  66% { transform: translate(-20px, 20px) rotate(-1deg); }
+}
+
+.premium-logos-container {
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+}
+
+// Section Header
+.premium-header {
+  text-align: center;
+  margin-bottom: 80px;
+  padding: 0 20px;
+}
+
+.premium-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #fecaca 50%, #dbeafe 100%); // White to light red to light blue
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.premium-subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+// Infinite Scrolling Container
+.infinite-scroll-wrapper {
+  position: relative;
+  overflow: hidden;
+  margin: 0 -20px;
+  
+  // Fade masks for seamless edges
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    z-index: 3;
+    pointer-events: none;
+  }
+  
+  &::before {
+    left: 0;
+    background: linear-gradient(90deg, #1e3a8a 0%, transparent 100%);
+  }
+  
+  &::after {
+    right: 0;
+    background: linear-gradient(270deg, #1e3a8a 0%, transparent 100%);
+  }
+}
+
+// Logo Tracks - Animation continues on hover
+.logo-track {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 40px;
+  
+  &.track-primary {
+    animation: scrollLeft 60s linear infinite;
+    // Keep animation running even on hover
+    animation-play-state: running !important;
+  }
+  
+
+  
+  // Override any hover pause states
+  &:hover {
+    animation-play-state: running !important;
+  }
+}
+
+.logo-group {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-shrink: 0;
+}
+
+// Premium Logo Cards - MSSD Colors & No Scroll Interruption
+.premium-logo-card {
+  position: relative;
+  flex-shrink: 0;
+  width: 200px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.1); // More prominent white background
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  
+  // MSSD Color glow effect
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg, 
+      rgba(220, 38, 38, 0.6) 0%,  // Red
+      rgba(255, 255, 255, 0.4) 50%, // White
+      rgba(30, 64, 175, 0.6) 100%  // Blue
+    );
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    -webkit-mask-composite: xor;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 80px rgba(220, 38, 38, 0.3), // Red glow
+      0 0 40px rgba(30, 64, 175, 0.2); // Blue glow
+    
+    &::before {
+      opacity: 1;
+    }
+    
+    .premium-company-logo {
+      transform: scale(1.1);
+    }
+    
+    .logo-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  // Ensure parent animation continues
+  &:hover .logo-track {
+    animation-play-state: running !important;
+  }
+}
+
+.premium-company-logo {
+  max-width: 160px;
+  max-height: 80px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 15px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.client-name {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  display: block;
+}
+
+// Scroll Animations
+@keyframes scrollLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+
+
+// Portfolio Stats
+.portfolio-stats {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  margin-top: 80px;
+  padding: 40px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #7877c6 0%, #ff6784 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .premium-logo-card {
+    width: 180px;
+    height: 110px;
+  }
+  
+  .logo-track {
+    gap: 30px;
+  }
+  
+  .logo-group {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .premium-logos-section {
+    padding: 80px 0 60px;
+  }
+  
+  .premium-header {
+    margin-bottom: 60px;
+  }
+  
+  .premium-logo-card {
+    width: 160px;
+    height: 100px;
+  }
+  
+  .premium-company-logo {
+    max-width: 130px;
+    max-height: 65px;
+  }
+  
+  .logo-track {
+    gap: 25px;
+    margin-bottom: 30px;
+    
+    &.track-primary {
+      animation-duration: 40s;
+    }
+    
+
+  }
+  
+  .logo-group {
+    gap: 25px;
+  }
+  
+  .portfolio-stats {
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 60px;
+  }
+  
+  .stat-number {
+    font-size: 2.5rem;
+  }
+  
+  .infinite-scroll-wrapper {
+    &::before,
+    &::after {
+      width: 100px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-logo-card {
+    width: 140px;
+    height: 90px;
+  }
+  
+  .premium-company-logo {
+    max-width: 110px;
+    max-height: 55px;
+  }
+  
+  .logo-track {
+    gap: 20px;
+  }
+  
+  .logo-group {
+    gap: 20px;
+  }
+}
+
+/* Portfolio Section - transparent so it doesn't cover following content */
+.portfolio-section {
+  padding: 60px 0;
+  background: transparent;
+  overflow: visible;
+  position: relative;
+  
+  &::before { display: none; }
+  
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.portfolio-scroll-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 60px;
+  z-index: 1;
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 120px;
+    z-index: 3;
+    pointer-events: none;
+  }
+  
+  &::before {
+    left: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, transparent 100%);
+  }
+  
+  &::after {
+    right: 0;
+    background: linear-gradient(-90deg, rgba(255, 255, 255, 0.95) 0%, transparent 100%);
+  }
+}
+.portfolio-track {
+  display: flex;
+  width: max-content;
+  animation: infiniteScroll 45s linear infinite;
+  position: relative;
+  z-index: 1;
+  
+  &.paused {
+    animation-play-state: paused;
+  }
+}
+
+.portfolio-group {
+  display: flex;
+  gap: 35px;
+  padding-right: 35px;
+}
+
+.portfolio-item {
+  flex-shrink: 0;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  &:hover {
+    transform: translateY(-10px) scale(1.02);
+  }
+}
+
+.portfolio-card {
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  padding: 30px 25px;
+  box-shadow: 
+    0 10px 40px rgba(30, 58, 138, 0.1),
+    0 4px 15px rgba(239, 68, 68, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  width: 300px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #1e3a8a, #3b82f6, #ef4444);
+    transition: left 0.5s ease;
+  }
+  
+  &:hover {
+    box-shadow: 
+      0 25px 50px rgba(30, 58, 138, 0.15),
+      0 10px 30px rgba(239, 68, 68, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    border-image: linear-gradient(45deg, #1e3a8a, #3b82f6, #ef4444) 1;
+    transform: translateY(-2px);
+    
+    &::before {
+      left: 0;
+    }
+    
+    .company-logo img {
+      transform: scale(1.15) rotate(2deg);
+    }
+    
+    .company-name {
+      color: #1e3a8a;
+    }
+    
+    .training-title {
+      color: #dc2626;
+    }
+  }
+}
+
+.company-logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 18px;
+  background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid transparent;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 3px;
+    background: linear-gradient(45deg, #1e3a8a, #3b82f6, #ef4444);
+    border-radius: inherit;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: subtract;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  
+  &:hover {
+    background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+    transform: scale(1.05);
+    
+    &::before {
+      opacity: 1;
+    }
+  }
+  
+  img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+  }
+}
+
+.portfolio-info {
+  .company-name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+    line-height: 1.3;
+    transition: all 0.3s ease;
+  }
+  
+  .training-title {
+    font-size: 0.95rem;
+    color: #475569;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .training-date {
+    font-size: 0.85rem;
+    background: linear-gradient(45deg, #dc2626, #ef4444);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* Portfolio Animations */
+@keyframes infiniteScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Section Titles - Brand Colors */
+.section-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #1e3a8a 0%, #3b82f6 50%, #dc2626 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite;
+  margin-bottom: 1rem;
+  text-align: center;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #1e3a8a, #3b82f6, #ef4444);
+    border-radius: 2px;
+  }
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: #475569;
+  font-weight: 500;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .portfolio-section {
+    padding: 60px 0;
+  }
+  
+  .portfolio-card {
+    width: 240px;
+    height: 180px;
+    padding: 20px;
+  }
+  
+  .company-logo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 12px;
+  }
+  
+  .portfolio-info .company-name {
+    font-size: 1rem;
+  }
+  
+  .portfolio-track {
+    animation-duration: 40s;
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-card {
+    width: 200px;
+    height: 160px;
+    padding: 15px;
+  }
+  
+  .company-logo {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .portfolio-group {
+    gap: 20px;
+    padding-right: 20px;
+  }
+}

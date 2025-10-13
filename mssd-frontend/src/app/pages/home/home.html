@@ -1,0 +1,263 @@
+<!-- Modern Hero Section -->
+<section class="hero-modern">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="row align-items-center min-vh-100">
+      <div class="col-lg-6 fade-in">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            {{ t('home.hero.title') || 'Excellence en Formation Professionnelle' }}
+          </h1>
+          <p class="hero-subtitle">
+            {{ t('home.hero.subtitle') || 'Développez vos compétences avec nos formations certifiantes adaptées aux besoins actuels du marché' }}
+          </p>
+          <div class="hero-actions">
+            <a routerLink="/annexes" class="btn-primary">
+              <i class="bi bi-rocket-takeoff"></i>
+              {{ t('home.hero.discover-formations') || 'Découvrir nos formations' }}
+            </a>
+            <a routerLink="/contact" class="btn-secondary">
+              <i class="bi bi-chat-dots"></i>
+              {{ t('home.hero.contact-us') || 'Nous contacter' }}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 fade-in" style="animation-delay: 0.3s">
+        <div class="hero-visual">
+          <div class="hero-card">
+            <img ngSrc="assets/img/hero-img.png" class="hero-image" alt="Formation professionnelle"
+                 onerror="this.src='assets/img/logo1.png'" height="438" width="539">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- À Propos Section -->
+<section class="about-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 fade-in">
+        <div class="about-content">
+          <h2 class="section-title">
+            {{ t('home.about.title') || 'À Propos de MSSD' }}
+          </h2>
+          <p class="section-subtitle">
+            {{ t('home.about.description') || 'Leader en formation professionnelle, nous accompagnons entreprises et particuliers dans leur développement de compétences depuis plus de 10 ans.' }}
+          </p>
+          <div class="features-list">
+            <div class="feature-item">
+              <i class="bi bi-check-circle-fill text-primary"></i>
+              <span>Formation certifiante reconnue</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-check-circle-fill text-primary"></i>
+              <span>Formateurs experts métier</span>
+            </div>
+            <div class="feature-item">
+              <i class="bi bi-check-circle-fill text-primary"></i>
+              <span>Accompagnement personnalisé</span>
+            </div>
+          </div>
+          <a routerLink="/about" class="btn-primary mt-4">
+            {{ t('home.about.learn-more') || 'En savoir plus' }}
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-6 fade-in" style="animation-delay: 0.2s">
+        <div class="about-visual">
+          <img ngSrc="assets/img/about.jpg" class="about-image" alt="À propos MSSD"
+               onerror="this.src='assets/img/logo1.png'" height="600" width="800">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Portfolio Section -->
+<section class="portfolio-section">
+  <div class="container">
+    <div class="text-center mb-5 fade-in">
+      <h2 class="section-title">{{ t('home.portfolio.title') || 'Nos Réalisations' }}</h2>
+      <p class="section-subtitle">{{ t('home.portfolio.subtitle') || 'Découvrez les entreprises qui nous ont fait confiance' }}</p>
+    </div>
+  </div>
+
+  <!-- Portfolio Cards (from backoffice portfolios) -->
+  <div class="portfolio-scroll-wrapper"
+       (mouseenter)="pausePortfolioScroll()"
+       (mouseleave)="resumePortfolioScroll()">
+    <div class="portfolio-track" [class.paused]="isPortfolioScrollPaused">
+      <div class="portfolio-group" *ngFor="let _ of [1,2,3]">
+        <div class="portfolio-item"
+             *ngFor="let portfolio of portfolios"
+             (mouseenter)="pausePortfolioScroll()"
+             (mouseleave)="resumePortfolioScroll()">
+          <div class="portfolio-card">
+            <div class="company-logo"
+                 (mouseenter)="pausePortfolioScroll()"
+                 (mouseleave)="resumePortfolioScroll()">
+              <img [src]="getPortfolioImageUrl(portfolio)"
+                   [alt]="portfolio.companyName"
+                   [title]="portfolio.companyName"
+                   onerror="this.src='assets/img/logo1.png'">
+            </div>
+            <div class="portfolio-info">
+              <h4 class="company-name">{{ portfolio.companyName }}</h4>
+              <p class="training-title">{{ portfolio.trainingTitle }}</p>
+              <span class="training-date" *ngIf="portfolio.trainingDate">{{ portfolio.trainingDate | date:'MMM yyyy' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Formations Populaires Section -->
+<section class="formations-section">
+  <div class="container">
+    <div class="text-center mb-5 fade-in">
+      <h2 class="section-title">{{ t('home.formations.title') || 'Nos Formations Populaires' }}</h2>
+      <p class="section-subtitle">{{ t('home.formations.subtitle') || 'Développez vos compétences avec nos formations les plus demandées' }}</p>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mb-4 fade-in">
+        <div class="formation-card">
+          <div class="formation-icon">
+            <i class="bi bi-people"></i>
+          </div>
+          <h4>Leadership & Management</h4>
+          <p>Développez vos compétences managériales et apprenez à diriger efficacement vos équipes.</p>
+          <div class="formation-features">
+            <span class="feature-tag">Certifiant</span>
+            <span class="feature-tag">2 jours</span>
+          </div>
+          <a routerLink="/annexes" class="btn-outline">En savoir plus</a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 mb-4 fade-in" style="animation-delay: 0.1s">
+        <div class="formation-card">
+          <div class="formation-icon">
+            <i class="bi bi-graph-up"></i>
+          </div>
+          <h4>Marketing Digital</h4>
+          <p>Maîtrisez les outils et stratégies du marketing digital pour booster votre visibilité en ligne.</p>
+          <div class="formation-features">
+            <span class="feature-tag">Certifiant</span>
+            <span class="feature-tag">3 jours</span>
+          </div>
+          <a routerLink="/annexes" class="btn-outline">En savoir plus</a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 mb-4 fade-in" style="animation-delay: 0.2s">
+        <div class="formation-card">
+          <div class="formation-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h4>Qualité & Processus</h4>
+          <p>Optimisez vos processus et implémentez une démarche qualité dans votre organisation.</p>
+          <div class="formation-features">
+            <span class="feature-tag">Certifiant</span>
+            <span class="feature-tag">2 jours</span>
+          </div>
+          <a routerLink="/annexes" class="btn-outline">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4 fade-in" style="animation-delay: 0.3s">
+      <a routerLink="/annexes" class="btn-primary">
+        <i class="bi bi-collection"></i>
+        Voir toutes nos formations
+      </a>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Call-to-Action Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-8 fade-in">
+        <h2 class="cta-title">{{ t('home.cta.title') || 'Prêt à développer vos compétences ?' }}</h2>
+        <p class="cta-subtitle">{{ t('home.cta.subtitle') || 'Contactez-nous dès aujourd\'hui pour discuter de vos besoins en formation et obtenir un devis personnalisé.' }}</p>
+      </div>
+      <div class="col-lg-4 text-lg-end fade-in" style="animation-delay: 0.2s">
+        <a routerLink="/annexes/request" class="btn-secondary btn-lg">
+          <i class="bi bi-send"></i>
+          {{ t('home.cta.button') || 'Demander un devis' }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Upcoming Events Section -->
+<section class="events-section">
+  <div class="container">
+    <div class="text-center mb-5 fade-in">
+      <h2 class="section-title">{{ t('home.events.title') || 'Événements à venir' }}</h2>
+      <p class="section-subtitle">{{ t('home.events.subtitle') || 'Participez à nos prochains événements et ateliers' }}</p>
+    </div>
+    
+    <div *ngIf="paginatedEvents.length === 0" class="text-center py-5">
+      <i class="bi bi-calendar-x fa-3x text-muted mb-3" style="font-size: 3rem;"></i>
+      <p class="text-muted">Aucun événement à venir pour le moment.</p>
+    </div>
+    
+    <div class="row gy-4" *ngIf="paginatedEvents.length > 0">
+      <div class="col-lg-4 col-md-4 col-sm-12 fade-in" *ngFor="let event of paginatedEvents; let i = index" [style.animation-delay]="(i * 0.1) + 's'">
+        <div class="event-card">
+          <div class="event-date-badge">
+            <span class="day">{{ event.startTime | date:'dd' }}</span>
+            <span class="month">{{ event.startTime | date:'MMM' }}</span>
+            <span class="year">{{ event.startTime | date:'yyyy' }}</span>
+          </div>
+          <div class="event-content">
+            <h4 class="event-title">{{ event.title }}</h4>
+            <p class="event-time">
+              <i class="bi bi-clock"></i> {{ event.startTime | date:'HH:mm' }}
+            </p>
+            <p class="event-description">{{ event.description }}</p>
+            <div class="event-meta">
+              <div class="meta-item">
+                <i class="bi bi-geo-alt"></i>
+                <span>{{ event.location }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="bi bi-people"></i>
+                <span>{{ event.availableSpots || event.maxCapacity || 'N/A' }} places</span>
+              </div>
+            </div>
+            <a routerLink="/calendar" class="btn-view-event">
+              Voir détails <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="text-center mt-5" *ngIf="paginatedEvents.length > 0">
+      <div class="pagination-controls">
+        <button class="btn-pagination" [disabled]="eventsCurrentPage === 1" (click)="onEventsPageChange(eventsCurrentPage - 1)">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <span class="page-info">Page {{ eventsCurrentPage }} / {{ totalEventPages }}</span>
+        <button class="btn-pagination" [disabled]="eventsCurrentPage >= totalEventPages" (click)="onEventsPageChange(eventsCurrentPage + 1)">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

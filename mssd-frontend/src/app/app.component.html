@@ -1,0 +1,114 @@
+<!-- Main Content -->
+<main class="main">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Modern Footer -->
+<footer class="footer-modern">
+  <div class="container">
+    <div class="row">
+      <!-- Company Info -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="footer-section">
+          <div class="footer-brand">
+            <img src="./assets/img/logo1.png" alt="MSSD Logo" class="footer-logo" onerror="this.style.display='none';">
+            <h4>MSSD</h4>
+          </div>
+          <p class="footer-description">
+            Expert en formation professionnelle, nous accompagnons les entreprises et particuliers dans le développement de leurs compétences depuis plus de 10 ans.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Facebook">
+              <i class="bi bi-facebook"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+              <i class="bi bi-linkedin"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter">
+              <i class="bi bi-twitter"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <i class="bi bi-instagram"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-lg-2 col-md-6 mb-4">
+        <div class="footer-section">
+          <h5 class="footer-title">Navigation</h5>
+          <ul class="footer-links">
+            <li><a routerLink="/home">Accueil</a></li>
+            <li><a routerLink="/about">À propos</a></li>
+            <li><a routerLink="/annexes">Formations</a></li>
+            <li><a routerLink="/services">Services</a></li>
+            <li><a routerLink="/portfolio">Portfolio</a></li>
+            <li><a routerLink="/blog">Blog</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="footer-section">
+          <h5 class="footer-title">Nos Services</h5>
+          <ul class="footer-links">
+            <li><a href="#">Formation Leadership</a></li>
+            <li><a href="#">Marketing Digital</a></li>
+            <li><a href="#">Qualité & Processus</a></li>
+            <li><a href="#">Coaching Professionnel</a></li>
+            <li><a href="#">Consulting</a></li>
+            <li><a routerLink="/annexes/request">Demander un devis</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="footer-section">
+          <h5 class="footer-title">Contact</h5>
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="bi bi-geo-alt"></i>
+              <span>123 Rue de la Formation<br>75001 Paris, France</span>
+            </div>
+            <div class="contact-item">
+              <i class="bi bi-telephone"></i>
+              <span>+33 1 23 45 67 89</span>
+            </div>
+            <div class="contact-item">
+              <i class="bi bi-envelope"></i>
+              <span>contact&#64;mssd.fr</span>
+            </div>
+            <div class="contact-item">
+              <i class="bi bi-clock"></i>
+              <span>Lun - Ven: 9h00 - 18h00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p class="copyright">© 2024 MSSD. Tous droits réservés.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <div class="footer-bottom-links">
+            <a href="#">Politique de confidentialité</a>
+            <a href="#">Conditions d'utilisation</a>
+            <a href="#">Mentions légales</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll to Top Button -->
+<button class="scroll-to-top" (click)="scrollToTop()" [class.visible]="showScrollTop">
+  <i class="bi bi-arrow-up"></i>
+</button>
