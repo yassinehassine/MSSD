@@ -1,0 +1,70 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Gestion des avis</h1>
+    <p class="page-subtitle">Consultez et modérez les avis laissés sur vos formations</p>
+  </div>
+  <div class="header-meta" *ngIf="reviews.length > 0">
+    <span class="badge-count">{{ reviews.length }} avis</span>
+  </div>
+</div>
+
+<!-- Error -->
+<div *ngIf="error" class="admin-alert admin-alert-error">
+  <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+</div>
+
+<!-- Empty -->
+<div *ngIf="!error && reviews.length === 0" class="admin-empty">
+  <i class="bi bi-star"></i>
+  <h4>Aucun avis</h4>
+  <p>Les avis sur vos formations apparaîtront ici.</p>
+</div>
+
+<!-- Table -->
+<div *ngIf="reviews.length > 0" class="admin-table-card">
+  <div class="table-responsive">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Formation</th>
+          <th>Auteur</th>
+          <th>Note</th>
+          <th>Commentaire</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let review of reviews">
+          <td><span class="cell-id">#{{ review.id }}</span></td>
+          <td><span class="cell-name">{{ review.formationTitle }}</span></td>
+          <td>
+            <div class="cell-user">
+              <div class="cell-avatar">{{ review.authorName?.charAt(0)?.toUpperCase() || '?' }}</div>
+              <span>{{ review.authorName }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="cell-rating">
+              <span class="stars">
+                <i *ngFor="let s of [1,2,3,4,5]" class="bi"
+                   [class.bi-star-fill]="s <= review.rating"
+                   [class.bi-star]="s > review.rating"></i>
+              </span>
+              <span class="rating-num">{{ review.rating }}/5</span>
+            </div>
+          </td>
+          <td><span class="cell-message">{{ review.comment }}</span></td>
+          <td><span class="cell-date">{{ review.createdAt | date:'dd/MM/yyyy' }}</span></td>
+          <td>
+            <button class="btn-delete" (click)="deleteReview(review.id)" title="Supprimer">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

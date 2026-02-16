@@ -1,0 +1,307 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Demandes de formation</h1>
+    <p class="page-subtitle">Gérez toutes les demandes de formation de manière centralisée</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn-outline" (click)="exportRequests()">
+      <i class="bi bi-download"></i> Exporter
+    </button>
+    <button class="btn-primary-admin" (click)="loadRequests()">
+      <i class="bi bi-arrow-clockwise"></i> Actualiser
+    </button>
+  </div>
+</div>
+
+<!-- Stats Grid -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon" style="color: #002b6c; background: #e8eef6;"><i class="bi bi-list-check"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ stats.total }}</span>
+      <span class="stat-label">Total</span>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="color: #f59e0b; background: #fefce8;"><i class="bi bi-hourglass-split"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ stats.pending }}</span>
+      <span class="stat-label">En attente</span>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="color: #10b981; background: #ecfdf5;"><i class="bi bi-check-lg"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ stats.approved }}</span>
+      <span class="stat-label">Approuvées</span>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="color: #3b82f6; background: #eff6ff;"><i class="bi bi-play-fill"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ stats.inProgress }}</span>
+      <span class="stat-label">En cours</span>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="color: #64748b; background: #f1f5f9;"><i class="bi bi-check-all"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ stats.completed }}</span>
+      <span class="stat-label">Terminées</span>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="color: #ef4444; background: #fef2f2;"><i class="bi bi-x-lg"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ stats.rejected }}</span>
+      <span class="stat-label">Rejetées</span>
+    </div>
+  </div>
+</div>
+
+<!-- Filters -->
+<div class="filter-card">
+  <div class="filter-grid">
+    <div class="form-group">
+      <label>Rechercher</label>
+      <input type="text" placeholder="Entreprise, email, formation..."
+             [(ngModel)]="searchTerm" (input)="onSearchChange()">
+    </div>
+    <div class="form-group">
+      <label>Statut</label>
+      <select [(ngModel)]="statusFilter" (change)="onFilterChange()">
+        <option value="">Tous</option>
+        <option value="PENDING">En attente</option>
+        <option value="APPROVED">Approuvées</option>
+        <option value="IN_PROGRESS">En cours</option>
+        <option value="COMPLETED">Terminées</option>
+        <option value="REJECTED">Rejetées</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Modalité</label>
+      <select [(ngModel)]="modalityFilter" (change)="onFilterChange()">
+        <option value="">Toutes</option>
+        <option value="IN_PERSON">Présentiel</option>
+        <option value="REMOTE">À distance</option>
+        <option value="HYBRID">Hybride</option>
+      </select>
+    </div>
+    <div class="form-group filter-meta">
+      <label>&nbsp;</label>
+      <div class="filter-actions">
+        <span class="badge-count">{{ filteredRequests.length }} résultat(s)</span>
+        <button class="btn-text" (click)="clearFilters()">
+          <i class="bi bi-x-circle"></i> Effacer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading -->
+<div *ngIf="loading" class="admin-loading">
+  <div class="spinner"></div>
+  <span>Chargement des demandes...</span>
+</div>
+
+<!-- Error -->
+<div *ngIf="error && !loading" class="admin-alert admin-alert-error">
+  <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+</div>
+
+<!-- Empty -->
+<div *ngIf="!loading && !error && filteredRequests.length === 0" class="admin-empty">
+  <i class="bi bi-inbox"></i>
+  <h4>Aucune demande trouvée</h4>
+  <p>{{ searchTerm || statusFilter || modalityFilter || typeFilter ? 'Essayez de modifier vos filtres.' : 'Aucune demande de formation enregistrée.' }}</p>
+</div>
+
+<!-- Table -->
+<div *ngIf="!loading && !error && filteredRequests.length > 0" class="admin-table-card">
+  <div class="table-responsive">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Entreprise</th>
+          <th>Contact</th>
+          <th>Formation</th>
+          <th>Participants</th>
+          <th>Modalité</th>
+          <th>Date</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of filteredRequests">
+          <td>
+            <div class="cell-company">
+              <div class="cell-avatar"><i class="bi bi-building"></i></div>
+              <div>
+                <span class="cell-name">{{ request.companyName }}</span>
+                <span class="cell-meta" *ngIf="request.phone"><i class="bi bi-telephone"></i> {{ request.phone }}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="cell-meta"><i class="bi bi-envelope"></i> {{ request.email }}</span>
+          </td>
+          <td>
+            <div *ngIf="!request.isCustom" class="cell-formation-type">
+              <i class="bi bi-mortarboard"></i>
+              <strong>{{ request.formationTitle }}</strong>
+            </div>
+            <div *ngIf="request.isCustom" class="cell-formation-type custom">
+              <i class="bi bi-gear"></i>
+              <strong>Personnalisée</strong>
+              <span class="cell-meta">{{ request.customDescription | slice:0:50 }}{{ request.customDescription && request.customDescription.length > 50 ? '...' : '' }}</span>
+            </div>
+          </td>
+          <td>
+            <span class="badge-count"><i class="bi bi-people"></i> {{ request.numParticipants }}</span>
+          </td>
+          <td>
+            <span class="cell-badge">{{ getModalityLabel(request.modality) }}</span>
+          </td>
+          <td>
+            <div>{{ request.createdAt | date:'dd/MM/yyyy' }}</div>
+            <span class="cell-meta">{{ request.createdAt | date:'HH:mm' }}</span>
+          </td>
+          <td>
+            <span class="status-badge" [attr.data-status]="request.status">
+              {{ getStatusLabel(request.status) }}
+            </span>
+          </td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-action" (click)="viewDetails(request)" title="Détails">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button class="btn-action" (click)="openStatusModal(request)" title="Statut">
+                <i class="bi bi-pencil"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal-overlay" *ngIf="showDetailsModal" (click)="closeDetailsModal()">
+  <div class="modal-card modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-card-header">
+      <h5><i class="bi bi-info-circle"></i> Détails de la demande</h5>
+      <button class="modal-close" (click)="closeDetailsModal()">&times;</button>
+    </div>
+    <div class="modal-card-body" *ngIf="selectedRequest">
+      <div class="detail-section">
+        <h6><i class="bi bi-building"></i> Entreprise</h6>
+        <div class="detail-row">
+          <div class="detail-item">
+            <span class="detail-label">Entreprise</span>
+            <span class="detail-value">{{ selectedRequest.companyName }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Email</span>
+            <span class="detail-value">{{ selectedRequest.email }}</span>
+          </div>
+        </div>
+        <div class="detail-item" *ngIf="selectedRequest.phone">
+          <span class="detail-label">Téléphone</span>
+          <span class="detail-value">{{ selectedRequest.phone }}</span>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h6><i class="bi bi-mortarboard"></i> Formation</h6>
+        <div class="detail-row">
+          <div class="detail-item">
+            <span class="detail-label">Type</span>
+            <span class="cell-badge" *ngIf="!selectedRequest.isCustom">Standard</span>
+            <span class="cell-badge custom" *ngIf="selectedRequest.isCustom">Personnalisée</span>
+          </div>
+          <div class="detail-item" *ngIf="!selectedRequest.isCustom">
+            <span class="detail-label">Formation</span>
+            <span class="detail-value">{{ selectedRequest.formationTitle }}</span>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-item">
+            <span class="detail-label">Participants</span>
+            <span class="detail-value">{{ selectedRequest.numParticipants }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Modalité</span>
+            <span class="detail-value">{{ getModalityLabel(selectedRequest.modality) }}</span>
+          </div>
+        </div>
+        <div class="detail-item" *ngIf="selectedRequest.preferredDate">
+          <span class="detail-label">Date souhaitée</span>
+          <span class="detail-value">{{ selectedRequest.preferredDate }}</span>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="selectedRequest.isCustom && selectedRequest.customDescription">
+        <h6><i class="bi bi-card-text"></i> Description personnalisée</h6>
+        <p class="detail-desc">{{ selectedRequest.customDescription }}</p>
+      </div>
+
+      <div class="detail-section" *ngIf="selectedRequest.notes">
+        <h6><i class="bi bi-sticky"></i> Notes</h6>
+        <p class="detail-desc">{{ selectedRequest.notes }}</p>
+      </div>
+
+      <div class="detail-footer">
+        <span class="status-badge" [attr.data-status]="selectedRequest.status">{{ getStatusLabel(selectedRequest.status) }}</span>
+        <span class="detail-date">Créée le {{ selectedRequest.createdAt | date:'dd/MM/yyyy à HH:mm' }}</span>
+        <span class="detail-date" *ngIf="selectedRequest.updatedAt"> · Modifiée le {{ selectedRequest.updatedAt | date:'dd/MM/yyyy à HH:mm' }}</span>
+      </div>
+    </div>
+    <div class="modal-card-footer">
+      <button class="btn-cancel" (click)="closeDetailsModal()">Fermer</button>
+      <button class="btn-primary-admin" (click)="openStatusModal(selectedRequest!)">
+        <i class="bi bi-pencil"></i> Changer le statut
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Status Modal -->
+<div class="modal-overlay" *ngIf="showStatusModal" (click)="closeStatusModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-card-header">
+      <h5><i class="bi bi-arrow-repeat"></i> Modifier le statut</h5>
+      <button class="modal-close" (click)="closeStatusModal()">&times;</button>
+    </div>
+    <div class="modal-card-body" *ngIf="selectedRequest">
+      <div class="status-context">
+        <strong>{{ selectedRequest.companyName }}</strong>
+        <span class="cell-meta">{{ selectedRequest.isCustom ? 'Formation personnalisée' : selectedRequest.formationTitle }}</span>
+      </div>
+      <div class="form-group">
+        <label>Nouveau statut</label>
+        <select [(ngModel)]="newStatus">
+          <option value="PENDING">En attente</option>
+          <option value="APPROVED">Approuvée</option>
+          <option value="IN_PROGRESS">En cours</option>
+          <option value="COMPLETED">Terminée</option>
+          <option value="REJECTED">Rejetée</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-top: 1rem;">
+        <label>Note (optionnel)</label>
+        <textarea [(ngModel)]="statusNote" rows="3" placeholder="Ajoutez une note..."></textarea>
+      </div>
+    </div>
+    <div class="modal-card-footer">
+      <button class="btn-cancel" (click)="closeStatusModal()">Annuler</button>
+      <button class="btn-primary-admin" (click)="updateStatus()">
+        <i class="bi bi-check-lg"></i> Mettre à jour
+      </button>
+    </div>
+  </div>
+</div>

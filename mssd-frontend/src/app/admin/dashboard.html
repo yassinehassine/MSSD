@@ -1,0 +1,126 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Tableau de bord</h1>
+    <p class="page-subtitle">Bienvenue dans votre espace d'administration</p>
+  </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="stats-grid">
+  <div class="stat-card stat-primary">
+    <div class="stat-icon"><i class="bi bi-tags-fill"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ loading ? '—' : themeStats.total }}</span>
+      <span class="stat-label">Thèmes</span>
+    </div>
+    <a class="stat-link" routerLink="/admin/themes">Gérer <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <div class="stat-card stat-success">
+    <div class="stat-icon"><i class="bi bi-check-circle-fill"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ loading ? '—' : themeStats.active }}</span>
+      <span class="stat-label">Thèmes actifs</span>
+    </div>
+    <a class="stat-link" routerLink="/annexes">Voir le catalogue <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <div class="stat-card stat-info">
+    <div class="stat-icon"><i class="bi bi-mortarboard-fill"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ loading ? '—' : themeStats.totalFormations }}</span>
+      <span class="stat-label">Formations</span>
+    </div>
+    <a class="stat-link" routerLink="/admin/formations">Gérer <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <div class="stat-card stat-warning">
+    <div class="stat-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ loading ? '—' : (contactCount ?? '—') }}</span>
+      <span class="stat-label">Messages</span>
+    </div>
+    <a class="stat-link" routerLink="/admin/contacts">Voir <i class="bi bi-arrow-right"></i></a>
+  </div>
+</div>
+
+<!-- Quick Access Section -->
+<div class="dashboard-grid">
+  <!-- Themes Quick Access -->
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <h3><i class="bi bi-tags-fill"></i> Thèmes récents</h3>
+      <a class="btn-dash" routerLink="/admin/themes"><i class="bi bi-plus-lg"></i> Nouveau</a>
+    </div>
+    <div class="dash-card-body">
+      <div *ngIf="loading" class="dash-loading">
+        <div class="spinner"></div>
+        <span>Chargement...</span>
+      </div>
+
+      <div *ngIf="!loading && themes.length === 0" class="dash-empty">
+        <i class="bi bi-tags"></i>
+        <p>Aucun thème créé</p>
+        <a class="btn-dash-primary" routerLink="/admin/themes"><i class="bi bi-plus-lg"></i> Créer le premier thème</a>
+      </div>
+
+      <div *ngIf="!loading && themes.length > 0" class="theme-list">
+        <div *ngFor="let theme of themes.slice(0, 6)" class="theme-item">
+          <div class="theme-item-icon">
+            <i *ngIf="!theme.iconUrl" class="bi bi-tag-fill"></i>
+            <img *ngIf="theme.iconUrl" [src]="theme.iconUrl" [alt]="theme.name">
+          </div>
+          <div class="theme-item-info">
+            <span class="theme-item-name">{{ theme.name }}</span>
+            <span class="theme-item-meta">
+              {{ theme.formations?.length || 0 }} formations
+            </span>
+          </div>
+          <span class="theme-status" [class.active]="theme.active" [class.inactive]="!theme.active">
+            {{ theme.active ? 'Actif' : 'Inactif' }}
+          </span>
+        </div>
+
+        <a *ngIf="themes.length > 6" class="dash-view-all" routerLink="/admin/themes">
+          Voir tous les thèmes ({{ themes.length }}) <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <h3><i class="bi bi-lightning-fill"></i> Actions rapides</h3>
+    </div>
+    <div class="dash-card-body">
+      <div class="quick-links">
+        <a class="quick-link" routerLink="/admin/formations">
+          <div class="ql-icon ql-blue"><i class="bi bi-mortarboard-fill"></i></div>
+          <span>Formations</span>
+        </a>
+        <a class="quick-link" routerLink="/admin/blog">
+          <div class="ql-icon ql-purple"><i class="bi bi-newspaper"></i></div>
+          <span>Blog</span>
+        </a>
+        <a class="quick-link" routerLink="/admin/portfolio">
+          <div class="ql-icon ql-orange"><i class="bi bi-briefcase-fill"></i></div>
+          <span>Portfolio</span>
+        </a>
+        <a class="quick-link" routerLink="/admin/calendar">
+          <div class="ql-icon ql-green"><i class="bi bi-calendar-event-fill"></i></div>
+          <span>Calendrier</span>
+        </a>
+        <a class="quick-link" routerLink="/admin/contacts">
+          <div class="ql-icon ql-red"><i class="bi bi-envelope-fill"></i></div>
+          <span>Messages</span>
+        </a>
+        <a class="quick-link" routerLink="/admin/reviews">
+          <div class="ql-icon ql-yellow"><i class="bi bi-star-fill"></i></div>
+          <span>Avis</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

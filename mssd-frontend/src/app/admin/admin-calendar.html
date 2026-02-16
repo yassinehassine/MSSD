@@ -1,0 +1,197 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Gestion du calendrier</h1>
+    <p class="page-subtitle">Planifiez et gérez vos événements</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn-outline" (click)="loadCalendars()" [disabled]="loading">
+      <i class="bi bi-arrow-clockwise"></i> Actualiser
+    </button>
+    <button class="btn-primary-admin" (click)="openCreateModal()">
+      <i class="bi bi-plus-lg"></i> Nouvel événement
+    </button>
+  </div>
+</div>
+
+<!-- Alerts -->
+<div *ngIf="successMessage" class="admin-alert admin-alert-success">
+  <i class="bi bi-check-circle"></i> {{ successMessage }}
+</div>
+<div *ngIf="errorMessage" class="admin-alert admin-alert-error">
+  <i class="bi bi-exclamation-circle"></i> {{ errorMessage }}
+</div>
+
+<!-- Filters Card -->
+<div class="filter-card">
+  <div class="filter-grid">
+    <div class="form-group">
+      <label>Statut</label>
+      <select [(ngModel)]="statusFilter">
+        <option value="">Tous les statuts</option>
+        <option value="AVAILABLE">Disponible</option>
+        <option value="FULL">Complet</option>
+        <option value="CANCELLED">Annulé</option>
+        <option value="COMPLETED">Terminé</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Lieu</label>
+      <input type="text" [(ngModel)]="locationFilter" placeholder="Filtrer par lieu">
+    </div>
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" [(ngModel)]="dateFilter">
+    </div>
+    <div class="form-group filter-meta">
+      <label>&nbsp;</label>
+      <div class="filter-actions">
+        <span class="badge-count">{{ getFilteredCalendars().length }} événement(s)</span>
+        <button class="btn-text" (click)="clearFilters()">
+          <i class="bi bi-x-circle"></i> Effacer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading -->
+<div *ngIf="loading" class="admin-loading">
+  <div class="spinner"></div>
+  <span>Chargement des événements...</span>
+</div>
+
+<!-- Empty State -->
+<div *ngIf="!loading && getFilteredCalendars().length === 0" class="admin-empty">
+  <i class="bi bi-calendar-x"></i>
+  <h4>Aucun événement trouvé</h4>
+  <p>Créez votre premier événement pour démarrer.</p>
+  <button class="btn-primary-admin" (click)="openCreateModal()">
+    <i class="bi bi-plus-lg"></i> Créer un événement
+  </button>
+</div>
+
+<!-- Table -->
+<div *ngIf="!loading && getFilteredCalendars().length > 0" class="admin-table-card">
+  <div class="table-responsive">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Événement</th>
+          <th>Date & Heure</th>
+          <th>Lieu</th>
+          <th>Capacité</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let calendar of getFilteredCalendars()">
+          <td>
+            <div class="cell-formation">
+              <span class="cell-name">{{ calendar.title }}</span>
+              <span class="cell-meta">{{ calendar.description }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="cell-dates">
+              <span><i class="bi bi-play-circle"></i> {{ formatDateTime(calendar.startTime) }}</span>
+              <span><i class="bi bi-stop-circle"></i> {{ formatDateTime(calendar.endTime) }}</span>
+            </div>
+          </td>
+          <td>{{ calendar.location }}</td>
+          <td>
+            <div class="capacity-bar">
+              <div class="capacity-track">
+                <div class="capacity-fill"
+                     [class.capacity-full]="calendar.currentCapacity >= calendar.maxCapacity"
+                     [style.width.%]="(calendar.currentCapacity / calendar.maxCapacity) * 100">
+                </div>
+              </div>
+              <span class="capacity-text">{{ calendar.currentCapacity }}/{{ calendar.maxCapacity }}</span>
+              <span class="cell-meta">{{ calendar.availableSpots }} places</span>
+            </div>
+          </td>
+          <td>
+            <span class="status-badge" [attr.data-status]="calendar.status">
+              {{ calendar.status === 'AVAILABLE' ? 'Disponible' : calendar.status === 'FULL' ? 'Complet' : calendar.status === 'CANCELLED' ? 'Annulé' : 'Terminé' }}
+            </span>
+          </td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-action" (click)="openEditModal(calendar)" title="Modifier">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn-action btn-action-danger" (click)="deleteCalendar(calendar.id)" title="Supprimer">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Create/Edit Modal -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-card modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-card-header">
+      <h5>
+        <i class="bi bi-calendar-plus"></i>
+        {{ isCreating ? 'Créer un événement' : 'Modifier l\'événement' }}
+      </h5>
+      <button class="modal-close" (click)="closeModal()">&times;</button>
+    </div>
+    <div class="modal-card-body">
+      <form (ngSubmit)="onSubmit()" #calendarForm="ngForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Titre *</label>
+            <input type="text" [(ngModel)]="formData.title" name="title" required placeholder="Titre de l'événement">
+          </div>
+          <div class="form-group">
+            <label>Lieu *</label>
+            <input type="text" [(ngModel)]="formData.location" name="location" required placeholder="Lieu">
+          </div>
+        </div>
+        <div class="form-group form-full">
+          <label>Description</label>
+          <textarea [(ngModel)]="formData.description" name="description" rows="3" placeholder="Description de l'événement"></textarea>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Début *</label>
+            <input type="datetime-local" [(ngModel)]="formData.startTime" name="startTime" required>
+          </div>
+          <div class="form-group">
+            <label>Fin *</label>
+            <input type="datetime-local" [(ngModel)]="formData.endTime" name="endTime" required>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Capacité maximale *</label>
+            <input type="number" [(ngModel)]="formData.maxCapacity" name="maxCapacity" min="1" required>
+          </div>
+          <div class="form-group" *ngIf="isEditing">
+            <label>Statut</label>
+            <select [(ngModel)]="formData.status" name="status">
+              <option value="AVAILABLE">Disponible</option>
+              <option value="FULL">Complet</option>
+              <option value="CANCELLED">Annulé</option>
+              <option value="COMPLETED">Terminé</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-card-footer">
+      <button class="btn-cancel" (click)="closeModal()">Annuler</button>
+      <button class="btn-primary-admin" (click)="onSubmit()" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-sm"></span>
+        {{ isCreating ? 'Créer' : 'Mettre à jour' }}
+      </button>
+    </div>
+  </div>
+</div>

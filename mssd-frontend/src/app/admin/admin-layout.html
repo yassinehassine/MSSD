@@ -1,0 +1,143 @@
+<div class="admin-shell" [class.sidebar-collapsed]="sidebarCollapsed" [class.sidebar-open]="sidebarMobileOpen">
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <a class="sidebar-brand" routerLink="/admin">
+      <img src="assets/img/logo1.png" alt="MSSD">
+      <span class="brand-text">MSSD Admin</span>
+    </a>
+
+    <div class="sidebar-section">
+      <div class="sidebar-heading">Principal</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a class="sidebar-link" routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <i class="bi bi-grid-1x2-fill"></i> Tableau de bord
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-heading">Formations</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a class="sidebar-link" routerLink="/admin/themes" routerLinkActive="active">
+            <i class="bi bi-tags-fill"></i> Thèmes
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" routerLink="/admin/formations" routerLinkActive="active">
+            <i class="bi bi-mortarboard-fill"></i> Formations
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" routerLink="/admin/formation-requests" routerLinkActive="active">
+            <i class="bi bi-file-earmark-text-fill"></i> Demandes
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-heading">Contenu</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a class="sidebar-link" routerLink="/admin/blog" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+            <i class="bi bi-newspaper"></i> Blog
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" routerLink="/admin/portfolio" routerLinkActive="active">
+            <i class="bi bi-briefcase-fill"></i> Portfolio
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" routerLink="/admin/reviews" routerLinkActive="active">
+            <i class="bi bi-star-fill"></i> Avis
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-heading">Événements</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a class="sidebar-link" routerLink="/admin/calendar" routerLinkActive="active">
+            <i class="bi bi-calendar-event-fill"></i> Calendrier
+          </a>
+        </li>
+        <li>
+          <a class="sidebar-link" routerLink="/admin/calendar-reservations" routerLinkActive="active">
+            <i class="bi bi-calendar-check-fill"></i> Réservations
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-heading">Communication</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a class="sidebar-link" routerLink="/admin/contacts" routerLinkActive="active">
+            <i class="bi bi-envelope-fill"></i> Messages
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <a class="sidebar-link-front" routerLink="/home">
+      <i class="bi bi-box-arrow-up-right"></i> Voir le site
+    </a>
+
+    <div class="sidebar-footer">
+      <span *ngIf="currentUser">Connecté : {{ currentUser.username }}</span>
+    </div>
+  </aside>
+
+  <!-- Overlay (mobile) -->
+  <div class="sidebar-overlay" (click)="closeMobileSidebar()"></div>
+
+  <!-- Main Content -->
+  <div class="admin-main">
+    <!-- Top Bar -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button class="topbar-toggle" (click)="toggleSidebar()">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="topbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Rechercher...">
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div style="position: relative;">
+          <button class="topbar-user" (click)="toggleUserMenu()">
+            <div class="user-avatar">{{ getUserInitials() }}</div>
+            <span class="user-name" *ngIf="currentUser">{{ currentUser.username }}</span>
+            <i class="bi bi-chevron-down" style="font-size:0.7rem; opacity:0.5;"></i>
+          </button>
+          <div class="user-dropdown" *ngIf="showUserMenu">
+            <div class="dropdown-header" *ngIf="currentUser">{{ currentUser.email }}</div>
+            <button class="dropdown-item text-danger" (click)="logout()">
+              <i class="bi bi-box-arrow-right"></i> Déconnexion
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="admin-content">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Footer -->
+    <footer class="admin-footer">
+      <span>&copy; 2025 MSSD. Tous droits réservés.</span>
+      <span>Panneau d'administration</span>
+    </footer>
+  </div>
+</div>

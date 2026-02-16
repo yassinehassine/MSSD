@@ -1,0 +1,96 @@
+<!-- Annexes Hero -->
+<section class="annexes-hero">
+  <div class="container">
+    <h1 class="annexes-hero-title">Catalogue des Formations</h1>
+    <p class="annexes-hero-subtitle">Parcourez nos thèmes de formation et trouvez le programme adapté à vos besoins</p>
+    <a routerLink="/annexes/request" class="btn-hero-cta">
+      <i class="bi bi-plus-circle"></i> Demander une formation
+    </a>
+  </div>
+</section>
+
+<!-- Annexes Content -->
+<section class="annexes-section">
+  <div class="container">
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Chargement des formations...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error && !loading" class="error-state">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <p>{{ error }}</p>
+    </div>
+
+    <!-- Themes Grid -->
+    <div *ngIf="!loading && !error && paginatedThemes.length > 0" class="row gy-4">
+      <div *ngFor="let theme of paginatedThemes" class="col-lg-4 col-md-6">
+        <div class="theme-card" [routerLink]="['/annexes', theme.slug]">
+          <div class="theme-card-header">
+            <div class="theme-icon-wrapper">
+              <i *ngIf="!theme.iconUrl" class="bi bi-collection"></i>
+              <img *ngIf="theme.iconUrl" [src]="theme.iconUrl" alt="" class="theme-icon-img">
+            </div>
+            <span class="theme-count-badge">{{ theme.formations?.length || 0 }}</span>
+          </div>
+
+          <div class="theme-card-body">
+            <h4 class="theme-card-title">{{ theme.name }}</h4>
+            <p class="theme-card-desc">{{ theme.description || 'Découvrez nos formations dans ce domaine.' }}</p>
+
+            <div class="theme-stats">
+              <div class="stat">
+                <span class="stat-value">{{ theme.formations?.length || 0 }}</span>
+                <span class="stat-label">Formations</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">{{ getActiveFormationsCount(theme) }}</span>
+                <span class="stat-label">Actives</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">{{ getFormationLevels(theme) }}</span>
+                <span class="stat-label">Niveaux</span>
+              </div>
+            </div>
+
+            <span class="btn-see-more">
+              Voir les formations <i class="bi bi-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty -->
+    <div *ngIf="!loading && !error && themes.length === 0" class="empty-state">
+      <i class="bi bi-collection"></i>
+      <h4>Aucun thème disponible</h4>
+      <p>Les formations seront bientôt disponibles.</p>
+      <div class="empty-actions">
+        <button class="btn-action" (click)="loadThemesWithFormations()">
+          <i class="bi bi-arrow-clockwise"></i> Réessayer
+        </button>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalItems]="totalItems"
+      [itemsPerPage]="itemsPerPage"
+      (pageChange)="onPageChange($event)"
+      *ngIf="themes.length > itemsPerPage">
+    </app-pagination>
+
+    <!-- CTA -->
+    <div *ngIf="!loading && themes.length > 0" class="annexes-cta">
+      <h4>Besoin d'une formation personnalisée ?</h4>
+      <p>Notre équipe peut créer une formation sur mesure adaptée à vos besoins spécifiques.</p>
+      <a routerLink="/annexes/request" class="btn-action-outline">
+        <i class="bi bi-chat-dots"></i> Demander un devis personnalisé
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Messages de contact</h1>
+    <p class="page-subtitle">Consultez les messages envoyés depuis le formulaire de contact</p>
+  </div>
+  <div class="header-meta" *ngIf="!loading && contacts.length > 0">
+    <span class="badge-count">{{ contacts.length }} message{{ contacts.length > 1 ? 's' : '' }}</span>
+  </div>
+</div>
+
+<!-- Loading -->
+<div *ngIf="loading" class="admin-loading">
+  <div class="spinner"></div>
+  <span>Chargement des messages...</span>
+</div>
+
+<!-- Error -->
+<div *ngIf="error" class="admin-alert admin-alert-error">
+  <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+</div>
+
+<!-- Empty -->
+<div *ngIf="!loading && !error && contacts.length === 0" class="admin-empty">
+  <i class="bi bi-envelope-open"></i>
+  <h4>Aucun message</h4>
+  <p>Les messages de contact apparaîtront ici.</p>
+</div>
+
+<!-- Table -->
+<div *ngIf="!loading && !error && contacts.length > 0" class="admin-table-card">
+  <div class="table-responsive">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Téléphone</th>
+          <th>Sujet</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of contacts">
+          <td>
+            <div class="cell-user">
+              <div class="cell-avatar">{{ contact.fullName?.charAt(0)?.toUpperCase() || '?' }}</div>
+              <span class="cell-name">{{ contact.fullName }}</span>
+            </div>
+          </td>
+          <td><a class="cell-link" [href]="'mailto:' + contact.email">{{ contact.email }}</a></td>
+          <td>{{ contact.phone || '—' }}</td>
+          <td><span class="cell-subject">{{ contact.subject }}</span></td>
+          <td><span class="cell-message">{{ contact.message }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

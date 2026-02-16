@@ -1,0 +1,192 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Gestion du blog</h1>
+    <p class="page-subtitle">Publiez et gérez vos articles et actualités</p>
+  </div>
+  <button class="btn-primary-admin" (click)="showCreateForm()" [disabled]="loading">
+    <i class="bi bi-plus-lg"></i> Nouvel article
+  </button>
+</div>
+
+<!-- Alerts -->
+<div *ngIf="success" class="admin-alert admin-alert-success">
+  <i class="bi bi-check-circle"></i> {{ success }}
+</div>
+<div *ngIf="error" class="admin-alert admin-alert-error">
+  <i class="bi bi-exclamation-circle"></i> {{ error }}
+</div>
+
+<!-- Stats -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon" style="color: #002b6c; background: #e8eef6;"><i class="bi bi-journal-text"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ stats.total }}</span>
+      <span class="stat-label">Total</span>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="color: #10b981; background: #ecfdf5;"><i class="bi bi-eye"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ stats.active }}</span>
+      <span class="stat-label">Actifs</span>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="color: #f59e0b; background: #fefce8;"><i class="bi bi-eye-slash"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ stats.inactive }}</span>
+      <span class="stat-label">Inactifs</span>
+    </div>
+  </div>
+</div>
+
+<!-- Filters -->
+<div class="filter-card">
+  <div class="filter-grid">
+    <div class="form-group">
+      <label>Rechercher</label>
+      <input type="text" placeholder="Rechercher par titre ou description..."
+             [(ngModel)]="searchTerm" (input)="onSearchChange()">
+    </div>
+    <div class="form-group">
+      <label>Statut</label>
+      <select [(ngModel)]="statusFilter" (change)="onStatusFilterChange()">
+        <option value="all">Tous les articles</option>
+        <option value="active">Articles actifs</option>
+        <option value="inactive">Articles inactifs</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Loading -->
+<div *ngIf="loading && !showForm" class="admin-loading">
+  <div class="spinner"></div>
+  <span>Chargement des articles...</span>
+</div>
+
+<!-- Empty -->
+<div *ngIf="!loading && filteredBlogs.length === 0" class="admin-empty">
+  <i class="bi bi-journal-x"></i>
+  <h4>Aucun article trouvé</h4>
+  <p>{{ searchTerm || statusFilter !== 'all' ? 'Aucun article ne correspond aux critères.' : 'Créez votre premier article de blog.' }}</p>
+  <button *ngIf="!searchTerm && statusFilter === 'all'" class="btn-primary-admin" (click)="showCreateForm()">
+    <i class="bi bi-plus-lg"></i> Créer un article
+  </button>
+</div>
+
+<!-- Table -->
+<div *ngIf="!loading && filteredBlogs.length > 0" class="admin-table-card">
+  <div class="table-responsive">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Article</th>
+          <th>Statut</th>
+          <th>Publication</th>
+          <th>Média</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let blog of filteredBlogs">
+          <td>
+            <div class="cell-article">
+              <img [src]="getImageUrl(blog)" alt="" class="cell-thumb" onerror="this.src='assets/img/blog/blog-default.jpg'">
+              <div>
+                <span class="cell-name">{{ blog.title }}</span>
+                <span class="cell-meta">{{ blog.description.length > 80 ? (blog.description | slice:0:80) + '...' : blog.description }}</span>
+                <span class="cell-date">Créé le {{ formatDate(blog.createdAt!) }}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="status-dot" [class.active]="blog.active" [class.inactive]="!blog.active">
+              {{ blog.active ? 'Actif' : 'Inactif' }}
+            </span>
+          </td>
+          <td>
+            <span class="cell-date">{{ formatDate(blog.publishDate!) }}</span>
+          </td>
+          <td>
+            <div class="media-badges">
+              <span *ngIf="blog.imageUrl" class="media-badge media-image" title="Image"><i class="bi bi-image"></i></span>
+              <span *ngIf="blog.youtubeUrl" class="media-badge media-video" title="YouTube"><i class="bi bi-youtube"></i></span>
+            </div>
+          </td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-action" (click)="showEditForm(blog)" [disabled]="loading" title="Modifier">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn-action" [class.btn-action-warning]="blog.active"
+                      (click)="toggleBlogStatus(blog)" [disabled]="loading"
+                      [title]="blog.active ? 'Désactiver' : 'Activer'">
+                <i class="bi" [class.bi-eye-slash]="blog.active" [class.bi-eye]="!blog.active"></i>
+              </button>
+              <button class="btn-action btn-action-danger" (click)="deleteBlog(blog)" [disabled]="loading" title="Supprimer">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Create/Edit Modal -->
+<div class="modal-overlay" *ngIf="showForm" (click)="hideForm()">
+  <div class="modal-card modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-card-header">
+      <h5><i class="bi bi-pencil-square"></i> {{ isEditing ? 'Modifier l\'article' : 'Nouvel article' }}</h5>
+      <button class="modal-close" (click)="hideForm()">&times;</button>
+    </div>
+    <div class="modal-card-body">
+      <form (ngSubmit)="saveBlog()" #blogFormRef="ngForm">
+        <div class="form-group form-full">
+          <label>Titre *</label>
+          <input type="text" [(ngModel)]="blogForm.title" name="title" required placeholder="Titre de l'article">
+        </div>
+        <div class="form-group form-full">
+          <label>Description *</label>
+          <textarea [(ngModel)]="blogForm.description" name="description" required rows="4" placeholder="Description de l'article..."></textarea>
+        </div>
+        <div class="form-group form-full">
+          <label>URL YouTube</label>
+          <input type="url" [(ngModel)]="blogForm.youtubeUrl" name="youtubeUrl" placeholder="https://www.youtube.com/watch?v=...">
+          <span class="form-hint">Lien vers la vidéo YouTube de l'événement</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Date de publication</label>
+            <input type="datetime-local" [(ngModel)]="blogForm.publishDate" name="publishDate">
+          </div>
+          <div class="form-group">
+            <label>Image</label>
+            <input type="file" accept="image/*" (change)="onImageSelected($event)" #fileInput>
+            <span class="form-hint">JPG, PNG, GIF, WebP — Max 5MB</span>
+            <div *ngIf="selectedImageFile" class="upload-success">
+              <i class="bi bi-check-circle"></i> {{ selectedImageFile.name }}
+            </div>
+          </div>
+        </div>
+        <div class="form-check-row">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="blogForm.active" name="active">
+            <span>Publier l'article (visible sur le site)</span>
+          </label>
+        </div>
+      </form>
+    </div>
+    <div class="modal-card-footer">
+      <button class="btn-cancel" (click)="hideForm()" [disabled]="loading">Annuler</button>
+      <button class="btn-primary-admin" (click)="saveBlog()" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-sm"></span>
+        {{ isEditing ? 'Mettre à jour' : 'Créer' }}
+      </button>
+    </div>
+  </div>
+</div>

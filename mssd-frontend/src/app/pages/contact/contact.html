@@ -1,0 +1,140 @@
+<!-- Contact Page -->
+<section class="contact-hero">
+  <div class="container">
+    <h1 class="contact-hero-title">Contactez-nous</h1>
+    <p class="contact-hero-subtitle">Nous sommes à votre écoute pour répondre à toutes vos questions</p>
+  </div>
+</section>
+
+<section class="contact-section">
+  <div class="container">
+    <div class="row gy-4">
+      <!-- Contact Info Cards -->
+      <div class="col-lg-5">
+        <div class="info-cards">
+          <div class="info-card">
+            <div class="info-icon"><i class="bi bi-geo-alt-fill"></i></div>
+            <div class="info-body">
+              <h4>Adresse</h4>
+              <p>123 Rue de la Formation<br>75001 Paris, France</p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon"><i class="bi bi-telephone-fill"></i></div>
+            <div class="info-body">
+              <h4>Téléphone</h4>
+              <p>+33 1 23 45 67 89</p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon"><i class="bi bi-envelope-fill"></i></div>
+            <div class="info-body">
+              <h4>Email</h4>
+              <p>contact&#64;mssd.fr</p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon"><i class="bi bi-clock-fill"></i></div>
+            <div class="info-body">
+              <h4>Horaires</h4>
+              <p>Lun - Ven : 9h00 - 18h00</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-section">
+          <h5>Suivez-nous</h5>
+          <div class="social-links">
+            <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="social-btn"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-lg-7">
+        <div class="contact-form-card">
+          <h3 class="form-title">Envoyez-nous un message</h3>
+          <p class="form-subtitle">Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.</p>
+
+          <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="fullName" class="form-label">Nom complet *</label>
+                <input id="fullName" type="text" class="form-input"
+                       [(ngModel)]="contactModel.fullName" name="fullName"
+                       required minlength="2" #fullName="ngModel"
+                       [class.invalid]="fullName.invalid && fullName.touched"
+                       placeholder="Votre nom">
+                <div class="field-error" *ngIf="fullName.invalid && fullName.touched">
+                  <span *ngIf="fullName.errors?.['required']">Le nom est requis</span>
+                  <span *ngIf="fullName.errors?.['minlength']">Minimum 2 caractères</span>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email *</label>
+                <input id="email" type="email" class="form-input"
+                       [(ngModel)]="contactModel.email" name="email"
+                       required email #emailField="ngModel"
+                       [class.invalid]="emailField.invalid && emailField.touched"
+                       placeholder="votre&#64;email.com">
+                <div class="field-error" *ngIf="emailField.invalid && emailField.touched">
+                  <span *ngIf="emailField.errors?.['required']">L'email est requis</span>
+                  <span *ngIf="emailField.errors?.['email']">Veuillez entrer un email valide</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="phone" class="form-label">Téléphone</label>
+                <input id="phone" type="tel" class="form-input"
+                       [(ngModel)]="contactModel.phone" name="phone"
+                       placeholder="+33 6 12 34 56 78">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="subject" class="form-label">Sujet *</label>
+                <input id="subject" type="text" class="form-input"
+                       [(ngModel)]="contactModel.subject" name="subject"
+                       required #subjectField="ngModel"
+                       [class.invalid]="subjectField.invalid && subjectField.touched"
+                       placeholder="Objet de votre message">
+                <div class="field-error" *ngIf="subjectField.invalid && subjectField.touched">
+                  <span>Le sujet est requis</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="message" class="form-label">Message *</label>
+              <textarea id="message" class="form-input form-textarea"
+                        [(ngModel)]="contactModel.message" name="message"
+                        required minlength="10" #messageField="ngModel"
+                        [class.invalid]="messageField.invalid && messageField.touched"
+                        placeholder="Décrivez votre demande..." rows="5"></textarea>
+              <div class="field-error" *ngIf="messageField.invalid && messageField.touched">
+                <span *ngIf="messageField.errors?.['required']">Le message est requis</span>
+                <span *ngIf="messageField.errors?.['minlength']">Minimum 10 caractères</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit" [disabled]="isSubmitting">
+              <span *ngIf="!isSubmitting">
+                <i class="bi bi-send-fill"></i> Envoyer le message
+              </span>
+              <span *ngIf="isSubmitting" class="btn-loading">
+                <span class="spinner"></span> Envoi en cours...
+              </span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

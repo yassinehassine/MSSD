@@ -1,0 +1,282 @@
+<!-- Calendar Hero -->
+<section class="calendar-hero">
+  <div class="container">
+    <h1 class="calendar-hero-title">Calendrier des Événements</h1>
+    <p class="calendar-hero-subtitle">Découvrez et participez à nos prochains événements et activités</p>
+    <div class="view-toggle">
+      <button class="toggle-btn" [class.active]="viewMode === 'month'" (click)="viewMode = 'month'">
+        <i class="bi bi-calendar3"></i> Mois
+      </button>
+      <button class="toggle-btn" [class.active]="viewMode === 'list'" (click)="viewMode = 'list'">
+        <i class="bi bi-list-ul"></i> Liste
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Calendar Content -->
+<section class="calendar-section">
+  <div class="container">
+
+    <!-- Error -->
+    <div *ngIf="errorMessage" class="alert-card alert-error">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <span>{{ errorMessage }}</span>
+      <button class="alert-close" (click)="errorMessage = ''">&times;</button>
+    </div>
+
+    <!-- Controls -->
+    <div class="calendar-controls">
+      <div class="controls-left">
+        <button class="nav-btn" (click)="previousMonth()">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <h3 class="month-label">{{ getMonthName() }}</h3>
+        <button class="nav-btn" (click)="nextMonth()">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+        <button class="btn-today" (click)="goToToday()">Aujourd'hui</button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-card">
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label for="searchTerm">Rechercher</label>
+          <div class="input-icon-wrapper">
+            <i class="bi bi-search"></i>
+            <input type="text" id="searchTerm" [(ngModel)]="searchTerm"
+                   (ngModelChange)="applyFilters()" placeholder="Titre ou description...">
+          </div>
+        </div>
+        <div class="filter-group">
+          <label for="locationFilter">Lieu</label>
+          <div class="input-icon-wrapper">
+            <i class="bi bi-geo-alt"></i>
+            <input type="text" id="locationFilter" [(ngModel)]="locationFilter"
+                   (ngModelChange)="applyFilters()" placeholder="Filtrer par lieu...">
+          </div>
+        </div>
+        <div class="filter-group">
+          <label for="statusFilter">Statut</label>
+          <select id="statusFilter" [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()">
+            <option value="">Tous les statuts</option>
+            <option value="AVAILABLE">Disponible</option>
+            <option value="FULL">Complet</option>
+            <option value="CANCELLED">Annulé</option>
+            <option value="COMPLETED">Terminé</option>
+          </select>
+        </div>
+        <div class="filter-group filter-action">
+          <label>&nbsp;</label>
+          <button class="btn-clear" (click)="clearFilters()">
+            <i class="bi bi-x-circle"></i> Réinitialiser
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Chargement des événements...</p>
+    </div>
+
+    <!-- Calendar Content -->
+    <div *ngIf="!loading">
+
+      <!-- ========== MONTH VIEW ========== -->
+      <div *ngIf="viewMode === 'month'" class="month-view">
+        <div class="month-grid">
+          <!-- Day Headers -->
+          <div class="month-header">
+            <div *ngFor="let dayName of getDayNames()" class="day-header-cell">{{ dayName }}</div>
+          </div>
+          <!-- Day Cells -->
+          <div class="month-body">
+            <div *ngFor="let day of getCalendarDays()"
+                 class="day-cell"
+                 [class.other-month]="!isCurrentMonth(day)"
+                 [class.today]="isToday(day)"
+                 [class.selected]="isSelected(day)"
+                 [class.has-events]="hasEvents(day)"
+                 (click)="selectDate(day)">
+              <div class="day-number">{{ formatDate(day) }}</div>
+              <div *ngIf="hasEvents(day)" class="event-dots">
+                <div *ngFor="let event of getEventsForDate(day)"
+                     class="event-dot"
+                     [class]="getStatusClass(event.status)">
+                  <small>{{ event.title }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selected Date Events (Month View) -->
+      <div *ngIf="viewMode === 'month' && selectedDate !== null && getEventsForDate(selectedDate).length > 0"
+           class="selected-events">
+        <div class="selected-events-header">
+          <h5><i class="bi bi-calendar-event"></i> Événements du {{ selectedDate!.toLocaleDateString('fr-FR') }}</h5>
+        </div>
+        <div class="selected-events-body">
+          <div class="row gy-3">
+            <div *ngFor="let event of getEventsForDate(selectedDate!)" class="col-md-6">
+              <div class="event-item-card">
+                <div class="event-item-top">
+                  <h6>{{ event.title }}</h6>
+                  <span [class]="getStatusClass(event.status)">{{ event.status }}</span>
+                </div>
+                <p *ngIf="event.description" class="event-item-desc">{{ event.description }}</p>
+                <div class="event-item-meta">
+                  <div class="meta-col">
+                    <small class="meta-label">Horaire</small>
+                    <span>{{ formatTime(event.startTime) }} - {{ formatTime(event.endTime) }}</span>
+                  </div>
+                  <div class="meta-col">
+                    <small class="meta-label">Lieu</small>
+                    <span>{{ event.location }}</span>
+                  </div>
+                </div>
+                <div class="event-item-capacity">
+                  <small class="meta-label">Capacité</small>
+                  <div class="capacity-bar">
+                    <div class="capacity-fill"
+                         [class.warn]="getCapacityPercentage(event) >= 75"
+                         [class.danger]="getCapacityPercentage(event) >= 90"
+                         [style.width.%]="getCapacityPercentage(event)"></div>
+                  </div>
+                  <div class="capacity-info">
+                    <small>{{ event.currentCapacity }}/{{ event.maxCapacity }} inscrits</small>
+                    <small [class]="getCapacityColor(event)">{{ event.availableSpots }} places restantes</small>
+                  </div>
+                </div>
+                <button class="btn-join"
+                        [disabled]="event.status !== 'AVAILABLE' || event.availableSpots === 0"
+                        (click)="joinEvent(event)">
+                  <i class="bi bi-calendar-plus"></i> Participer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== LIST VIEW ========== -->
+      <div *ngIf="viewMode === 'list'" class="list-view">
+        <!-- Empty -->
+        <div *ngIf="filteredCalendars.length === 0" class="empty-state">
+          <i class="bi bi-calendar-x"></i>
+          <h4>Aucun événement trouvé</h4>
+          <p>Essayez d'ajuster vos filtres ou revenez plus tard pour de nouveaux événements.</p>
+        </div>
+
+        <!-- Event Cards -->
+        <div *ngIf="paginatedCalendars.length > 0" class="row gy-4">
+          <div *ngFor="let event of paginatedCalendars" class="col-lg-6">
+            <div class="event-card">
+              <div class="event-card-header">
+                <h5>{{ event.title }}</h5>
+                <span [class]="getStatusClass(event.status)">{{ event.status }}</span>
+              </div>
+              <p *ngIf="event.description" class="event-card-desc">{{ event.description }}</p>
+              <div class="event-card-details">
+                <div class="detail-row">
+                  <div class="detail-col">
+                    <small class="detail-label">Date &amp; Heure</small>
+                    <div class="detail-value">{{ formatDateForDisplay(event.startTime) }}</div>
+                    <div class="detail-sub">{{ formatTime(event.startTime) }} - {{ formatTime(event.endTime) }}</div>
+                  </div>
+                  <div class="detail-col">
+                    <small class="detail-label">Lieu</small>
+                    <div class="detail-value">{{ event.location }}</div>
+                  </div>
+                </div>
+                <div class="capacity-section">
+                  <small class="detail-label">Capacité</small>
+                  <div class="capacity-bar">
+                    <div class="capacity-fill"
+                         [class.warn]="getCapacityPercentage(event) >= 75"
+                         [class.danger]="getCapacityPercentage(event) >= 90"
+                         [style.width.%]="getCapacityPercentage(event)"></div>
+                  </div>
+                  <div class="capacity-info">
+                    <small>{{ event.currentCapacity }}/{{ event.maxCapacity }} inscrits</small>
+                    <small [class]="getCapacityColor(event)">{{ event.availableSpots }} places restantes</small>
+                  </div>
+                </div>
+              </div>
+              <div class="event-card-footer">
+                <button class="btn-join"
+                        [disabled]="event.status !== 'AVAILABLE' || event.availableSpots === 0"
+                        (click)="joinEvent(event)">
+                  <i class="bi bi-calendar-plus"></i> Participer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div *ngIf="filteredCalendars.length > itemsPerPage" class="pagination-wrapper">
+          <app-pagination
+            [currentPage]="currentPage"
+            [totalItems]="filteredCalendars.length"
+            [itemsPerPage]="itemsPerPage"
+            (pageChange)="onPageChange($event)">
+          </app-pagination>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Reservation Modal -->
+<div class="modal-overlay" *ngIf="showReservationModal" (click)="closeReservationModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-card-header">
+      <h5><i class="bi bi-calendar-plus"></i> Réserver votre place</h5>
+      <button class="modal-close" (click)="closeReservationModal()">&times;</button>
+    </div>
+    <div class="modal-card-body">
+      <div *ngIf="reservationEvent" class="modal-event-info">
+        <strong>{{ reservationEvent.title }}</strong>
+        <span>{{ formatDateForDisplay(reservationEvent.startTime) }} · {{ reservationEvent.location }}</span>
+      </div>
+      <form (ngSubmit)="submitReservation()">
+        <div class="form-group">
+          <label>Nom complet *</label>
+          <input type="text" [(ngModel)]="reservationForm.visitorName" name="visitorName" required
+                 placeholder="Votre nom complet">
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" [(ngModel)]="reservationForm.visitorEmail" name="visitorEmail" required
+                 placeholder="votre@email.com">
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="text" [(ngModel)]="reservationForm.visitorPhone" name="visitorPhone"
+                 placeholder="06 XX XX XX XX">
+        </div>
+        <input type="hidden" [(ngModel)]="reservationForm.numberOfPeople" name="numberOfPeople">
+        <div *ngIf="reservationError" class="alert-card alert-error compact">
+          <i class="bi bi-exclamation-circle"></i> {{ reservationError }}
+        </div>
+        <div *ngIf="reservationSuccess" class="alert-card alert-success compact">
+          <i class="bi bi-check-circle"></i> {{ reservationSuccess }}
+        </div>
+      </form>
+    </div>
+    <div class="modal-card-footer">
+      <button class="btn-cancel" (click)="closeReservationModal()">Annuler</button>
+      <button class="btn-submit" (click)="submitReservation()" [disabled]="reservationLoading">
+        <span *ngIf="reservationLoading" class="spinner-sm"></span>
+        Réserver
+      </button>
+    </div>
+  </div>
+</div>

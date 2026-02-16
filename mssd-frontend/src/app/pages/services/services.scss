@@ -1,0 +1,330 @@
+@use 'sass:color';
+
+$primary: #002b6c;
+$secondary: #e60000;
+$white: #fff;
+$light-bg: #f8f9fa;
+$text-dark: #222;
+$text-muted: #6c757d;
+
+// Hero
+.services-hero {
+  background: linear-gradient(135deg, $primary 0%, color.adjust($primary, $lightness: 12%) 100%);
+  padding: 5rem 0 3rem;
+  text-align: center;
+
+  .services-hero-title {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: $white;
+    margin-bottom: 0.75rem;
+  }
+
+  .services-hero-subtitle {
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.85);
+    max-width: 550px;
+    margin: 0 auto;
+  }
+}
+
+// Content Section
+.services-section {
+  padding: 4rem 0 3rem;
+  background: $light-bg;
+}
+
+// Loading / Error States
+.loading-state {
+  text-align: center;
+  padding: 4rem 0;
+
+  .spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba($primary, 0.15);
+    border-top-color: $primary;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-bottom: 1rem;
+  }
+
+  p { color: $text-muted; }
+}
+
+.error-state {
+  text-align: center;
+  padding: 3rem;
+  background: $white;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+  i { font-size: 2.5rem; color: $secondary; }
+  p { color: $text-muted; margin-top: 0.75rem; }
+}
+
+// Service Cards
+.service-card {
+  background: $white;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+  }
+}
+
+.service-card-header {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba($primary, 0.06), rgba($primary, 0.02));
+}
+
+.service-card-img {
+  max-width: 120px;
+  max-height: 80px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.service-card-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $primary, color.adjust($primary, $lightness: 10%));
+  color: $white;
+  border-radius: 16px;
+  font-size: 1.6rem;
+}
+
+.service-card-body {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: $primary;
+  margin-bottom: 0.5rem;
+}
+
+.service-card-desc {
+  font-size: 0.9rem;
+  color: $text-muted;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.service-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba($primary, 0.06);
+    padding: 0.3rem 0.7rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $primary;
+
+    &.price {
+      background: rgba($secondary, 0.08);
+      color: $secondary;
+      font-weight: 700;
+    }
+  }
+}
+
+// Booking Form
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  font-size: 0.88rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  background: #fafafa;
+  color: $text-dark;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &::placeholder { color: #adb5bd; }
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    background: $white;
+  }
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.btn-book {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: $white;
+  background: linear-gradient(135deg, $primary, color.adjust($primary, $lightness: 8%));
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba($primary, 0.3);
+  }
+
+  &:disabled { opacity: 0.7; cursor: not-allowed; }
+}
+
+.btn-reviews {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $primary;
+  background: transparent;
+  border: 1.5px solid rgba($primary, 0.2);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  &:hover {
+    background: rgba($primary, 0.06);
+    border-color: $primary;
+  }
+}
+
+.success-msg {
+  text-align: center;
+  padding: 1rem;
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+
+  i { margin-right: 0.3rem; }
+}
+
+.field-error {
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: $secondary;
+  font-weight: 500;
+}
+
+// Custom Request Section
+.custom-request-section {
+  padding: 4rem 0 5rem;
+  background: $white;
+}
+
+.request-card {
+  background: $light-bg;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.request-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $primary;
+  margin-bottom: 0.5rem;
+
+  i { margin-right: 0.4rem; }
+}
+
+.request-subtitle {
+  color: $text-muted;
+  font-size: 0.95rem;
+  margin-bottom: 1.75rem;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: $white;
+  background: linear-gradient(135deg, $primary, color.adjust($primary, $lightness: 8%));
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba($primary, 0.3);
+  }
+
+  &:disabled { opacity: 0.7; cursor: not-allowed; }
+}
+
+// Spinners
+.spinner-sm {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: $white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// Responsive
+@media (max-width: 768px) {
+  .services-hero .services-hero-title {
+    font-size: 2rem;
+  }
+
+  .request-card {
+    padding: 1.5rem;
+  }
+}

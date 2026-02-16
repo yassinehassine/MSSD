@@ -1,0 +1,100 @@
+<!-- About Hero -->
+<section class="about-hero">
+  <div class="container">
+    <h1 class="about-hero-title">À propos de MSSD</h1>
+    <p class="about-hero-subtitle">Management Solutions & Sales Développement — Votre partenaire de formation depuis plus de 20 ans</p>
+  </div>
+</section>
+
+<!-- About Content -->
+<section class="about-section">
+  <div class="container">
+    <div class="row gy-4 align-items-center">
+      <!-- Image -->
+      <div class="col-lg-6">
+        <div class="about-image-wrapper">
+          <img [src]="aboutImage" (error)="onImgError($event)" alt="MSSD" class="about-img">
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="col-lg-6">
+        <div class="about-content-card">
+          <span class="about-badge"><i class="bi bi-award-fill"></i> Faites-nous confiance</span>
+          <h2 class="about-title">Excellence &amp; Innovation en Formation Professionnelle</h2>
+
+          <p class="about-text">
+            MSSD se renouvelle en permanence, réagit à un environnement en perpétuel changement. La formation professionnelle doit s'adapter et proposer de nouvelles solutions ajustées à vos besoins de mobilité et de flexibilité — en passant de formats linéaires à des modes composites, en faisant émerger de nouvelles modalités de formation plus agiles.
+          </p>
+
+          <p class="about-text">
+            Fondé par Mr Tarek Hassine, ingénieur et praticien spécialiste du développement commercial et de la force de vente, avec une formation multidisciplinaire et une riche expérience internationale.
+          </p>
+
+          <div class="about-highlights">
+            <div class="highlight-item">
+              <div class="highlight-icon"><i class="bi bi-check-circle-fill"></i></div>
+              <span>20+ ans d'expertise terrain</span>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-icon"><i class="bi bi-check-circle-fill"></i></div>
+              <span>Coaching de proximité &amp; gestion par objectif</span>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-icon"><i class="bi bi-check-circle-fill"></i></div>
+              <span>Accompagnement du changement organisationnel</span>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-icon"><i class="bi bi-check-circle-fill"></i></div>
+              <span>Expérience internationale multi-secteurs</span>
+            </div>
+          </div>
+
+          <div class="about-actions">
+            <a routerLink="/annexes" class="btn-about-primary">
+              <i class="bi bi-mortarboard"></i> Découvrir nos formations
+            </a>
+            <a routerLink="/contact" class="btn-about-outline">
+              <i class="bi bi-telephone"></i> Demander un devis
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Values Section -->
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon"><i class="bi bi-lightbulb-fill"></i></div>
+        <h4>Innovation</h4>
+        <p>Des méthodes pédagogiques modernes et adaptées aux enjeux actuels du marché.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="bi bi-people-fill"></i></div>
+        <h4>Proximité</h4>
+        <p>Un accompagnement personnalisé au plus près de vos équipes et de vos besoins.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="bi bi-graph-up-arrow"></i></div>
+        <h4>Performance</h4>
+        <p>Des résultats mesurables grâce au management par le processus et les KPIs.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="bi bi-globe2"></i></div>
+        <h4>International</h4>
+        <p>Une expertise qui intègre la diversité culturelle dans un contexte mondialisé.</p>
+      </div>
+    </div>
+
+    <!-- Social -->
+    <div class="about-social">
+      <h5>Suivez-nous</h5>
+      <div class="social-links">
+        <a href="https://www.facebook.com/" target="_blank" class="social-btn"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.instagram.com/" target="_blank" class="social-btn"><i class="bi bi-instagram"></i></a>
+        <a href="https://www.linkedin.com/" target="_blank" class="social-btn"><i class="bi bi-linkedin"></i></a>
+        <a href="mailto:contact@mssd.tn" class="social-btn"><i class="bi bi-envelope"></i></a>
+      </div>
+    </div>
+  </div>
+</section>

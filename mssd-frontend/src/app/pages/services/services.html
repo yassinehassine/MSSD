@@ -1,0 +1,182 @@
+<!-- Services Hero -->
+<section class="services-hero">
+  <div class="container">
+    <h1 class="services-hero-title">Nos Formations</h1>
+    <p class="services-hero-subtitle">Développez vos compétences avec nos formations professionnelles certifiantes</p>
+  </div>
+</section>
+
+<!-- Services Content -->
+<section class="services-section">
+  <div class="container">
+    <!-- Loading -->
+    @if (loading) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Chargement des formations...</p>
+      </div>
+    }
+
+    <!-- Error -->
+    @if (error && !loading) {
+      <div class="error-state">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <p>{{ error }}</p>
+      </div>
+    }
+
+    <!-- Formations Grid -->
+    @if (!loading && !error) {
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6" *ngFor="let formation of paginatedFormations; let i = index">
+          <div class="service-card">
+            <div class="service-card-header">
+              @if (formation.imageUrl) {
+                <img [src]="formation.imageUrl" [alt]="formation.title" class="service-card-img">
+              } @else {
+                <div class="service-card-icon">
+                  <i class="bi bi-mortarboard-fill"></i>
+                </div>
+              }
+            </div>
+
+            <div class="service-card-body">
+              <h3 class="service-card-title">{{ formation.title }}</h3>
+              <p class="service-card-desc">{{ formation.description }}</p>
+
+              <div class="service-meta">
+                <div class="meta-item">
+                  <i class="bi bi-tag"></i>
+                  <span>{{ formation.category }}</span>
+                </div>
+                <div class="meta-item">
+                  <i class="bi bi-bar-chart"></i>
+                  <span>{{ formation.level }}</span>
+                </div>
+                <div class="meta-item">
+                  <i class="bi bi-clock"></i>
+                  <span>{{ formation.duration }}</span>
+                </div>
+                <div class="meta-item price">
+                  <i class="bi bi-currency-exchange"></i>
+                  <span>{{ formation.price | currency:'EUR':'symbol':'1.0-0' }}</span>
+                </div>
+              </div>
+
+              <!-- Booking Form -->
+              @if (bookingStatus[formation.id] !== 'success') {
+                <form (ngSubmit)="submitBooking(formation.id, $event)" class="booking-form">
+                  <input type="text" class="form-input" placeholder="Votre nom"
+                         [(ngModel)]="bookingForms[formation.id].name" [name]="'name-'+formation.id" required>
+                  <input type="email" class="form-input" placeholder="Votre email"
+                         [(ngModel)]="bookingForms[formation.id].email" [name]="'email-'+formation.id" required>
+                  <input type="text" class="form-input" placeholder="Téléphone"
+                         [(ngModel)]="bookingForms[formation.id].phone" [name]="'phone-'+formation.id" required>
+                  <input type="text" class="form-input" placeholder="Entreprise"
+                         [(ngModel)]="bookingForms[formation.id].company" [name]="'company-'+formation.id" required>
+                  <button type="submit" class="btn-book" [disabled]="bookingStatus[formation.id] === 'submitting'">
+                    @if (bookingStatus[formation.id] === 'submitting') {
+                      <span class="spinner-sm"></span> Envoi...
+                    } @else {
+                      <i class="bi bi-send"></i> Réserver
+                    }
+                  </button>
+                  @if (bookingStatus[formation.id] === 'error') {
+                    <p class="field-error">{{ bookingError[formation.id] }}</p>
+                  }
+                </form>
+              } @else {
+                <div class="success-msg">
+                  <i class="bi bi-check-circle-fill"></i> Réservation réussie !
+                </div>
+              }
+
+              <button class="btn-reviews" (click)="goToReviews(formation.id)">
+                <i class="bi bi-star"></i> Voir les avis
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <app-pagination
+        [currentPage]="currentPage"
+        [totalItems]="totalItems"
+        [itemsPerPage]="itemsPerPage"
+        (pageChange)="onPageChange($event)">
+      </app-pagination>
+    }
+  </div>
+</section>
+
+<!-- Custom Request Section -->
+<section class="custom-request-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="request-card">
+          <h3 class="request-title">
+            <i class="bi bi-chat-dots"></i> Demande personnalisée
+          </h3>
+          <p class="request-subtitle">Vous ne trouvez pas ce qu'il vous faut ? Décrivez votre besoin et nous reviendrons vers vous !</p>
+
+          <form (ngSubmit)="submitCustomRequest($event)" #customRequestForm="ngForm">
+            <div class="row gy-3">
+              <div class="col-md-6">
+                <input type="text" class="form-input" placeholder="Nom de l'entreprise *"
+                       [(ngModel)]="customRequest.companyName" name="companyName" required>
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-input" placeholder="Personne de contact *"
+                       [(ngModel)]="customRequest.contactPerson" name="contactPerson" required>
+              </div>
+              <div class="col-md-6">
+                <input type="email" class="form-input" placeholder="Email *"
+                       [(ngModel)]="customRequest.email" name="email" required>
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-input" placeholder="Téléphone"
+                       [(ngModel)]="customRequest.phone" name="phone">
+              </div>
+              <div class="col-12">
+                <input type="text" class="form-input" placeholder="Sujet *"
+                       [(ngModel)]="customRequest.subject" name="subject" required>
+              </div>
+              <div class="col-12">
+                <textarea class="form-input form-textarea" placeholder="Détails de votre demande *"
+                          [(ngModel)]="customRequest.details" name="details" rows="4" required></textarea>
+              </div>
+              <div class="col-md-6">
+                <input type="number" class="form-input" placeholder="Budget (optionnel)"
+                       [(ngModel)]="customRequest.budget" name="budget">
+              </div>
+              <div class="col-md-6">
+                <input type="date" class="form-input" placeholder="Date souhaitée"
+                       [(ngModel)]="customRequest.preferredStartDate" name="preferredStartDate">
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn-submit" [disabled]="isSubmittingCustomRequest">
+                  @if (isSubmittingCustomRequest) {
+                    <span class="spinner-sm"></span> Envoi en cours...
+                  } @else {
+                    <i class="bi bi-send"></i> Envoyer la demande
+                  }
+                </button>
+              </div>
+            </div>
+          </form>
+
+          @if (customRequestSuccess) {
+            <div class="success-msg mt-3">
+              <i class="bi bi-check-circle-fill"></i> Votre demande a été envoyée avec succès !
+            </div>
+          }
+          @if (customRequestError) {
+            <p class="field-error mt-3">{{ customRequestError }}</p>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,90 @@
+<!-- Portfolio Hero -->
+<section class="portfolio-hero">
+  <div class="container">
+    <h1 class="portfolio-hero-title">{{ t('portfolio.title') }}</h1>
+    <p class="portfolio-hero-subtitle">{{ t('portfolio.subtitle') }}</p>
+  </div>
+</section>
+
+<!-- Portfolio Content -->
+<section class="portfolio-section">
+  <div class="container">
+    <!-- Filters -->
+    <div class="portfolio-filters" *ngIf="!isLoading && !error && portfolios.length > 0">
+      <button
+        *ngFor="let category of getUniqueCategories()"
+        class="filter-btn"
+        [class.active]="selectedCategory === category"
+        (click)="filterByCategory(category)">
+        {{ getCategoryDisplayName(category) }}
+      </button>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-state">
+      <div class="spinner"></div>
+      <p>{{ t('common.loading') }}</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error && !isLoading" class="error-state">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <p>{{ error }}</p>
+      <button class="btn-retry" (click)="retryLoad()">
+        <i class="bi bi-arrow-clockwise"></i> Réessayer
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && !error && portfolios.length === 0" class="empty-state">
+      <i class="bi bi-folder2-open"></i>
+      <h4>Aucun portfolio disponible</h4>
+      <p>Aucun portfolio n'a été ajouté pour le moment.</p>
+    </div>
+
+    <!-- Portfolio Grid -->
+    <div class="row gy-4" *ngIf="!isLoading && !error && paginatedPortfolios.length > 0">
+      <div *ngFor="let portfolio of paginatedPortfolios" class="col-lg-4 col-md-6">
+        <div class="portfolio-card">
+          <div class="portfolio-card-img">
+            <img [src]="getImageUrl(portfolio.logoUrl)"
+                 [alt]="portfolio.companyName"
+                 (error)="onImageError($event)"
+                 loading="lazy">
+          </div>
+          <div class="portfolio-card-body">
+            <h4 class="portfolio-card-title">{{ portfolio.companyName }}</h4>
+            <p class="portfolio-card-desc">{{ portfolio.description }}</p>
+            <div class="portfolio-card-meta">
+              <span class="meta-tag" *ngIf="portfolio.trainingTitle">
+                <i class="bi bi-tag"></i> {{ portfolio.trainingTitle }}
+              </span>
+              <span class="meta-tag date" *ngIf="portfolio.trainingDate">
+                <i class="bi bi-calendar3"></i> {{ formatDate(portfolio.trainingDate) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Results -->
+    <div *ngIf="portfolios.length > 0 && filteredPortfolios.length === 0" class="empty-state">
+      <i class="bi bi-search"></i>
+      <h4>{{ t('portfolio.no-results') }} "{{ selectedCategory }}"</h4>
+      <p>{{ t('portfolio.try-different') }}</p>
+      <button class="btn-retry" (click)="filterByCategory('all')">
+        <i class="bi bi-arrow-counterclockwise"></i> Voir tous
+      </button>
+    </div>
+
+    <!-- Pagination -->
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalItems]="totalItems"
+      [itemsPerPage]="itemsPerPage"
+      (pageChange)="onPageChange($event)"
+      *ngIf="filteredPortfolios.length > itemsPerPage">
+    </app-pagination>
+  </div>
+</section>

@@ -1,0 +1,134 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Gestion des thèmes</h1>
+    <p class="page-subtitle">Créer, modifier et organiser les thèmes de formation</p>
+  </div>
+  <button class="btn-primary-admin" (click)="openCreateModal()">
+    <i class="bi bi-plus-lg"></i> Nouveau thème
+  </button>
+</div>
+
+<!-- Alerts -->
+<div *ngIf="success" class="admin-alert admin-alert-success">
+  <i class="bi bi-check-circle"></i> {{ success }}
+</div>
+<div *ngIf="error" class="admin-alert admin-alert-error">
+  <i class="bi bi-exclamation-circle"></i> {{ error }}
+</div>
+
+<!-- Loading -->
+<div *ngIf="loading" class="admin-loading">
+  <div class="spinner"></div>
+  <span>Chargement des thèmes...</span>
+</div>
+
+<!-- Empty -->
+<div *ngIf="!loading && themes.length === 0" class="admin-empty">
+  <i class="bi bi-collection"></i>
+  <h4>Aucun thème trouvé</h4>
+  <p>Créez votre premier thème de formation.</p>
+  <button class="btn-primary-admin" (click)="openCreateModal()">
+    <i class="bi bi-plus-lg"></i> Créer un thème
+  </button>
+</div>
+
+<!-- Table -->
+<div *ngIf="!loading && themes.length > 0" class="admin-table-card">
+  <div class="table-responsive">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Thème</th>
+          <th>Slug</th>
+          <th>Formations</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let theme of themes">
+          <td><span class="cell-id">#{{ theme.id }}</span></td>
+          <td>
+            <div class="cell-theme">
+              <div class="theme-icon" *ngIf="theme.iconUrl" [style.background-image]="'url(' + theme.iconUrl + ')'"></div>
+              <i *ngIf="!theme.iconUrl" class="bi bi-collection theme-icon-placeholder"></i>
+              <div>
+                <span class="cell-name">{{ theme.name }}</span>
+                <span class="cell-meta">{{ theme.description || 'Aucune description' }}</span>
+              </div>
+            </div>
+          </td>
+          <td><code class="cell-slug">{{ theme.slug }}</code></td>
+          <td><span class="badge-count">{{ getFormationCount(theme) }}</span></td>
+          <td>
+            <span class="status-dot" [class.active]="theme.active" [class.inactive]="!theme.active">
+              {{ theme.active ? 'Actif' : 'Inactif' }}
+            </span>
+          </td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-action" (click)="openEditModal(theme)" title="Modifier">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn-action btn-action-danger" (click)="deleteTheme(theme)" title="Supprimer">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Create/Edit Modal -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-card modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-card-header">
+      <h5><i class="bi bi-collection"></i> {{ modalTitle }}</h5>
+      <button class="modal-close" (click)="closeModal()">&times;</button>
+    </div>
+    <form [formGroup]="themeForm" (ngSubmit)="onSubmit()">
+      <div class="modal-card-body">
+        <div class="form-group form-full">
+          <label>Nom du thème *</label>
+          <input type="text" formControlName="name" (input)="onNameChange()"
+                 placeholder="Ex: Soft Skills, Marketing Digital..."
+                 [class.input-error]="isFieldInvalid('name')">
+          <span *ngIf="isFieldInvalid('name')" class="field-error">{{ getFieldError('name') }}</span>
+        </div>
+        <div class="form-group form-full">
+          <label>Slug (URL) *</label>
+          <input type="text" formControlName="slug"
+                 placeholder="Ex: soft-skills, marketing-digital..."
+                 [class.input-error]="isFieldInvalid('slug')">
+          <span class="form-hint">Utilisé dans l'URL : /annexes/<strong>{{ themeForm.get('slug')?.value || 'slug' }}</strong></span>
+          <span *ngIf="isFieldInvalid('slug')" class="field-error">{{ getFieldError('slug') }}</span>
+        </div>
+        <div class="form-group form-full">
+          <label>Description</label>
+          <textarea formControlName="description" rows="3" placeholder="Description du thème de formation..."></textarea>
+        </div>
+        <div class="form-group form-full">
+          <label>URL de l'icône</label>
+          <input type="url" formControlName="iconUrl" placeholder="https://example.com/icon.png">
+          <span class="form-hint">URL vers une image d'icône pour ce thème</span>
+        </div>
+        <div class="form-check-row">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="active">
+            <span>Thème actif (visible sur le site public)</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-card-footer">
+        <button type="button" class="btn-cancel" (click)="closeModal()">Annuler</button>
+        <button type="submit" class="btn-primary-admin" [disabled]="themeForm.invalid">
+          <i class="bi bi-check-lg"></i> {{ editingTheme ? 'Modifier' : 'Créer' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

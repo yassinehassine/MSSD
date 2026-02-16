@@ -1,0 +1,236 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Gestion des formations</h1>
+    <p class="page-subtitle">Créez, modifiez et organisez vos formations</p>
+  </div>
+  <div class="header-actions">
+    <a class="btn-outline" routerLink="/admin/themes">
+      <i class="bi bi-tags"></i> Thèmes
+    </a>
+    <button class="btn-primary-admin" (click)="startAdd()">
+      <i class="bi bi-plus-lg"></i> Nouvelle formation
+    </button>
+  </div>
+</div>
+
+<!-- Alerts -->
+<div *ngIf="formError" class="admin-alert admin-alert-error">
+  <i class="bi bi-exclamation-circle"></i> {{ formError }}
+</div>
+<div *ngIf="formSuccess" class="admin-alert admin-alert-success">
+  <i class="bi bi-check-circle"></i> {{ formSuccess }}
+</div>
+
+<!-- Add/Edit Form Card -->
+<div class="form-card" *ngIf="editingId !== null || form.title">
+  <div class="form-card-header">
+    <h3><i class="bi bi-pencil-square"></i> {{ editingId ? 'Modifier la formation' : 'Ajouter une formation' }}</h3>
+    <button class="btn-icon" (click)="cancelEdit()" *ngIf="editingId">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+  <form (ngSubmit)="submitForm($event)" class="form-card-body">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Titre *</label>
+        <input type="text" placeholder="Titre de la formation" [(ngModel)]="form.title" name="title" required>
+      </div>
+      <div class="form-group">
+        <label>Slug *</label>
+        <input type="text" placeholder="slug-url" [(ngModel)]="form.slug" name="slug" required>
+      </div>
+      <div class="form-group">
+        <label>Catégorie *</label>
+        <input type="text" placeholder="Catégorie" [(ngModel)]="form.category" name="category" required>
+      </div>
+      <div class="form-group">
+        <label>Thème</label>
+        <select [(ngModel)]="form.themeId" name="themeId">
+          <option [value]="undefined">Aucun thème</option>
+          <option *ngFor="let theme of themes" [value]="theme.id">{{ theme.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Prix *</label>
+        <input type="number" placeholder="0" [(ngModel)]="form.price" name="price" required min="0">
+      </div>
+      <div class="form-group">
+        <label>Durée *</label>
+        <input type="text" placeholder="ex: 2 jours" [(ngModel)]="form.duration" name="duration" required>
+      </div>
+      <div class="form-group">
+        <label>Niveau *</label>
+        <select [(ngModel)]="form.level" name="level" required>
+          <option value="BEGINNER">Débutant</option>
+          <option value="INTERMEDIATE">Intermédiaire</option>
+          <option value="EXPERT">Expert</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Image</label>
+        <input type="file" (change)="onImageSelected($event)" accept="image/*">
+        <div *ngIf="imageUploading" class="upload-status">Envoi en cours...</div>
+        <div *ngIf="form.imageUrl && !imageUploading" class="image-preview">
+          <img [src]="form.imageUrl" alt="Aperçu">
+        </div>
+      </div>
+    </div>
+    <div class="form-group form-full">
+      <label>Description</label>
+      <textarea placeholder="Description de la formation" [(ngModel)]="form.description" name="description" rows="3"></textarea>
+    </div>
+    <div class="form-actions">
+      <label class="checkbox-label">
+        <input type="checkbox" [(ngModel)]="form.published" name="published">
+        <span>Publié</span>
+      </label>
+      <div class="form-btns">
+        <button *ngIf="editingId" type="button" class="btn-cancel" (click)="cancelEdit()">Annuler</button>
+        <button type="submit" class="btn-primary-admin">{{ editingId ? 'Mettre à jour' : 'Ajouter' }}</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Loading -->
+<div *ngIf="isLoading" class="admin-loading">
+  <div class="spinner"></div>
+  <span>Chargement des formations...</span>
+</div>
+
+<!-- Error -->
+<div *ngIf="error" class="admin-alert admin-alert-error">
+  <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+</div>
+
+<!-- Empty -->
+<div *ngIf="!isLoading && !error && formations.length === 0" class="admin-empty">
+  <i class="bi bi-mortarboard"></i>
+  <h4>Aucune formation</h4>
+  <p>Commencez par créer votre première formation.</p>
+</div>
+
+<!-- Table -->
+<div *ngIf="!isLoading && formations.length > 0" class="admin-table-card">
+  <div class="table-responsive">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Formation</th>
+          <th>Thème</th>
+          <th>Prix</th>
+          <th>Durée</th>
+          <th>Niveau</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let f of formations">
+          <td>
+            <div class="cell-formation">
+              <span class="cell-name">{{ f.title }}</span>
+              <span class="cell-meta">{{ f.category }} · {{ f.slug }}</span>
+            </div>
+          </td>
+          <td>
+            <span class="cell-badge" *ngIf="f.theme">{{ f.theme.name }}</span>
+            <span class="cell-muted" *ngIf="!f.theme">—</span>
+          </td>
+          <td><span class="cell-price">{{ f.price | currency:'EUR' }}</span></td>
+          <td>{{ f.duration }}</td>
+          <td>
+            <span class="level-badge" [attr.data-level]="f.level">
+              {{ f.level === 'BEGINNER' ? 'Débutant' : f.level === 'INTERMEDIATE' ? 'Intermédiaire' : 'Expert' }}
+            </span>
+          </td>
+          <td>
+            <span class="status-dot" [class.active]="f.published" [class.inactive]="!f.published">
+              {{ f.published ? 'Publié' : 'Brouillon' }}
+            </span>
+          </td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-action" (click)="viewDetails(f)" title="Détails">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button class="btn-action" (click)="startEdit(f)" title="Modifier">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn-action btn-action-danger" (click)="deleteFormation(f.id)" title="Supprimer">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal-overlay" *ngIf="showDetailsModal" (click)="closeDetailsModal()">
+  <div class="modal-card modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-card-header">
+      <h5><i class="bi bi-info-circle"></i> Détails de la formation</h5>
+      <button class="modal-close" (click)="closeDetailsModal()">&times;</button>
+    </div>
+    <div class="modal-card-body" *ngIf="selectedFormation">
+      <div class="detail-grid">
+        <div class="detail-main">
+          <h4 class="detail-title">{{ selectedFormation.title }}</h4>
+          <div class="detail-row">
+            <div class="detail-item">
+              <span class="detail-label">Slug</span>
+              <span class="detail-value">{{ selectedFormation.slug }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Catégorie</span>
+              <span class="cell-badge">{{ selectedFormation.category }}</span>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-item">
+              <span class="detail-label">Prix</span>
+              <span class="cell-price">{{ selectedFormation.price | currency:'EUR' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Durée</span>
+              <span>{{ selectedFormation.duration }}</span>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-item">
+              <span class="detail-label">Niveau</span>
+              <span class="level-badge" [attr.data-level]="selectedFormation.level">{{ selectedFormation.level }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Statut</span>
+              <span class="status-dot" [class.active]="selectedFormation.published">
+                {{ selectedFormation.published ? 'Publié' : 'Brouillon' }}
+              </span>
+            </div>
+          </div>
+          <div class="detail-item" *ngIf="selectedFormation.description">
+            <span class="detail-label">Description</span>
+            <p class="detail-desc">{{ selectedFormation.description }}</p>
+          </div>
+          <div class="detail-dates" *ngIf="selectedFormation.createdAt">
+            <small>Créé le {{ selectedFormation.createdAt | date:'dd/MM/yyyy à HH:mm' }}</small>
+            <small *ngIf="selectedFormation.updatedAt"> · Modifié le {{ selectedFormation.updatedAt | date:'dd/MM/yyyy à HH:mm' }}</small>
+          </div>
+        </div>
+        <div class="detail-image" *ngIf="selectedFormation.imageUrl">
+          <img [src]="selectedFormation.imageUrl" [alt]="selectedFormation.title">
+        </div>
+      </div>
+    </div>
+    <div class="modal-card-footer">
+      <button class="btn-cancel" (click)="closeDetailsModal()">Fermer</button>
+      <button class="btn-primary-admin" (click)="editFromModal(selectedFormation!)">
+        <i class="bi bi-pencil"></i> Modifier
+      </button>
+    </div>
+  </div>
+</div>

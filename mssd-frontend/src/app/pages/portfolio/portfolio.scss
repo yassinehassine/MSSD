@@ -1,0 +1,228 @@
+@use 'sass:color';
+
+$primary: #002b6c;
+$secondary: #e60000;
+$white: #fff;
+$light-bg: #f8f9fa;
+$text-dark: #222;
+$text-muted: #6c757d;
+
+// Hero
+.portfolio-hero {
+  background: linear-gradient(135deg, $primary 0%, color.adjust($primary, $lightness: 12%) 100%);
+  padding: 5rem 0 3rem;
+  text-align: center;
+
+  .portfolio-hero-title {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: $white;
+    margin-bottom: 0.75rem;
+  }
+
+  .portfolio-hero-subtitle {
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.85);
+    max-width: 550px;
+    margin: 0 auto;
+  }
+}
+
+// Section
+.portfolio-section {
+  padding: 4rem 0 5rem;
+  background: $light-bg;
+}
+
+// Filters
+.portfolio-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: $text-muted;
+  background: $white;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: $primary;
+    color: $primary;
+  }
+
+  &.active {
+    background: $primary;
+    color: $white;
+    border-color: $primary;
+  }
+}
+
+// Loading / Error / Empty
+.loading-state {
+  text-align: center;
+  padding: 4rem 0;
+
+  .spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba($primary, 0.15);
+    border-top-color: $primary;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-bottom: 1rem;
+  }
+
+  p { color: $text-muted; }
+}
+
+.error-state {
+  text-align: center;
+  padding: 3rem;
+  background: $white;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+  i { font-size: 2.5rem; color: $secondary; }
+  p { color: $text-muted; margin: 0.75rem 0 1rem; }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+
+  i {
+    font-size: 3.5rem;
+    color: #ccc;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  h4 {
+    color: $text-dark;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  p { color: $text-muted; }
+}
+
+.btn-retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.25rem;
+  background: $primary;
+  color: $white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba($primary, 0.3);
+  }
+}
+
+// Portfolio Cards
+.portfolio-card {
+  background: $white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+
+    .portfolio-card-img img {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.portfolio-card-img {
+  height: 220px;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba($primary, 0.04), rgba($primary, 0.02));
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+}
+
+.portfolio-card-body {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolio-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: $primary;
+  margin-bottom: 0.5rem;
+}
+
+.portfolio-card-desc {
+  font-size: 0.9rem;
+  color: $text-muted;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.portfolio-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  .meta-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba($primary, 0.06);
+    padding: 0.3rem 0.7rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $primary;
+
+    &.date {
+      background: rgba($secondary, 0.06);
+      color: $secondary;
+    }
+  }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 768px) {
+  .portfolio-hero .portfolio-hero-title {
+    font-size: 2rem;
+  }
+
+  .portfolio-card-img {
+    height: 180px;
+  }
+}

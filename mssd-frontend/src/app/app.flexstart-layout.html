@@ -1,0 +1,83 @@
+<!-- FlexStart Header with Modern Dropdowns -->
+<header id="header" class="header d-flex align-items-center fixed-top">
+  <div class="container-fluid container-xl position-relative d-flex align-items-center">
+    <a routerLink="/home" class="logo d-flex align-items-center me-auto">
+      <img src="assets/img/logo1.png" alt="Logo" height="60" width="auto" style="margin-right: 10px;">
+    </a>
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a routerLink="/home" routerLinkActive="active">{{ t('nav.home') }}</a></li>
+        <li><a routerLink="/about" routerLinkActive="active">{{ t('nav.about') }}</a></li>
+        
+        <!-- Formations Dropdown -->
+        <li class="dropdown" 
+            (mouseenter)="showDropdown('formations')" 
+            (mouseleave)="hideDropdown('formations')">
+          <a routerLink="/annexes" routerLinkActive="active">{{ t('nav.annexes') }}</a>
+          <div class="dropdown-menu modern-dropdown" [class.show]="dropdowns['formations']">
+            <a routerLink="/annexes" class="dropdown-item" (click)="closeDropdown('formations')">
+              <i class="bi bi-collection"></i>
+              <span>Toutes les Formations</span>
+            </a>
+            <a routerLink="/annexes-theme" class="dropdown-item" (click)="closeDropdown('formations')">
+              <i class="bi bi-tags"></i>
+              <span>Par Thèmes</span>
+            </a>
+            <a routerLink="/annexes/request" class="dropdown-item featured" (click)="closeDropdown('formations')">
+              <i class="bi bi-send"></i>
+              <span>Demander un Devis</span>
+            </a>
+          </div>
+        </li>
+        
+        <li><a routerLink="/portfolio" routerLinkActive="active">{{ t('nav.portfolio') }}</a></li>
+        <li><a routerLink="/blog" routerLinkActive="active">{{ t('nav.blog') }}</a></li>
+        
+        <!-- Services Dropdown -->
+        <li class="dropdown" 
+            (mouseenter)="showDropdown('services')" 
+            (mouseleave)="hideDropdown('services')">
+          <a routerLink="/service-details" routerLinkActive="active">{{ t('nav.service-details') }}</a>
+          <div class="dropdown-menu modern-dropdown" [class.show]="dropdowns['services']">
+            <a routerLink="/services" class="dropdown-item" (click)="closeDropdown('services')">
+              <i class="bi bi-gear"></i>
+              <span>Nos Services</span>
+            </a>
+            <a routerLink="/service-details" class="dropdown-item" (click)="closeDropdown('services')">
+              <i class="bi bi-info-square"></i>
+              <span>Détails Services</span>
+            </a>
+            <a routerLink="/calendar" class="dropdown-item" (click)="closeDropdown('services')">
+              <i class="bi bi-calendar-event"></i>
+              <span>Calendrier</span>
+            </a>
+          </div>
+        </li>
+        
+        <li><a routerLink="/calendar" routerLinkActive="active">{{ t('nav.calendar') }}</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active">{{ t('nav.contact') }}</a></li>
+      </ul>
+      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
+    
+    <!-- Language Toggle Button -->
+    <div class="language-toggle">
+      <button 
+        class="btn btn-outline-primary btn-sm language-btn" 
+        (click)="toggleLanguage()"
+        [title]="currentLanguage === 'fr' ? 'Switch to English' : 'Passer au français'">
+        <i class="bi bi-translate me-1"></i>
+        {{ currentLanguage === 'fr' ? 'EN' : 'FR' }}
+      </button>
+    </div>
+  </div>
+</header>
+
+
+
+<!-- Main Content -->
+<main class="main">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- White footer removed as requested; blue footer remains in AppComponent -->

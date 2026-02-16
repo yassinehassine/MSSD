@@ -1,0 +1,146 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Gestion du portfolio</h1>
+    <p class="page-subtitle">Présentez vos réalisations et références clients</p>
+  </div>
+  <button class="btn-primary-admin" (click)="showAddForm()" [disabled]="isLoading">
+    <i class="bi bi-plus-lg"></i> Ajouter un élément
+  </button>
+</div>
+
+<!-- Alerts -->
+<div *ngIf="message" class="admin-alert" [class.admin-alert-success]="messageType === 'success'" [class.admin-alert-error]="messageType === 'error'">
+  <i class="bi" [class.bi-check-circle]="messageType === 'success'" [class.bi-exclamation-circle]="messageType === 'error'"></i>
+  {{ message }}
+</div>
+
+<!-- Loading -->
+<div *ngIf="isLoading" class="admin-loading">
+  <div class="spinner"></div>
+  <span>Chargement...</span>
+</div>
+
+<!-- Empty -->
+<div *ngIf="!isLoading && portfolioItems.length === 0" class="admin-empty">
+  <i class="bi bi-briefcase"></i>
+  <h4>Aucun élément portfolio</h4>
+  <p>Commencez par ajouter votre première référence.</p>
+  <button class="btn-primary-admin" (click)="showAddForm()">
+    <i class="bi bi-plus-lg"></i> Ajouter
+  </button>
+</div>
+
+<!-- Table -->
+<div *ngIf="!isLoading && portfolioItems.length > 0" class="admin-table-card">
+  <div class="table-header">
+    <h3><i class="bi bi-grid-3x3-gap"></i> Éléments du portfolio <span class="badge-count">{{ portfolioItems.length }}</span></h3>
+  </div>
+  <div class="table-responsive">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Logo</th>
+          <th>Entreprise</th>
+          <th>Formation</th>
+          <th>Date</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of portfolioItems" [class.row-inactive]="!item.active">
+          <td>
+            <div class="cell-logo">
+              <img [src]="getImageUrl(item.logoUrl)" [alt]="item.companyName" onerror="this.src='assets/img/logo1.png'">
+            </div>
+          </td>
+          <td>
+            <div class="cell-formation">
+              <span class="cell-name">{{ item.companyName }}</span>
+              <span class="cell-meta" *ngIf="item.description">{{ item.description | slice:0:50 }}{{ item.description && item.description.length > 50 ? '...' : '' }}</span>
+            </div>
+          </td>
+          <td>{{ item.trainingTitle }}</td>
+          <td>{{ item.trainingDate | date:'dd/MM/yyyy' }}</td>
+          <td>
+            <span class="status-dot" [class.active]="item.active" [class.inactive]="!item.active">
+              {{ item.active ? 'Actif' : 'Inactif' }}
+            </span>
+          </td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-action" (click)="editItem(item)" [disabled]="isLoading" title="Modifier">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn-action" [class.btn-action-warning]="item.active"
+                      (click)="toggleActive(item)" [disabled]="isLoading"
+                      [title]="item.active ? 'Désactiver' : 'Activer'">
+                <i class="bi" [class.bi-eye-slash]="item.active" [class.bi-eye]="!item.active"></i>
+              </button>
+              <button class="btn-action btn-action-danger" (click)="deleteItem(item)" [disabled]="isLoading" title="Supprimer">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay" *ngIf="showForm" (click)="cancelForm()">
+  <div class="modal-card modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-card-header">
+      <h5><i class="bi bi-pencil-square"></i> {{ isEditing ? 'Modifier' : 'Ajouter' }} un élément</h5>
+      <button class="modal-close" (click)="cancelForm()">&times;</button>
+    </div>
+    <div class="modal-card-body">
+      <form (ngSubmit)="saveItem()" #portfolioForm="ngForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nom de l'entreprise *</label>
+            <input type="text" [(ngModel)]="currentItem.companyName" name="companyName" required placeholder="Ex: TechCorp Solutions">
+          </div>
+          <div class="form-group">
+            <label>Titre de la formation *</label>
+            <input type="text" [(ngModel)]="currentItem.trainingTitle" name="trainingTitle" required placeholder="Ex: Leadership & Management">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Date de la formation *</label>
+            <input type="date" [(ngModel)]="currentItem.trainingDate" name="trainingDate" required>
+          </div>
+          <div class="form-group">
+            <label>Logo de l'entreprise</label>
+            <input type="file" accept="image/*" (change)="onFileSelected($event)">
+            <span class="form-hint">JPG, PNG, SVG</span>
+          </div>
+        </div>
+        <div class="form-group form-full">
+          <label>Description (optionnel)</label>
+          <textarea [(ngModel)]="currentItem.description" name="description" rows="3" placeholder="Description de la formation..."></textarea>
+        </div>
+        <div class="form-check-row">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="currentItem.active" name="active">
+            <span>Élément actif (visible sur le site)</span>
+          </label>
+        </div>
+        <div *ngIf="currentItem.logoUrl && !selectedFile" class="current-logo">
+          <span class="form-hint">Logo actuel :</span>
+          <img [src]="getImageUrl(currentItem.logoUrl)" [alt]="currentItem.companyName">
+        </div>
+      </form>
+    </div>
+    <div class="modal-card-footer">
+      <button class="btn-cancel" (click)="cancelForm()" [disabled]="isLoading">Annuler</button>
+      <button class="btn-primary-admin" (click)="saveItem()" [disabled]="isLoading">
+        <span *ngIf="isLoading" class="spinner-sm"></span>
+        {{ isEditing ? 'Mettre à jour' : 'Créer' }}
+      </button>
+    </div>
+  </div>
+</div>

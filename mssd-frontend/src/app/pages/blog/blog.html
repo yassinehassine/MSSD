@@ -1,0 +1,128 @@
+<!-- Blog Hero -->
+<section class="blog-hero">
+  <div class="container">
+    <h1 class="blog-hero-title">Blog</h1>
+    <p class="blog-hero-subtitle">Découvrez nos événements passés, actualités et réalisations</p>
+  </div>
+</section>
+
+<!-- Blog Content -->
+<section class="blog-section">
+  <div class="container">
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Chargement des articles...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-state">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <p>{{ error }}</p>
+    </div>
+
+    <!-- Search & Filters -->
+    <div *ngIf="!loading && !error && blogs.length > 0" class="blog-controls">
+      <div class="row gy-3">
+        <div class="col-md-6">
+          <div class="control-input-wrapper">
+            <i class="bi bi-search"></i>
+            <input type="text" class="control-input" placeholder="Rechercher un article..."
+                   [(ngModel)]="searchTerm" (input)="onSearchChange()">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <select class="control-select" [(ngModel)]="sortBy" (change)="onSortChange()">
+            <option value="date">Plus récent</option>
+            <option value="title">Titre (A-Z)</option>
+            <option value="type">Type</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select class="control-select" [(ngModel)]="filterType" (change)="onFilterChange()">
+            <option value="all">Tous</option>
+            <option value="video">Vidéos</option>
+            <option value="image">Images</option>
+            <option value="text">Texte</option>
+          </select>
+        </div>
+      </div>
+      <p class="results-count">
+        <i class="bi bi-info-circle"></i>
+        {{ totalItems }} article(s) trouvé(s)
+        <span *ngIf="searchTerm"> pour "{{ searchTerm }}"</span>
+      </p>
+    </div>
+
+    <!-- Empty -->
+    <div *ngIf="!loading && !error && blogs.length === 0" class="empty-state">
+      <i class="bi bi-journal-x"></i>
+      <h4>Aucun article disponible</h4>
+      <p>Les articles de blog seront bientôt disponibles.</p>
+    </div>
+
+    <!-- No Results -->
+    <div *ngIf="!loading && !error && blogs.length > 0 && filteredBlogs.length === 0" class="empty-state">
+      <i class="bi bi-search"></i>
+      <h4>Aucun résultat trouvé</h4>
+      <p>Essayez de modifier vos critères.</p>
+      <button class="btn-action" (click)="searchTerm = ''; filterType = 'all'; onSearchChange()">
+        <i class="bi bi-arrow-clockwise"></i> Réinitialiser
+      </button>
+    </div>
+
+    <!-- Blog Grid -->
+    <div *ngIf="!loading && !error && paginatedBlogs.length > 0" class="row gy-4">
+      <div class="col-lg-4 col-md-6" *ngFor="let blog of paginatedBlogs">
+        <article class="blog-card" [class.video-card]="blog.youtubeUrl" (click)="onBlogClick(blog)">
+          <!-- Image -->
+          <div class="blog-card-media" *ngIf="!blog.youtubeUrl && blog.imageUrl">
+            <img [src]="getImageUrl(blog)" [alt]="blog.title"
+                 onerror="this.src='assets/img/blog/blog-default.jpg'">
+          </div>
+
+          <!-- Video indicator -->
+          <div class="blog-card-media video-media" *ngIf="blog.youtubeUrl">
+            <div class="video-placeholder">
+              <i class="bi bi-youtube"></i>
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="meta-date">
+                <i class="bi bi-calendar3"></i> {{ formatDate(blog.publishDate!) }}
+              </span>
+              <span *ngIf="blog.youtubeUrl" class="meta-type video"><i class="bi bi-play-circle-fill"></i> Vidéo</span>
+              <span *ngIf="blog.imageUrl && !blog.youtubeUrl" class="meta-type image"><i class="bi bi-image"></i> Image</span>
+            </div>
+
+            <h3 class="blog-card-title">{{ blog.title }}</h3>
+            <p class="blog-card-excerpt">
+              {{ blog.description.length > 150 ? (blog.description | slice:0:150) + '...' : blog.description }}
+            </p>
+
+            <div class="blog-card-actions">
+              <button *ngIf="blog.youtubeUrl" class="btn-action video" (click)="openYouTubeVideo(blog.youtubeUrl!, $event)">
+                <i class="bi bi-youtube"></i> Voir sur YouTube
+              </button>
+              <button *ngIf="!blog.youtubeUrl" class="btn-action">
+                <i class="bi bi-arrow-right"></i> Lire Plus
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <app-pagination
+      *ngIf="!loading && !error && totalItems > itemsPerPage"
+      [currentPage]="currentPage"
+      [totalItems]="totalItems"
+      [itemsPerPage]="itemsPerPage"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
+  </div>
+</section>

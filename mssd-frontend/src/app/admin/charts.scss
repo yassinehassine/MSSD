@@ -1,0 +1,39 @@
+$admin-primary: #002b6c;
+$admin-primary-light: #e8eef6;
+$admin-text: #1e293b;
+$admin-text-muted: #64748b;
+$admin-white: #ffffff;
+$admin-border: #e2e8f0;
+$admin-body-bg: #f0f2f5;
+$admin-radius: 12px;
+
+.page-header {
+  margin-bottom: 1.5rem;
+  .page-title { font-size: 1.6rem; font-weight: 700; color: $admin-text; margin: 0; }
+  .page-subtitle { font-size: 0.9rem; color: $admin-text-muted; margin: 0.25rem 0 0; }
+}
+
+.placeholder-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem; margin-bottom: 2rem;
+}
+
+.placeholder-card {
+  background: $admin-white; border: 1px solid $admin-border; border-radius: $admin-radius;
+  padding: 2rem 1.5rem; text-align: center; transition: transform 0.2s, box-shadow 0.2s;
+  &:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  h3 { font-size: 1rem; font-weight: 600; color: $admin-text; margin: 0 0 0.5rem; }
+  p { font-size: 0.88rem; color: $admin-text-muted; margin: 0; }
+}
+
+.placeholder-icon {
+  width: 56px; height: 56px; border-radius: 14px; background: $admin-primary-light; color: $admin-primary;
+  display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+  margin: 0 auto 1rem;
+}
+
+.coming-soon {
+  text-align: center; padding: 1.5rem; color: $admin-text-muted;
+  i { font-size: 1.3rem; margin-right: 0.4rem; vertical-align: middle; }
+  p { display: inline; font-size: 0.9rem; }
+}
