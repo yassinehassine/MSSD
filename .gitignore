@@ -1,0 +1,39 @@
+# ============================================
+# MSSD Project .gitignore
+# ============================================
+
+# Environment and Secrets
+.env
+.env.local
+.env.production
+*.pem
+*.key
+*.crt
+
+# Docker
+docker-compose.override.yml
+*.log
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+mssd-backend/uploads/*
+mssd-frontend/uploads/*
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.bak
+*.cache

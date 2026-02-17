@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  # ============================================
+  # MySQL Database
+  # ============================================
+  mssd-db:
+    image: mysql:8.0
+    container_name: mssd-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-mssd_db}
+      MYSQL_USER: ${MYSQL_USER:-mssd_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-mssd_pass}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mssd-db-data:/var/lib/mysql
+    networks:
+      - mssd-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root123}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ============================================
+  # Spring Boot Backend
+  # ============================================
+  mssd-backend:
+    build:
+      context: ./mssd-backend
+      dockerfile: Dockerfile
+    container_name: mssd-backend
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:mysql://mssd-db:3306/${MYSQL_DATABASE:-mssd_db}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-mssd_user}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-mssd_pass}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "false"
+      APP_UPLOAD_DIR: /app/uploads
+    ports:
+      - "8080:8080"
+    volumes:
+      - mssd-uploads:/app/uploads
+    depends_on:
+      mssd-db:
+        condition: service_healthy
+    networks:
+      - mssd-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # ============================================
+  # Angular Frontend (Nginx)
+  # ============================================
+  mssd-frontend:
+    build:
+      context: ./mssd-frontend
+      dockerfile: Dockerfile
+    container_name: mssd-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      mssd-backend:
+        condition: service_healthy
+    networks:
+      - mssd-network
+
+  # ============================================
+  # phpMyAdmin (Optional - Dev/Debug)
+  # ============================================
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: mssd-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mssd-db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123}
+    ports:
+      - "8081:80"
+    depends_on:
+      mssd-db:
+        condition: service_healthy
+    networks:
+      - mssd-network
+    profiles:
+      - debug
+
+volumes:
+  mssd-db-data:
+    driver: local
+  mssd-uploads:
+    driver: local
+
+networks:
+  mssd-network:
+    driver: bridge
