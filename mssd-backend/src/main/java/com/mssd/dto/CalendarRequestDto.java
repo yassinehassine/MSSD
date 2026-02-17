@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Future;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,11 +21,11 @@ public class CalendarRequestDto {
     private String description;
     
     @NotNull(message = "Start time is required")
-    @Future(message = "Start time must be in the future")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startTime;
     
     @NotNull(message = "End time is required")
-    @Future(message = "End time must be in the future")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime endTime;
     
     @NotBlank(message = "Location is required")

@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig {
     
-    @Value("${app.upload.dir:src/main/resources/static/uploads}")
+    @Value("${app.upload.dir:uploads}")
     private String uploadDir;
     
     @Bean

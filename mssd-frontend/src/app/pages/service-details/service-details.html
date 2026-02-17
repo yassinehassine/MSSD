@@ -1,66 +1,135 @@
-<!-- Service Details Main Content -->
-<div class="page-title">
-  <div class="heading">
-    <div class="container">
-      <div class="row d-flex justify-content-center text-center">
-        <div class="col-lg-8">
-          <h1>Service Details</h1>
-          <p class="mb-0">Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
-        </div>
+<!-- Hero Section -->
+<section class="sd-hero">
+  <div class="sd-hero-bg"></div>
+  <div class="container">
+    <nav class="sd-breadcrumb" aria-label="breadcrumb">
+      <ol>
+        <li><a routerLink="/home"><i class="bi bi-house-fill"></i> Accueil</a></li>
+        <li><a routerLink="/services"><i class="bi bi-grid-fill"></i> Services</a></li>
+        <li class="active">Détails</li>
+      </ol>
+    </nav>
+    <div class="sd-hero-content">
+      <span class="sd-hero-badge">
+        <i class="bi bi-stars"></i> Notre Expertise
+      </span>
+      <h1 class="sd-hero-title">Solutions de Formation Professionnelle</h1>
+      <p class="sd-hero-subtitle">
+        Transformez votre organisation avec nos programmes de formation sur mesure, 
+        conçus pour développer les compétences clés de vos équipes.
+      </p>
+      <div class="sd-hero-actions">
+        <a routerLink="/services" class="sd-btn-primary">
+          <i class="bi bi-collection-fill"></i> Voir nos formations
+        </a>
+        <a routerLink="/contact" class="sd-btn-outline">
+          <i class="bi bi-chat-dots-fill"></i> Nous contacter
+        </a>
       </div>
     </div>
   </div>
-  <nav class="breadcrumbs">
-    <div class="container">
-      <ol>
-        <li><a routerLink="/">Home</a></li>
-        <li class="current">Service Details</li>
-      </ol>
-    </div>
-  </nav>
-</div><!-- End Page Title -->
+</section>
 
-<!-- Service Details Section -->
-<section id="service-details" class="service-details section">
+<!-- Features Section -->
+<section class="sd-features">
   <div class="container">
-    <div class="row gy-4">
-      <div class="col-lg-8">
-        <div class="service-details-content">
-          <img src="assets/img/services.jpg" alt="" class="img-fluid services-img">
-          <h3>Temporibus et in vero dicta aut eius lidero plastis trand lined voluptas dolorem ut voluptas</h3>
-          <p>
-            Blanditiis voluptate odit ex error ea sed officiis deserunt. Cupiditate non consequatur et dolorem in consequatur. Voluptate porro consequatur assumenda perferendis dolore.
-          </p>
-          <p>
-            Explicabo est voluptate temporibus sint consequatur. Aperiam temporibus qui consequatur. Non recusandae ut possimus quae. Assumenda recusandae ad non delectus quidem. Atque quia laudantium corporis aut.
-          </p>
-          <p>
-            Id voluptas quo dolore ipsa. Et dolori debitis aut. Omnis id aut ut. Ipsa sint itaque. Vero sapiente molestiae natus harum laborum. Id rerum iusto. Facere est sed ut fuga. Temporibus autem minima. Non autem minus temporibus aut ex beatae. Voluptate aut temporibus qui assumenda. Perferendis doloremque qui. Ut distinctio assumenda. Consequatur eaque qui.
-          </p>
+    <div class="sd-section-header">
+      <span class="sd-section-badge">Pourquoi nous choisir</span>
+      <h2 class="sd-section-title">Ce qui nous distingue</h2>
+      <p class="sd-section-desc">Notre approche unique combine expertise technique et pédagogie innovante</p>
+    </div>
+    <div class="sd-features-grid">
+      <div class="sd-feature-card" *ngFor="let feature of features; let i = index"
+           [style.animation-delay]="i * 0.1 + 's'">
+        <div class="sd-feature-icon" [style.background]="feature.gradient">
+          <i [class]="'bi ' + feature.icon"></i>
         </div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
       </div>
-      <div class="col-lg-4">
-        <div class="service-sidebar">
-          <h3 class="sidebar-title">Services</h3>
-          <div class="sidebar-item">
-            <ul>
-              <li><a href="#">Web Design</a></li>
-              <li><a href="#">Web Development</a></li>
-              <li><a href="#">Product Management</a></li>
-              <li><a href="#">Graphic Design</a></li>
-              <li><a href="#">Digital Marketing</a></li>
-            </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Process Section -->
+<section class="sd-process">
+  <div class="container">
+    <div class="sd-section-header">
+      <span class="sd-section-badge">Notre Processus</span>
+      <h2 class="sd-section-title">Comment ça marche</h2>
+      <p class="sd-section-desc">Un parcours simple et structuré pour atteindre vos objectifs</p>
+    </div>
+    <div class="sd-process-timeline">
+      <div class="sd-process-step" *ngFor="let step of processSteps; let i = index">
+        <div class="sd-step-number">{{ i + 1 }}</div>
+        <div class="sd-step-content">
+          <div class="sd-step-icon">
+            <i [class]="'bi ' + step.icon"></i>
           </div>
-          <h3 class="sidebar-title">Contact</h3>
-          <div class="sidebar-item">
-            <p>
-              A108 Adam Street <br>
-              New York, NY 535022<br>
-              United States <br><br>
-              <strong>Phone:</strong> +1 5589 55488 55<br>
-              <strong>Email:</strong> infoexample.com<br>
-            </p>
-          </div>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.description }}</p>
+        </div>
+        <div class="sd-step-connector" *ngIf="i < processSteps.length - 1"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="sd-stats">
+  <div class="container">
+    <div class="sd-stats-grid">
+      <div class="sd-stat-card" *ngFor="let stat of stats">
+        <div class="sd-stat-icon">
+          <i [class]="'bi ' + stat.icon"></i>
+        </div>
+        <div class="sd-stat-value">{{ stat.value }}</div>
+        <div class="sd-stat-label">{{ stat.label }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modalities Section -->
+<section class="sd-modalities">
+  <div class="container">
+    <div class="sd-section-header">
+      <span class="sd-section-badge">Formats disponibles</span>
+      <h2 class="sd-section-title">Choisissez votre modalité</h2>
+      <p class="sd-section-desc">Nous nous adaptons à vos contraintes et préférences</p>
+    </div>
+    <div class="sd-modalities-grid">
+      <div class="sd-modality-card" *ngFor="let mod of modalities">
+        <div class="sd-modality-icon" [style.background]="mod.gradient">
+          <i [class]="'bi ' + mod.icon"></i>
+        </div>
+        <h3>{{ mod.title }}</h3>
+        <p>{{ mod.description }}</p>
+        <ul class="sd-modality-list">
+          <li *ngFor="let item of mod.features">
+            <i class="bi bi-check-circle-fill"></i> {{ item }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="sd-cta">
+  <div class="container">
+    <div class="sd-cta-card">
+      <div class="sd-cta-bg"></div>
+      <div class="sd-cta-content">
+        <h2>Prêt à transformer vos compétences ?</h2>
+        <p>Contactez-nous pour discuter de votre projet de formation et obtenir un devis personnalisé.</p>
+        <div class="sd-cta-actions">
+          <a routerLink="/annexes/request" class="sd-btn-cta">
+            <i class="bi bi-rocket-takeoff-fill"></i> Demander un devis
+          </a>
+          <a routerLink="/annexes" class="sd-btn-cta-outline">
+            <i class="bi bi-journal-bookmark-fill"></i> Parcourir le catalogue
+          </a>
         </div>
       </div>
     </div>

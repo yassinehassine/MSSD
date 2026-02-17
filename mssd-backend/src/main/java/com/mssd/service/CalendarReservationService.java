@@ -1,6 +1,8 @@
 package com.mssd.service;
 
+import com.mssd.model.Calendar;
 import com.mssd.model.CalendarReservation;
+import com.mssd.repository.CalendarRepository;
 import com.mssd.repository.CalendarReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class CalendarReservationService {
 
     @Autowired
     private CalendarReservationRepository calendarReservationRepository;
+
+    @Autowired
+    private CalendarRepository calendarRepository;
 
     public List<CalendarReservation> getAllReservations() {
         return calendarReservationRepository.findAllByOrderByCreatedAtDesc();
@@ -109,9 +114,46 @@ public class CalendarReservationService {
         
         if (optionalReservation.isPresent()) {
             CalendarReservation reservation = optionalReservation.get();
+            CalendarReservation.ReservationStatus oldStatus = reservation.getStatus();
+            
             reservation.setStatus(status);
             reservation.setUpdatedAt(LocalDateTime.now());
-            return calendarReservationRepository.save(reservation);
+            CalendarReservation savedReservation = calendarReservationRepository.save(reservation);
+            
+            // Update calendar capacity when status changes to CONFIRMED
+            if (status == CalendarReservation.ReservationStatus.CONFIRMED && oldStatus != CalendarReservation.ReservationStatus.CONFIRMED) {
+                if (reservation.getCalendarId() != null) {
+                    Optional<Calendar> optionalCalendar = calendarRepository.findById(reservation.getCalendarId());
+                    if (optionalCalendar.isPresent()) {
+                        Calendar calendar = optionalCalendar.get();
+                        if (calendar.getCurrentCapacity() < calendar.getMaxCapacity()) {
+                            calendar.setCurrentCapacity(calendar.getCurrentCapacity() + 1);
+                            if (calendar.getCurrentCapacity() == calendar.getMaxCapacity()) {
+                                calendar.setStatus(Calendar.CalendarStatus.FULL);
+                            }
+                            calendarRepository.save(calendar);
+                        }
+                    }
+                }
+            }
+            // Decrement capacity if status changes from CONFIRMED to CANCELLED
+            else if (status == CalendarReservation.ReservationStatus.CANCELLED && oldStatus == CalendarReservation.ReservationStatus.CONFIRMED) {
+                if (reservation.getCalendarId() != null) {
+                    Optional<Calendar> optionalCalendar = calendarRepository.findById(reservation.getCalendarId());
+                    if (optionalCalendar.isPresent()) {
+                        Calendar calendar = optionalCalendar.get();
+                        if (calendar.getCurrentCapacity() > 0) {
+                            calendar.setCurrentCapacity(calendar.getCurrentCapacity() - 1);
+                            if (calendar.getStatus() == Calendar.CalendarStatus.FULL) {
+                                calendar.setStatus(Calendar.CalendarStatus.AVAILABLE);
+                            }
+                            calendarRepository.save(calendar);
+                        }
+                    }
+                }
+            }
+            
+            return savedReservation;
         }
         
         throw new RuntimeException("Calendar reservation not found with id: " + id);

@@ -47,7 +47,7 @@
           <div class="input-icon-wrapper">
             <i class="bi bi-search"></i>
             <input type="text" id="searchTerm" [(ngModel)]="searchTerm"
-                   (ngModelChange)="applyFilters()" placeholder="Titre ou description...">
+                   (keyup.enter)="applyFilters()" placeholder="Titre ou description...">
           </div>
         </div>
         <div class="filter-group">
@@ -55,7 +55,7 @@
           <div class="input-icon-wrapper">
             <i class="bi bi-geo-alt"></i>
             <input type="text" id="locationFilter" [(ngModel)]="locationFilter"
-                   (ngModelChange)="applyFilters()" placeholder="Filtrer par lieu...">
+                   (keyup.enter)="applyFilters()" placeholder="Filtrer par lieu...">
           </div>
         </div>
         <div class="filter-group">
@@ -70,9 +70,14 @@
         </div>
         <div class="filter-group filter-action">
           <label>&nbsp;</label>
-          <button class="btn-clear" (click)="clearFilters()">
-            <i class="bi bi-x-circle"></i> Réinitialiser
-          </button>
+          <div class="filter-buttons">
+            <button class="btn-search" (click)="applyFilters()">
+              <i class="bi bi-search"></i> Rechercher
+            </button>
+            <button class="btn-clear" (click)="clearFilters()">
+              <i class="bi bi-x-circle"></i> Réinitialiser
+            </button>
+          </div>
         </div>
       </div>
     </div>

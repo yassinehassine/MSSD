@@ -52,7 +52,7 @@ export class Calendar implements OnInit {
 
   loadCalendars(): void {
     this.loading = true;
-    this.calendarService.getAvailableCalendars().subscribe({
+    this.calendarService.getAllCalendars().subscribe({
       next: (calendars) => {
         this.calendars = calendars;
         this.applyFilters();
@@ -234,6 +234,7 @@ export class Calendar implements OnInit {
     
     // Create calendar reservation
     const calendarReservation: CalendarReservation = {
+      calendarId: this.reservationEvent?.id,
       clientName: this.reservationForm.visitorName,
       clientEmail: this.reservationForm.visitorEmail,
       clientPhone: this.reservationForm.visitorPhone || '',

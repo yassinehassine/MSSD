@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 export interface CalendarReservation {
   id?: number;
+  calendarId?: number;
   clientName: string;
   clientEmail: string;
   clientPhone?: string;

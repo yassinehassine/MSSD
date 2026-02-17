@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Formation } from './formation.service';
 
 export interface CalendarDto {
   id: number;
@@ -12,9 +13,11 @@ export interface CalendarDto {
   maxCapacity: number;
   currentCapacity: number;
   status: 'AVAILABLE' | 'FULL' | 'CANCELLED' | 'COMPLETED';
-  createdAt: string;
-  updatedAt: string;
-  availableSpots: number;
+  createdAt?: string;
+  updatedAt?: string;
+  availableSpots?: number;
+  eventType?: 'EVENT' | 'FORMATION';
+  formation?: Formation;
 }
 
 export interface CalendarRequestDto {

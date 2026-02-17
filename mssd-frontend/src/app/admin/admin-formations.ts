@@ -22,6 +22,7 @@ export class AdminFormations implements OnInit {
   // For add/edit
   form: FormationRequest = this.emptyForm();
   editingId: number | null = null;
+  isAdding = false;
   formError = '';
   formSuccess = '';
   imageUploading = false;
@@ -83,6 +84,7 @@ export class AdminFormations implements OnInit {
 
   startAdd() {
     this.editingId = null;
+    this.isAdding = true;
     this.form = this.emptyForm();
     this.formError = '';
     this.formSuccess = '';
@@ -90,6 +92,7 @@ export class AdminFormations implements OnInit {
 
   startEdit(formation: Formation) {
     this.editingId = formation.id;
+    this.isAdding = false;
     this.form = {
       title: formation.title,
       slug: formation.slug,
@@ -149,6 +152,7 @@ export class AdminFormations implements OnInit {
         next: () => {
           this.formSuccess = 'Formation added!';
           this.loadFormations();
+          this.isAdding = false;
           this.form = this.emptyForm();
         },
         error: () => {
@@ -168,6 +172,7 @@ export class AdminFormations implements OnInit {
 
   cancelEdit() {
     this.editingId = null;
+    this.isAdding = false;
     this.form = this.emptyForm();
     this.formError = '';
     this.formSuccess = '';
@@ -186,5 +191,17 @@ export class AdminFormations implements OnInit {
   editFromModal(formation: Formation) {
     this.closeDetailsModal();
     this.startEdit(formation);
+  }
+
+  getImageUrl(imageUrl: string | undefined): string {
+    if (!imageUrl) {
+      return 'assets/img/formation-default.jpg';
+    }
+    if (imageUrl.startsWith('http')) {
+      return imageUrl;
+    }
+    // Strip uploads/ prefix if present
+    const path = imageUrl.startsWith('uploads/') ? imageUrl.substring(8) : imageUrl;
+    return `/api/files/${path}`;
   }
 } 

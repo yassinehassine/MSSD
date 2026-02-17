@@ -90,7 +90,7 @@ $admin-radius: 12px;
 }
 
 .cell-message {
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical;
   overflow: hidden; max-width: 250px; font-size: 0.82rem; color: $admin-text-muted;
 }
 

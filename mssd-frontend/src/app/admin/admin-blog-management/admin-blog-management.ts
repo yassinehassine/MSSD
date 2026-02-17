@@ -320,7 +320,10 @@ export class AdminBlogManagement implements OnInit {
 
   getImageUrl(blog: BlogPost): string {
     if (blog.imageUrl) {
-      if (blog.imageUrl.startsWith('http')) return blog.imageUrl;
+      if (blog.imageUrl.startsWith('http')) {
+        return blog.imageUrl;
+      }
+      // Strip uploads/ prefix if present
       const path = blog.imageUrl.startsWith('uploads/') ? blog.imageUrl.substring(8) : blog.imageUrl;
       return `/api/files/${path}`;
     }

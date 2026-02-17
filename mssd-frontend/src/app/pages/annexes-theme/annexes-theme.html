@@ -1,179 +1,217 @@
-<section class="theme-detail section">
+<!-- Hero Header -->
+<section class="theme-hero" *ngIf="!loading && !error && theme">
   <div class="container">
-    <!-- Breadcrumb Navigation -->
-    <nav aria-label="breadcrumb" class="mb-4" *ngIf="!loading">
+    <nav class="breadcrumb-nav" aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a routerLink="/home" class="text-decoration-none">
-            <i class="bi bi-house me-1"></i>Accueil
-          </a>
+          <a routerLink="/home"><i class="bi bi-house-fill"></i> Accueil</a>
         </li>
         <li class="breadcrumb-item">
-          <a routerLink="/annexes" class="text-decoration-none">
-            <i class="bi bi-collection me-1"></i>Formations
-          </a>
+          <a routerLink="/annexes"><i class="bi bi-collection-fill"></i> Formations</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-          <i class="bi bi-tag me-1"></i>
-          {{ theme?.name || slug }}
+          {{ theme.name || slug }}
         </li>
       </ol>
     </nav>
 
-    <!-- Loading State -->
-    <div *ngIf="loading" class="text-center py-5">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Chargement...</span>
-      </div>
-      <p class="mt-3">Chargement du thème...</p>
-    </div>
-
-    <!-- Error State -->
-    <div *ngIf="error && !loading" class="alert alert-danger text-center" role="alert">
-      <i class="bi bi-exclamation-triangle me-2"></i>
-      {{ error }}
-    </div>
-  </div>
-  
-  <div class="container" *ngIf="!loading && !error && theme">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <div>
-        <h2 class="mb-1">{{ theme.name }}</h2>
-        <p class="text-muted mb-0" *ngIf="theme.description">{{ theme.description }}</p>
-      </div>
-      <button class="btn btn-outline-primary" (click)="goRequest()">
-        <i class="bi bi-send me-2"></i>Demander une formation
-      </button>
-    </div>
-
-    <div *ngIf="theme.formations?.length; else noFormations" class="row g-4">
-      <div class="col-md-6 col-lg-4" *ngFor="let f of theme.formations">
-        <div class="card h-100 shadow-sm formation-card">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">{{ f.title }}</h5>
-            <p class="card-text small text-muted flex-grow-1">{{ f.description }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span [class]="levelBadge(f.level)">{{ levelLabel(f.level) }}</span>
-              <span class="fw-bold text-primary">{{ f.price | currency:'EUR':'symbol':'1.0-0' }}</span>
-            </div>
-            <div class="mt-2 small text-muted">
-              <i class="bi bi-clock me-1"></i>{{ f.duration }}
-            </div>
-            <button class="btn btn-outline-primary btn-sm mt-3 w-100" (click)="viewFormationDetails(f)">
-              <i class="bi bi-eye me-1"></i>Voir les détails
-            </button>
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">{{ theme.name }}</h1>
+        <p class="hero-subtitle">{{ theme.description || 'Découvrez nos formations dans ce domaine.' }}</p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <i class="bi bi-mortarboard-fill"></i>
+            <span>{{ theme.formations?.length || 0 }} formations</span>
           </div>
         </div>
       </div>
+      <div class="hero-action">
+        <button class="btn-request-hero" (click)="goRequest()">
+          <i class="bi bi-send-fill"></i>
+          <span>Demander une formation</span>
+        </button>
+      </div>
     </div>
-    <ng-template #noFormations>
-      <div class="alert alert-info">Aucune formation disponible pour ce thème.</div>
-    </ng-template>
-  </div>
-
-  <div class="container" *ngIf="loading">
-    <div class="text-center py-5">
-      <div class="spinner-border" role="status"></div>
-      <p class="mt-3">Chargement...</p>
-    </div>
-  </div>
-
-  <div class="container" *ngIf="error && !loading">
-    <div class="alert alert-danger">{{ error }}</div>
   </div>
 </section>
 
-<!-- Modal de détails de formation pour les clients -->
-<div class="modal fade show" *ngIf="showFormationModal" style="display: block; background-color: rgba(0,0,0,0.5);" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title">
-          <i class="bi bi-info-circle me-2"></i>
-          Détails de la Formation
-        </h5>
-        <button type="button" class="btn-close btn-close-white" (click)="closeFormationModal()"></button>
-      </div>
-      <div class="modal-body" *ngIf="selectedFormation">
-        <div class="row">
-          <div class="col-md-8">
-            <div class="mb-4">
-              <h3 class="text-primary mb-3">{{ selectedFormation.title }}</h3>
-              
-              <div class="row mb-3">
-                <div class="col-sm-6">
-                  <div class="info-item">
-                    <i class="bi bi-tag text-primary me-2"></i>
-                    <strong>Niveau:</strong>
-                    <span [class]="levelBadge(selectedFormation.level)" class="ms-2">
-                      {{ levelLabel(selectedFormation.level) }}
-                    </span>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="info-item">
-                    <i class="bi bi-currency-euro text-success me-2"></i>
-                    <strong>Prix:</strong>
-                    <span class="text-success fw-bold ms-2">
-                      {{ selectedFormation.price | currency:'EUR':'symbol':'1.0-0' }}
-                    </span>
-                  </div>
-                </div>
-              </div>
+<!-- Loading State -->
+<section class="loading-section" *ngIf="loading">
+  <div class="container">
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Chargement du thème...</p>
+    </div>
+  </div>
+</section>
 
-              <div class="row mb-3">
-                <div class="col-sm-6">
-                  <div class="info-item">
-                    <i class="bi bi-clock text-info me-2"></i>
-                    <strong>Durée:</strong>
-                    <span class="ms-2">{{ selectedFormation.duration }}</span>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="info-item">
-                    <i class="bi bi-collection text-warning me-2"></i>
-                    <strong>Catégorie:</strong>
-                    <span class="badge bg-secondary ms-2">{{ selectedFormation.category }}</span>
-                  </div>
-                </div>
-              </div>
+<!-- Error State -->
+<section class="error-section" *ngIf="error && !loading">
+  <div class="container">
+    <div class="error-state">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <h4>Erreur</h4>
+      <p>{{ error }}</p>
+      <a routerLink="/annexes" class="btn-back-error">
+        <i class="bi bi-arrow-left"></i> Retour aux formations
+      </a>
+    </div>
+  </div>
+</section>
 
-              <div *ngIf="selectedFormation.description" class="mb-4">
-                <h6><i class="bi bi-text-paragraph text-primary me-2"></i><strong>Description</strong></h6>
-                <p class="text-muted lh-lg">{{ selectedFormation.description }}</p>
-              </div>
+<!-- Formations Grid -->
+<section class="formations-section" *ngIf="!loading && !error && theme">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        <span class="title-icon"><i class="bi bi-grid-3x3-gap-fill"></i></span>
+        Formations disponibles
+      </h2>
+      <span class="formations-count">{{ theme.formations?.length || 0 }} résultats</span>
+    </div>
 
-              <div class="alert alert-light border">
-                <h6 class="mb-2"><i class="bi bi-lightbulb text-warning me-2"></i>Cette formation vous intéresse ?</h6>
-                <p class="mb-0 small text-muted">
-                  Contactez-nous pour obtenir plus d'informations ou pour planifier cette formation sur mesure.
-                </p>
-              </div>
+    <div *ngIf="theme.formations?.length; else noFormations" class="formations-grid">
+      <div *ngFor="let f of theme.formations; let i = index" 
+           class="formation-card"
+           [style.animation-delay]="i * 0.1 + 's'">
+        <div class="card-gradient-border"></div>
+        <div class="card-inner">
+          <div class="card-top">
+            <span [class]="'level-badge level-' + f.level.toLowerCase()">
+              <i class="bi" [ngClass]="{
+                'bi-star': f.level === 'BEGINNER',
+                'bi-star-half': f.level === 'INTERMEDIATE',
+                'bi-stars': f.level === 'EXPERT'
+              }"></i>
+              {{ levelLabel(f.level) }}
+            </span>
+            <span class="card-price">{{ f.price | currency:'EUR':'symbol':'1.0-0' }}</span>
+          </div>
+
+          <h3 class="card-title">{{ f.title }}</h3>
+          <p class="card-description">{{ f.description }}</p>
+
+          <div class="card-meta">
+            <div class="meta-item">
+              <i class="bi bi-clock-fill"></i>
+              <span>{{ f.duration }}</span>
+            </div>
+            <div class="meta-item">
+              <i class="bi bi-bar-chart-fill"></i>
+              <span>{{ levelLabel(f.level) }}</span>
             </div>
           </div>
-          
-          <div class="col-md-4" *ngIf="selectedFormation.imageUrl">
-            <div class="text-center">
-              <img [src]="selectedFormation.imageUrl" 
-                   [alt]="selectedFormation.title" 
-                   class="img-fluid rounded shadow-sm mb-3"
-                   style="max-height: 250px; object-fit: cover;">
-              <p class="small text-muted">Illustration de la formation</p>
-            </div>
+
+          <button class="btn-view-details" (click)="viewFormationDetails(f)">
+            <span>Voir les détails</span>
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noFormations>
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="bi bi-inbox"></i>
+        </div>
+        <h4>Aucune formation disponible</h4>
+        <p>Les formations dans ce thème seront bientôt disponibles.</p>
+        <a routerLink="/annexes" class="btn-back">
+          <i class="bi bi-arrow-left"></i> Retour au catalogue
+        </a>
+      </div>
+    </ng-template>
+  </div>
+</section>
+
+<!-- Formation Details Modal -->
+<div class="modal-overlay" *ngIf="showFormationModal" (click)="closeFormationModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-hero">
+      <div class="modal-hero-bg"></div>
+      <button class="modal-close" (click)="closeFormationModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+      <div class="modal-hero-content" *ngIf="selectedFormation">
+        <span [class]="'modal-level-badge level-' + selectedFormation.level.toLowerCase()">
+          {{ levelLabel(selectedFormation.level) }}
+        </span>
+        <h2 class="modal-title">{{ selectedFormation.title }}</h2>
+      </div>
+    </div>
+
+    <div class="modal-body" *ngIf="selectedFormation">
+      <div class="modal-info-grid">
+        <div class="info-card">
+          <div class="info-card-icon price">
+            <i class="bi bi-currency-euro"></i>
+          </div>
+          <div class="info-card-content">
+            <span class="info-label">Prix</span>
+            <span class="info-value">{{ selectedFormation.price | currency:'EUR':'symbol':'1.0-0' }}</span>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon duration">
+            <i class="bi bi-clock-fill"></i>
+          </div>
+          <div class="info-card-content">
+            <span class="info-label">Durée</span>
+            <span class="info-value">{{ selectedFormation.duration }}</span>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon level">
+            <i class="bi bi-bar-chart-fill"></i>
+          </div>
+          <div class="info-card-content">
+            <span class="info-label">Niveau</span>
+            <span class="info-value">{{ levelLabel(selectedFormation.level) }}</span>
+          </div>
+        </div>
+        <div class="info-card" *ngIf="theme">
+          <div class="info-card-icon category">
+            <i class="bi bi-bookmark-fill"></i>
+          </div>
+          <div class="info-card-content">
+            <span class="info-label">Thème</span>
+            <span class="info-value">{{ theme.name }}</span>
           </div>
         </div>
       </div>
-      
-      <div class="modal-footer bg-light">
-        <button type="button" class="btn btn-success" (click)="requestFormation(selectedFormation)">
-          <i class="bi bi-send me-2"></i>
-          Demander cette formation
-        </button>
-        <button type="button" class="btn btn-outline-secondary" (click)="closeFormationModal()">
-          <i class="bi bi-x-lg me-2"></i>
-          Fermer
-        </button>
+
+      <div class="modal-description" *ngIf="selectedFormation.description">
+        <h4><i class="bi bi-text-paragraph"></i> Description</h4>
+        <p>{{ selectedFormation.description }}</p>
       </div>
+
+      <div class="modal-image" *ngIf="selectedFormation.imageUrl">
+        <img [src]="getImageUrl(selectedFormation.imageUrl)" 
+             [alt]="selectedFormation.title" 
+             class="formation-image">
+      </div>
+
+      <div class="modal-cta">
+        <div class="cta-icon">
+          <i class="bi bi-lightbulb-fill"></i>
+        </div>
+        <div class="cta-text">
+          <h5>Cette formation vous intéresse ?</h5>
+          <p>Contactez-nous pour obtenir plus d'informations ou pour planifier cette formation sur mesure.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-request" (click)="requestFormation(selectedFormation)">
+        <i class="bi bi-send-fill"></i>
+        Demander cette formation
+      </button>
+      <button class="btn-close-modal" (click)="closeFormationModal()">
+        Fermer
+      </button>
     </div>
   </div>
 </div>

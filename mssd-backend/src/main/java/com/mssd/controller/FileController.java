@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @Slf4j
 public class FileController {
 
-    @Value("${app.upload.dir:src/main/resources/static/uploads}")
+    @Value("${app.upload.dir:uploads}")
     private String uploadDir;
 
     // List available images in the upload directory and some asset images

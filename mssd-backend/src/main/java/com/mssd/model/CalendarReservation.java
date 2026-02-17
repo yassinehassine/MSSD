@@ -11,6 +11,9 @@ public class CalendarReservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private Long calendarId;
+
     @Column(nullable = false)
     private String clientName;
 
@@ -73,6 +76,14 @@ public class CalendarReservation {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCalendarId() {
+        return calendarId;
+    }
+
+    public void setCalendarId(Long calendarId) {
+        this.calendarId = calendarId;
     }
 
     public String getClientName() {

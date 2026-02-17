@@ -16,7 +16,7 @@
 /* Premium Portfolio Logos Section */
 .premium-logos-section {
   padding: 100px 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #002b6c 0%, #0056b3 100%);
   position: relative;
   overflow: hidden;
   
@@ -109,8 +109,8 @@
   
   &:hover {
     transform: translateY(-20px) scale(1.1);
-    box-shadow: 0 30px 70px rgba(102, 126, 234, 0.4);
-    border-color: #667eea;
+    box-shadow: 0 30px 70px rgba(0, 43, 108, 0.4);
+    border-color: #002b6c;
     
     .logo-overlay {
       opacity: 1;
@@ -135,7 +135,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: linear-gradient(45deg, #002b6c, #0056b3);
   color: white;
   padding: 15px 20px;
   transform: translateY(100%);
@@ -534,16 +534,43 @@
 
 /* Portfolio Section - transparent so it doesn't cover following content */
 .portfolio-section {
-  padding: 60px 0;
-  background: transparent;
+  padding: 80px 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
   overflow: visible;
   position: relative;
   
-  &::before { display: none; }
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
   
   .container {
     position: relative;
     z-index: 1;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: #64748b;
+    font-weight: 500;
   }
 }
 
@@ -553,6 +580,7 @@
   width: 100%;
   margin-top: 60px;
   z-index: 1;
+  padding: 20px 0;
   
   &::before,
   &::after {
@@ -560,25 +588,25 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 120px;
+    width: 150px;
     z-index: 3;
     pointer-events: none;
   }
   
   &::before {
     left: 0;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, transparent 100%);
+    background: linear-gradient(90deg, rgba(245, 247, 250, 1) 0%, rgba(245, 247, 250, 0) 100%);
   }
   
   &::after {
     right: 0;
-    background: linear-gradient(-90deg, rgba(255, 255, 255, 0.95) 0%, transparent 100%);
+    background: linear-gradient(-90deg, rgba(245, 247, 250, 1) 0%, rgba(245, 247, 250, 0) 100%);
   }
 }
 .portfolio-track {
   display: flex;
   width: max-content;
-  animation: infiniteScroll 45s linear infinite;
+  animation: infiniteScroll 50s linear infinite;
   position: relative;
   z-index: 1;
   
@@ -589,36 +617,38 @@
 
 .portfolio-group {
   display: flex;
-  gap: 35px;
-  padding-right: 35px;
+  gap: 30px;
+  padding-right: 30px;
 }
 
 .portfolio-item {
   flex-shrink: 0;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   
   &:hover {
-    transform: translateY(-10px) scale(1.02);
+    transform: translateY(-12px) scale(1.03);
+    z-index: 10;
   }
 }
 
 .portfolio-card {
-  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-  border-radius: 20px;
-  padding: 30px 25px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 32px 28px;
   box-shadow: 
-    0 10px 40px rgba(30, 58, 138, 0.1),
-    0 4px 15px rgba(239, 68, 68, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  width: 300px;
-  height: 220px;
+    0 8px 32px rgba(31, 41, 55, 0.08),
+    0 2px 8px rgba(31, 41, 55, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  width: 320px;
+  min-height: 280px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  border: 2px solid transparent;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
   
@@ -628,119 +658,174 @@
     top: 0;
     left: -100%;
     width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, #1e3a8a, #3b82f6, #ef4444);
-    transition: left 0.5s ease;
+    height: 4px;
+    background: linear-gradient(90deg, 
+      #6366f1 0%, 
+      #8b5cf6 25%, 
+      #ec4899 50%, 
+      #f59e0b 75%, 
+      #10b981 100%
+    );
+    transition: left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(135deg, 
+      rgba(99, 102, 241, 0.3) 0%, 
+      rgba(236, 72, 153, 0.3) 50%,
+      rgba(251, 146, 60, 0.3) 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s ease;
   }
   
   &:hover {
     box-shadow: 
-      0 25px 50px rgba(30, 58, 138, 0.15),
-      0 10px 30px rgba(239, 68, 68, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    border-image: linear-gradient(45deg, #1e3a8a, #3b82f6, #ef4444) 1;
-    transform: translateY(-2px);
+      0 20px 60px rgba(99, 102, 241, 0.15),
+      0 8px 24px rgba(236, 72, 153, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
+    transform: translateY(-4px) scale(1.02);
+    background: rgba(255, 255, 255, 1);
     
     &::before {
       left: 0;
     }
     
-    .company-logo img {
-      transform: scale(1.15) rotate(2deg);
+    &::after {
+      opacity: 1;
+    }
+    
+    .company-logo {
+      transform: scale(1.08) rotate(-2deg);
+      
+      &::before {
+        opacity: 1;
+        animation: spin 3s linear infinite;
+      }
+      
+      img {
+        transform: scale(1.1);
+      }
     }
     
     .company-name {
-      color: #1e3a8a;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     
     .training-title {
-      color: #dc2626;
+      color: #1e293b;
+    }
+    
+    .training-date {
+      background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   }
 }
 
 .company-logo {
-  width: 90px;
-  height: 90px;
-  border-radius: 16px;
+  width: 110px;
+  height: 110px;
+  border-radius: 20px;
   overflow: hidden;
-  margin-bottom: 18px;
-  background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid transparent;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(148, 163, 184, 0.1);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
+  box-shadow: 
+    0 4px 16px rgba(99, 102, 241, 0.08),
+    0 2px 8px rgba(99, 102, 241, 0.04);
   
   &::before {
     content: '';
     position: absolute;
-    inset: 0;
-    padding: 3px;
-    background: linear-gradient(45deg, #1e3a8a, #3b82f6, #ef4444);
-    border-radius: inherit;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: subtract;
+    inset: -2px;
+    background: linear-gradient(
+      45deg,
+      #6366f1,
+      #8b5cf6,
+      #ec4899,
+      #f59e0b,
+      #10b981,
+      #6366f1
+    );
+    background-size: 300% 300%;
+    border-radius: 22px;
+    z-index: -1;
     opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-  
-  &:hover {
-    background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
-    transform: scale(1.05);
-    
-    &::before {
-      opacity: 1;
-    }
+    transition: opacity 0.5s ease;
   }
   
   img {
-    width: 85%;
-    height: 85%;
+    width: 80%;
+    height: 80%;
     object-fit: contain;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: 
+      drop-shadow(0 4px 12px rgba(99, 102, 241, 0.15))
+      drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
   }
 }
 
 .portfolio-info {
+  width: 100%;
+  
   .company-name {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 800;
-    background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+    background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 10px;
     line-height: 1.3;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
+    letter-spacing: -0.5px;
   }
   
   .training-title {
     font-size: 0.95rem;
-    color: #475569;
-    margin-bottom: 10px;
-    line-height: 1.4;
+    color: #64748b;
+    margin-bottom: 12px;
+    line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     font-weight: 500;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    min-height: 40px;
   }
   
   .training-date {
-    font-size: 0.85rem;
-    background: linear-gradient(45deg, #dc2626, #ef4444);
+    display: inline-block;
+    font-size: 0.8rem;
+    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
+    transition: all 0.3s ease;
   }
 }
 
@@ -750,7 +835,16 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-33.333%);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -821,44 +915,103 @@
 @media (max-width: 768px) {
   .portfolio-section {
     padding: 60px 0;
+    
+    .section-title {
+      font-size: 2rem;
+    }
+    
+    .section-subtitle {
+      font-size: 1rem;
+    }
   }
   
   .portfolio-card {
-    width: 240px;
-    height: 180px;
-    padding: 20px;
+    width: 280px;
+    min-height: 240px;
+    padding: 24px 20px;
+    border-radius: 20px;
   }
   
   .company-logo {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 12px;
+    width: 90px;
+    height: 90px;
+    margin-bottom: 16px;
+    border-radius: 16px;
   }
   
-  .portfolio-info .company-name {
-    font-size: 1rem;
+  .portfolio-info {
+    .company-name {
+      font-size: 1.1rem;
+    }
+    
+    .training-title {
+      font-size: 0.9rem;
+    }
   }
   
   .portfolio-track {
-    animation-duration: 40s;
+    animation-duration: 45s;
+  }
+  
+  .portfolio-scroll-wrapper {
+    &::before,
+    &::after {
+      width: 100px;
+    }
   }
 }
 
 @media (max-width: 480px) {
+  .portfolio-section {
+    padding: 50px 0;
+    
+    .section-title {
+      font-size: 1.75rem;
+    }
+    
+    .section-subtitle {
+      font-size: 0.95rem;
+    }
+  }
+  
   .portfolio-card {
-    width: 200px;
-    height: 160px;
-    padding: 15px;
+    width: 250px;
+    min-height: 220px;
+    padding: 20px 16px;
+    border-radius: 18px;
   }
   
   .company-logo {
-    width: 50px;
-    height: 50px;
-    margin-bottom: 10px;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 14px;
+    border-radius: 14px;
   }
   
   .portfolio-group {
     gap: 20px;
     padding-right: 20px;
+  }
+  
+  .portfolio-info {
+    .company-name {
+      font-size: 1rem;
+    }
+    
+    .training-title {
+      font-size: 0.85rem;
+      min-height: 35px;
+    }
+    
+    .training-date {
+      font-size: 0.75rem;
+    }
+  }
+  
+  .portfolio-scroll-wrapper {
+    &::before,
+    &::after {
+      width: 60px;
+    }
   }
 }

@@ -216,4 +216,16 @@ export class Services {
   contactUs() {
     this.router.navigate(['/contact']);
   }
+
+  getImageUrl(imageUrl: string | undefined): string {
+    if (!imageUrl) {
+      return 'assets/img/formation-default.jpg';
+    }
+    if (imageUrl.startsWith('http')) {
+      return imageUrl;
+    }
+    // Strip uploads/ prefix if present
+    const path = imageUrl.startsWith('uploads/') ? imageUrl.substring(8) : imageUrl;
+    return `/api/files/${path}`;
+  }
 }
