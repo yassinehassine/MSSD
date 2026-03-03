@@ -240,12 +240,12 @@ Pipeline GitHub Actions automatisé (`.github/workflows/ci-cd.yml`):
    - Backend: Maven compile + tests
    - Frontend: npm build + lint
 
-2. **Docker Build & Push** (main branch uniquement)
+2. **Docker Build & Push** (master branch uniquement)
    - Build images multi-stage
    - Push vers Docker Hub
    - Tag: `latest` + SHA commit
 
-3. **Deploy** (main branch uniquement)
+3. **Deploy** (master branch uniquement)
    - SSH vers serveur production
    - Pull nouvelles images
    - Redémarrage des services
