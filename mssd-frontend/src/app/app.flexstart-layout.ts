@@ -35,10 +35,12 @@ export class AppFlexstartLayout {
   // Mobile Menu Methods
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    document.body.classList.toggle('mobile-nav-active', this.isMobileMenuOpen);
   }
 
   closeMobileMenu(): void {
     this.isMobileMenuOpen = false;
+    document.body.classList.remove('mobile-nav-active');
   }
 
   // Dropdown Methods

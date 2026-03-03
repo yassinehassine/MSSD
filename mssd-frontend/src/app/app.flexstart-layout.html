@@ -6,8 +6,8 @@
     </a>
     <nav id="navmenu" class="navmenu">
       <ul>
-        <li><a routerLink="/home" routerLinkActive="active">{{ t('nav.home') }}</a></li>
-        <li><a routerLink="/about" routerLinkActive="active">{{ t('nav.about') }}</a></li>
+        <li><a routerLink="/home" routerLinkActive="active" (click)="closeMobileMenu()">{{ t('nav.home') }}</a></li>
+        <li><a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">{{ t('nav.about') }}</a></li>
         
         <!-- Formations Dropdown -->
         <li class="dropdown" 
@@ -30,8 +30,8 @@
           </div>
         </li>
         
-        <li><a routerLink="/portfolio" routerLinkActive="active">{{ t('nav.portfolio') }}</a></li>
-        <li><a routerLink="/blog" routerLinkActive="active">{{ t('nav.blog') }}</a></li>
+        <li><a routerLink="/portfolio" routerLinkActive="active" (click)="closeMobileMenu()">{{ t('nav.portfolio') }}</a></li>
+        <li><a routerLink="/blog" routerLinkActive="active" (click)="closeMobileMenu()">{{ t('nav.blog') }}</a></li>
         
         <!-- Services Dropdown -->
         <li class="dropdown" 
@@ -54,10 +54,13 @@
           </div>
         </li>
         
-        <li><a routerLink="/calendar" routerLinkActive="active">{{ t('nav.calendar') }}</a></li>
-        <li><a routerLink="/contact" routerLinkActive="active">{{ t('nav.contact') }}</a></li>
+        <li><a routerLink="/calendar" routerLinkActive="active" (click)="closeMobileMenu()">{{ t('nav.calendar') }}</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">{{ t('nav.contact') }}</a></li>
       </ul>
-      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      <i class="mobile-nav-toggle d-xl-none bi"
+         [class.bi-list]="!isMobileMenuOpen"
+         [class.bi-x]="isMobileMenuOpen"
+         (click)="toggleMobileMenu()"></i>
     </nav>
     
     <!-- Language Toggle Button -->
