@@ -1,0 +1,70 @@
+language: java
+jdk:
+  - openjdk17
+
+node_js:
+  - '20'
+
+cache:
+  directories:
+    - $HOME/.m2
+    - mssd-frontend/node_modules
+
+services:
+  - mysql
+  - docker
+
+before_install:
+  # Setup Node.js
+  - nvm install 20
+  - nvm use 20
+  - npm install -g @angular/cli
+  
+  # Setup MySQL
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS mssd_db;'
+
+env:
+  global:
+    - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/mssd_db
+    - SPRING_DATASOURCE_USERNAME=root
+    - SPRING_DATASOURCE_PASSWORD=
+    - SPRING_PROFILES_ACTIVE=dev
+
+install:
+  # Install backend dependencies
+  - cd mssd-backend && mvn install -DskipTests && cd ..
+  
+  # Install frontend dependencies
+  - cd mssd-frontend && npm ci && cd ..
+
+script:
+  # Run backend tests
+  - cd mssd-backend && mvn test && cd ..
+  
+  # Build backend
+  - cd mssd-backend && mvn package -DskipTests && cd ..
+  
+  # Lint frontend (if lint script exists)
+  - cd mssd-frontend && npm run lint --if-present && cd ..
+  
+  # Build frontend
+  - cd mssd-frontend && npm run build -- --configuration=production && cd ..
+
+after_success:
+  # Optional: Build Docker images on success
+  - |
+    if [ "$TRAVIS_BRANCH" = "main" ] || [ "$TRAVIS_BRANCH" = "master" ]; then
+      echo "Building Docker images..."
+      docker compose build
+    fi
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+
+branches:
+  only:
+    - main
+    - master
+    - develop

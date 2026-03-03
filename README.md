@@ -1,5 +1,10 @@
 # 🚀 MSSD - Système de Gestion de Formation
 
+[![Build Status](https://travis-ci.com/YOUR_USERNAME/YOUR_REPO.svg?branch=main)](https://travis-ci.com/YOUR_USERNAME/YOUR_REPO)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://www.docker.com/)
+[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
+[![Angular](https://img.shields.io/badge/Angular-18-red.svg)](https://angular.io/)
+
 Application web complète pour la gestion de formations avec Spring Boot (Backend) + Angular (Frontend).
 
 ## 📋 Table des Matières
@@ -202,6 +207,33 @@ docker compose ps
 ```
 
 ## 🔄 CI/CD
+
+### Travis CI
+
+Configuration automatique des tests (`.travis.yml`):
+
+**Setup Travis CI:**
+1. Aller sur [travis-ci.com](https://travis-ci.com)
+2. Se connecter avec GitHub
+3. Activer le repository MSSD
+4. Pousser vers GitHub → tests automatiques
+
+**Badge Status:**
+- Mettre à jour le badge dans README.md avec votre username/repo:
+  ```markdown
+  [![Build Status](https://travis-ci.com/YOUR_USERNAME/YOUR_REPO.svg?branch=main)](https://travis-ci.com/YOUR_USERNAME/YOUR_REPO)
+  ```
+
+**Extension VS Code:**
+- Installer "Travis CI Status" pour voir les builds dans VS Code
+- Ctrl+Shift+P → "Travis CI: View Builds"
+
+**Tests exécutés:**
+- ✅ Backend: `mvn test` (JUnit tests)
+- ✅ Frontend: Lint + Build production
+- ✅ Docker: Build images (si main/master branch)
+
+### GitHub Actions
 
 Pipeline GitHub Actions automatisé (`.github/workflows/ci-cd.yml`):
 
