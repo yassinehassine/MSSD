@@ -1,6 +1,6 @@
 # 🚀 MSSD - Système de Gestion de Formation
 
-[![Build Status](https://travis-ci.com/souhail210301/MSSD.svg?branch=main)](https://travis-ci.com/souhail210301/MSSD)
+[![Build Status](https://app.travis-ci.com/souhail210301/MSSD.svg?token=GowtWyHK98xLd38FqLqN&branch=master)](https://app.travis-ci.com/souhail210301/MSSD)
 [![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://www.docker.com/)
 [![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
 [![Angular](https://img.shields.io/badge/Angular-18-red.svg)](https://angular.io/)
