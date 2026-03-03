@@ -5,7 +5,9 @@ jdk:
 node_js:
   - '20'
 
+# Caching speeds up builds
 cache:
+  npm: true
   directories:
     - $HOME/.m2
     - mssd-frontend/node_modules
@@ -20,7 +22,7 @@ before_install:
   - nvm use 20
   - npm install -g @angular/cli
   
-  # Setup MySQL
+  # Setup MySQL database for tests
   - mysql -e 'CREATE DATABASE IF NOT EXISTS mssd_db;'
 
 env:
@@ -31,23 +33,23 @@ env:
     - SPRING_PROFILES_ACTIVE=dev
 
 install:
-  # Install backend dependencies
-  - cd mssd-backend && mvn install -DskipTests && cd ..
+  # Backend: Maven install (with flags: -B batch mode, -V show version, -DskipTests, -Dmaven.javadoc.skip)
+  - cd mssd-backend && mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V && cd ..
   
-  # Install frontend dependencies
+  # Frontend: npm ci (clean install from package-lock.json)
   - cd mssd-frontend && npm ci && cd ..
 
 script:
-  # Run backend tests
-  - cd mssd-backend && mvn test && cd ..
+  # Backend: Run tests with Maven (-B for batch mode)
+  - cd mssd-backend && mvn test -B && cd ..
   
-  # Build backend
-  - cd mssd-backend && mvn package -DskipTests && cd ..
+  # Backend: Build package
+  - cd mssd-backend && mvn package -DskipTests -B && cd ..
   
-  # Lint frontend (if lint script exists)
+  # Frontend: Lint (if available)
   - cd mssd-frontend && npm run lint --if-present && cd ..
   
-  # Build frontend
+  # Frontend: Production build
   - cd mssd-frontend && npm run build -- --configuration=production && cd ..
 
 after_success:
