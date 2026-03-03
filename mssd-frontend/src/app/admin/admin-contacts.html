@@ -44,7 +44,7 @@
         <tr *ngFor="let contact of contacts">
           <td>
             <div class="cell-user">
-              <div class="cell-avatar">{{ contact.fullName?.charAt(0)?.toUpperCase() || '?' }}</div>
+              <div class="cell-avatar">{{ (contact.fullName ? contact.fullName.charAt(0).toUpperCase() : '?') }}</div>
               <span class="cell-name">{{ contact.fullName }}</span>
             </div>
           </td>

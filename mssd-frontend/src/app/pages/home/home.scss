@@ -1,7 +1,7 @@
 // Use modern styles
 // Import all styles
-@import './home-modern.scss';
-@import './home-events.scss';
+@use './home-modern.scss';
+@use './home-events.scss';
 
 .quick-card {
 	border: 1px solid #eef0f4;

@@ -1,3 +1,4 @@
+@use 'sass:color';
 $admin-primary: #002b6c;
 $admin-text: #1e293b;
 $admin-text-muted: #64748b;
@@ -47,5 +48,5 @@ $admin-radius: 12px;
   padding: 0.6rem 1.4rem; background: $admin-primary; color: $admin-white;
   border-radius: 8px; font-size: 0.88rem; font-weight: 600;
   text-decoration: none; transition: background 0.2s, transform 0.15s;
-  &:hover { background: darken($admin-primary, 8%); transform: translateY(-1px); }
+  &:hover { background: color.adjust($admin-primary, $lightness: -8%); transform: translateY(-1px); }
 }

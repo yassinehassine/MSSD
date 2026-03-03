@@ -43,21 +43,15 @@ public class ThemeService {
     }
 
     public ThemeDto getThemeBySlug(String slug) {
-        // Basic linear search using existing repository methods; could add dedicated query later
-        return themeRepository.findByActiveTrue().stream()
-                .filter(t -> t.getSlug().equalsIgnoreCase(slug))
-                .findFirst()
-                .map(this::convertToDto)
+        Theme theme = themeRepository.findBySlugAndActiveTrue(slug)
                 .orElseThrow(() -> new ResourceNotFoundException("Theme not found with slug: " + slug));
+        return convertToDto(theme);
     }
 
     public ThemeDto getThemeWithFormationsBySlug(String slug) {
-        // Load themes with formations then filter
-        return themeRepository.findActiveThemesWithPublishedFormations().stream()
-                .filter(t -> t.getSlug().equalsIgnoreCase(slug))
-                .findFirst()
-                .map(this::convertToDtoWithFormations)
+        Theme theme = themeRepository.findBySlugWithFormations(slug)
                 .orElseThrow(() -> new ResourceNotFoundException("Theme not found with slug: " + slug));
+        return convertToDtoWithFormations(theme);
     }
 
     @Transactional

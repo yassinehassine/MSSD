@@ -47,7 +47,8 @@ public class Portfolio {
     private String companyLogoUrl;
     
     @Column(length = 100)
-    private String category = "General"; // Add default value
+    @Builder.Default
+    private String category = "General";
     
     @Column(nullable = false)
     @Builder.Default

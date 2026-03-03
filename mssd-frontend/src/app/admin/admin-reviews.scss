@@ -1,3 +1,4 @@
+@use 'sass:color';
 $admin-primary: #002b6c;
 $admin-secondary: #e60000;
 $admin-white: #ffffff;
@@ -67,7 +68,7 @@ $admin-radius: 12px;
 
 .cell-avatar {
   width: 30px; height: 30px; border-radius: 8px;
-  background: linear-gradient(135deg, $admin-primary, lighten($admin-primary, 15%));
+  background: linear-gradient(135deg, $admin-primary, color.adjust($admin-primary, $lightness: 15%));
   color: #fff; display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 0.72rem; flex-shrink: 0;
 }

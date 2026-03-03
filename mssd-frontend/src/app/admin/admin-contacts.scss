@@ -1,3 +1,4 @@
+@use 'sass:color';
 $admin-primary: #002b6c;
 $admin-white: #ffffff;
 $admin-bg: #f0f2f5;
@@ -152,7 +153,7 @@ $admin-radius: 12px;
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: linear-gradient(135deg, $admin-primary, lighten($admin-primary, 15%));
+  background: linear-gradient(135deg, $admin-primary, color.adjust($admin-primary, $lightness: 15%));
   color: #fff;
   display: flex;
   align-items: center;

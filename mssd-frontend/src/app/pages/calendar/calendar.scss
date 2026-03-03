@@ -264,7 +264,7 @@ $text-muted: #6c757d;
   gap: 0.4rem;
 
   &:hover {
-    background: darken($primary, 8%);
+    background: color.adjust($primary, $lightness: -8%);
     transform: translateY(-1px);
   }
 }
