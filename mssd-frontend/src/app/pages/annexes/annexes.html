@@ -27,7 +27,7 @@
     <!-- Themes Grid -->
     <div *ngIf="!loading && !error && paginatedThemes.length > 0" class="row gy-4">
       <div *ngFor="let theme of paginatedThemes" class="col-lg-4 col-md-6">
-        <div class="theme-card" [routerLink]="['/annexes', theme.slug]">
+        <div class="theme-card" [routerLink]="['/annexes-theme', theme.slug]">
           <div class="theme-card-header">
             <div class="theme-icon-wrapper">
               <i *ngIf="!theme.iconUrl" class="bi bi-collection"></i>

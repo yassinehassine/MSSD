@@ -47,6 +47,15 @@ public class ThemeController {
     }
 
     /**
+     * Get a specific theme by ID
+     * GET /api/themes/{id}
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<ThemeDto> getThemeById(@PathVariable Long id) {
+        return ResponseEntity.ok(themeService.getThemeById(id));
+    }
+
+    /**
      * Create a new theme
      * POST /api/themes
      */

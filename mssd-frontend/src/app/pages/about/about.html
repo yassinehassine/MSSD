@@ -1,8 +1,8 @@
 <!-- About Hero -->
 <section class="about-hero">
   <div class="container">
-    <h1 class="about-hero-title">À propos de MSSD</h1>
-    <p class="about-hero-subtitle">Management Solutions & Sales Développement — Votre partenaire de formation depuis plus de 20 ans</p>
+    <h1 class="about-hero-title">{{ t('about.title') || 'À propos de MSSD' }}</h1>
+    <p class="about-hero-subtitle">{{ t('about.subtitle') || 'Management Solutions & Sales Développement — Votre partenaire de formation depuis plus de 20 ans' }}</p>
   </div>
 </section>
 
@@ -21,14 +21,14 @@
       <div class="col-lg-6">
         <div class="about-content-card">
           <span class="about-badge"><i class="bi bi-award-fill"></i> Faites-nous confiance</span>
-          <h2 class="about-title">Excellence &amp; Innovation en Formation Professionnelle</h2>
+          <h2 class="about-title">{{ t('about.mission') || 'Excellence & Innovation en Formation Professionnelle' }}</h2>
 
           <p class="about-text">
-            MSSD se renouvelle en permanence, réagit à un environnement en perpétuel changement. La formation professionnelle doit s'adapter et proposer de nouvelles solutions ajustées à vos besoins de mobilité et de flexibilité — en passant de formats linéaires à des modes composites, en faisant émerger de nouvelles modalités de formation plus agiles.
+            {{ t('about.mission-desc') || 'MSSD se renouvelle en permanence, réagit à un environnement en perpétuel changement. La formation professionnelle doit s\'adapter et proposer de nouvelles solutions ajustées à vos besoins de mobilité et de flexibilité.' }}
           </p>
 
           <p class="about-text">
-            Fondé par Mr Tarek Hassine, ingénieur et praticien spécialiste du développement commercial et de la force de vente, avec une formation multidisciplinaire et une riche expérience internationale.
+            {{ t('about.vision-desc') || 'Fondé par Mr Tarek Hassine, ingénieur et praticien spécialiste du développement commercial et de la force de vente, avec une formation multidisciplinaire et une riche expérience internationale.' }}
           </p>
 
           <div class="about-highlights">

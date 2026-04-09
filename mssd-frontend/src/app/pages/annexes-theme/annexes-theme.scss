@@ -940,6 +940,11 @@ $text-muted: #6b7280;
     border-radius: 16px;
   }
 
+  .card-meta {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
   .modal-overlay {
     padding: 1rem;
   }

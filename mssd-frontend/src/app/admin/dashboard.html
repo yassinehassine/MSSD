@@ -18,15 +18,6 @@
   </div>
 
   <div class="stat-card stat-success">
-    <div class="stat-icon"><i class="bi bi-check-circle-fill"></i></div>
-    <div class="stat-info">
-      <span class="stat-value">{{ loading ? '—' : themeStats.active }}</span>
-      <span class="stat-label">Thèmes actifs</span>
-    </div>
-    <a class="stat-link" routerLink="/annexes">Voir le catalogue <i class="bi bi-arrow-right"></i></a>
-  </div>
-
-  <div class="stat-card stat-info">
     <div class="stat-icon"><i class="bi bi-mortarboard-fill"></i></div>
     <div class="stat-info">
       <span class="stat-value">{{ loading ? '—' : themeStats.totalFormations }}</span>
@@ -35,13 +26,58 @@
     <a class="stat-link" routerLink="/admin/formations">Gérer <i class="bi bi-arrow-right"></i></a>
   </div>
 
-  <div class="stat-card stat-warning">
-    <div class="stat-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+  <div class="stat-card stat-info">
+    <div class="stat-icon"><i class="bi bi-briefcase-fill"></i></div>
     <div class="stat-info">
-      <span class="stat-value">{{ loading ? '—' : (contactCount ?? '—') }}</span>
+      <span class="stat-value">{{ portfolioCount ?? '—' }}</span>
+      <span class="stat-label">Portfolio</span>
+    </div>
+    <a class="stat-link" routerLink="/admin/portfolio">Voir <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <div class="stat-card stat-warning">
+    <div class="stat-icon"><i class="bi bi-newspaper"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ blogCount ?? '—' }}</span>
+      <span class="stat-label">Articles Blog</span>
+    </div>
+    <a class="stat-link" routerLink="/admin/blog">Voir <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <div class="stat-card stat-calendar">
+    <div class="stat-icon"><i class="bi bi-calendar-event-fill"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ calendarCount ?? '—' }}</span>
+      <span class="stat-label">Événements</span>
+    </div>
+    <a class="stat-link" routerLink="/admin/calendar">Voir <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <div class="stat-card stat-contact">
+    <div class="stat-icon"><i class="bi bi-envelope-fill"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ contactCount ?? '—' }}</span>
       <span class="stat-label">Messages</span>
     </div>
     <a class="stat-link" routerLink="/admin/contacts">Voir <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <div class="stat-card stat-danger">
+    <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ pendingRequestsCount ?? '—' }}</span>
+      <span class="stat-label">Demandes en attente</span>
+    </div>
+    <a class="stat-link" routerLink="/admin/formation-requests">Voir <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <div class="stat-card stat-active">
+    <div class="stat-icon"><i class="bi bi-check-circle-fill"></i></div>
+    <div class="stat-info">
+      <span class="stat-value">{{ loading ? '—' : themeStats.active }}</span>
+      <span class="stat-label">Thèmes actifs</span>
+    </div>
+    <a class="stat-link" routerLink="/annexes">Catalogue <i class="bi bi-arrow-right"></i></a>
   </div>
 </div>
 
@@ -112,13 +148,21 @@
           <div class="ql-icon ql-green"><i class="bi bi-calendar-event-fill"></i></div>
           <span>Calendrier</span>
         </a>
+        <a class="quick-link" routerLink="/admin/formation-requests">
+          <div class="ql-icon ql-red"><i class="bi bi-file-earmark-text-fill"></i></div>
+          <span>Demandes</span>
+        </a>
         <a class="quick-link" routerLink="/admin/contacts">
-          <div class="ql-icon ql-red"><i class="bi bi-envelope-fill"></i></div>
+          <div class="ql-icon ql-teal"><i class="bi bi-envelope-fill"></i></div>
           <span>Messages</span>
         </a>
         <a class="quick-link" routerLink="/admin/reviews">
           <div class="ql-icon ql-yellow"><i class="bi bi-star-fill"></i></div>
           <span>Avis</span>
+        </a>
+        <a class="quick-link" routerLink="/admin/reservations">
+          <div class="ql-icon ql-indigo"><i class="bi bi-calendar-check-fill"></i></div>
+          <span>Réservations</span>
         </a>
       </div>
     </div>

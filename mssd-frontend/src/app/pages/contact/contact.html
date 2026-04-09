@@ -1,8 +1,8 @@
 <!-- Contact Page -->
 <section class="contact-hero">
   <div class="container">
-    <h1 class="contact-hero-title">Contactez-nous</h1>
-    <p class="contact-hero-subtitle">Nous sommes à votre écoute pour répondre à toutes vos questions</p>
+    <h1 class="contact-hero-title">{{ t('contact.title') || 'Contactez-nous' }}</h1>
+    <p class="contact-hero-subtitle">{{ t('home.contact-cta.subtitle') || 'Nous sommes à votre écoute pour répondre à toutes vos questions' }}</p>
   </div>
 </section>
 
@@ -60,13 +60,13 @@
       <!-- Contact Form -->
       <div class="col-lg-7">
         <div class="contact-form-card">
-          <h3 class="form-title">Envoyez-nous un message</h3>
+          <h3 class="form-title">{{ t('contact.get-in-touch') || 'Envoyez-nous un message' }}</h3>
           <p class="form-subtitle">Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.</p>
 
           <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)">
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="fullName" class="form-label">Nom complet *</label>
+                <label for="fullName" class="form-label">{{ t('contact.name') || 'Nom complet' }} *</label>
                 <input id="fullName" type="text" class="form-input"
                        [(ngModel)]="contactModel.fullName" name="fullName"
                        required minlength="2" #fullName="ngModel"
@@ -78,7 +78,7 @@
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="email" class="form-label">Email *</label>
+                <label for="email" class="form-label">{{ t('contact.email') || 'Email' }} *</label>
                 <input id="email" type="email" class="form-input"
                        [(ngModel)]="contactModel.email" name="email"
                        required email #emailField="ngModel"
@@ -99,7 +99,7 @@
                        placeholder="+33 6 12 34 56 78">
               </div>
               <div class="col-md-6 mb-3">
-                <label for="subject" class="form-label">Sujet *</label>
+                <label for="subject" class="form-label">{{ t('contact.subject') || 'Sujet' }} *</label>
                 <input id="subject" type="text" class="form-input"
                        [(ngModel)]="contactModel.subject" name="subject"
                        required #subjectField="ngModel"
@@ -112,7 +112,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="message" class="form-label">Message *</label>
+              <label for="message" class="form-label">{{ t('contact.message') || 'Message' }} *</label>
               <textarea id="message" class="form-input form-textarea"
                         [(ngModel)]="contactModel.message" name="message"
                         required minlength="10" #messageField="ngModel"
@@ -126,7 +126,7 @@
 
             <button type="submit" class="btn-submit" [disabled]="isSubmitting">
               <span *ngIf="!isSubmitting">
-                <i class="bi bi-send-fill"></i> Envoyer le message
+                <i class="bi bi-send-fill"></i> {{ t('contact.send') || 'Envoyer le message' }}
               </span>
               <span *ngIf="isSubmitting" class="btn-loading">
                 <span class="spinner"></span> Envoi en cours...
