@@ -1,0 +1,32 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'mssd-frontend/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'mssd-frontend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./mssd-frontend
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+        cache-dependency-path: ./mssd-frontend/package-lock.json
+        
+    - run: npm ci
+    
+    - run: npm run build --if-present
