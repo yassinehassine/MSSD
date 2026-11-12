@@ -70,6 +70,7 @@ com\mssd\model\Calendar$CalendarStatus.class
 com\mssd\model\Category.class
 com\mssd\service\FormationService.class
 com\mssd\dto\CalendarDto.class
+com\mssd\config\DataSeeder.class
 com\mssd\repository\BlogRepository.class
 com\mssd\repository\ReviewRepository.class
 com\mssd\controller\PortfolioItemController.class

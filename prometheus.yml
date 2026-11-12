@@ -1,0 +1,46 @@
+# ============================================
+# Prometheus Configuration
+# ============================================
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'mssd-production'
+    environment: 'production'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+# Load rules files
+rule_files:
+  # - "alert_rules.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Spring Boot Backend Metrics
+  - job_name: 'mssd-backend'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['mssd-backend:8080']
+        labels:
+          service: 'backend'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+
+  # MySQL Database Metrics (optional - requires MySQL exporter)
+  - job_name: 'mysql'
+    static_configs:
+      - targets: ['localhost:9104']
+        labels:
+          service: 'database'
+    scrape_interval: 30s
+    scrape_timeout: 10s

@@ -1,10 +1,54 @@
-target/
-.idea/
-*.iml
-.mvn/wrapper/maven-wrapper.jar
+# Version control
 .git
 .gitignore
-README.md
-uploads/
-*.log
+.gitattributes
+
+# Build output
+target
+*.jar
+*.war
+
+# Environment
+.env
+.env.local
+.env.*.local
+*.properties.local
+
+# IDE
+.vscode
+.idea
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Maven
+*.log
+dependency-reduced-pom.xml
+.m2/
+
+# Testing
+coverage/
+.jacoco/
+
+# Documentation
+README.md
+CHANGELOG.md
+docs/
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+scripts/
