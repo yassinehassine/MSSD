@@ -1,5 +1,8 @@
 package com.mssd.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -17,30 +21,36 @@ public class FileService {
     @Value("${app.upload.dir:uploads}")
     private String uploadDir;
 
+    @Autowired(required = false)
+    private Cloudinary cloudinary;
+
     /**
-     * Save uploaded file and return the relative URL path
-     * @param file MultipartFile to save
-     * @return String relative URL path (e.g., "uploads/filename.jpg")
-     * @throws IOException if file saving fails
+     * Save uploaded file and return the URL path.
+     * When Cloudinary is configured (production), uploads to Cloudinary and returns
+     * a full https:// URL. Otherwise, saves locally and returns "uploads/filename".
      */
     public String saveFile(MultipartFile file) throws IOException {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("File cannot be null or empty");
         }
 
-        // Validate file type (images only)
         String contentType = file.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
             throw new IllegalArgumentException("Only image files are allowed");
         }
 
-        // Create upload directory if it doesn't exist
+        // Cloudinary path (production on Render)
+        if (cloudinary != null) {
+            Map<?, ?> result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+            return (String) result.get("secure_url");
+        }
+
+        // Local filesystem path (dev)
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
 
-        // Generate unique filename
         String originalFilename = file.getOriginalFilename();
         String fileExtension = "";
         if (originalFilename != null && originalFilename.contains(".")) {
@@ -48,11 +58,9 @@ public class FileService {
         }
         String filename = UUID.randomUUID() + fileExtension;
 
-        // Save file
         Path filePath = uploadPath.resolve(filename);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        // Return relative URL path
         return "uploads/" + filename;
     }
 

@@ -59,6 +59,11 @@ services:
         value: https://mssd-frontend.onrender.com
       - key: APP_UPLOAD_DIR
         value: /app/uploads
+      # Cloudinary (free cloud storage — sign up at cloudinary.com)
+      # Set these in the Render dashboard after first deploy:
+      - key: CLOUDINARY_CLOUD_NAME
+      - key: CLOUDINARY_API_KEY
+      - key: CLOUDINARY_API_SECRET
     # ── Persist uploaded files across deploys (Starter+ only) ──
     # disk:
     #   name: uploads

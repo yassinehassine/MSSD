@@ -1,5 +1,8 @@
 package com.mssd.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -11,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -19,6 +23,9 @@ public class FileStorageService {
     
     @Value("${app.upload.dir:uploads}")
     private String uploadDir;
+
+    @Autowired(required = false)
+    private Cloudinary cloudinary;
     
     private Path fileStorageLocation;
     
@@ -28,22 +35,31 @@ public class FileStorageService {
         
         try {
             Files.createDirectories(this.fileStorageLocation);
-            System.out.println("File storage location initialized at: " + this.fileStorageLocation);
         } catch (Exception ex) {
-            throw new RuntimeException("Could not create the directory where the uploaded files will be stored.", ex);
+            // Non-fatal in production (Cloudinary handles storage)
+            System.err.println("Could not create upload directory: " + ex.getMessage());
         }
     }
     
+    /**
+     * Store uploaded file and return the URL.
+     * When Cloudinary is configured (production), uploads to Cloudinary and returns
+     * a full https:// URL. Otherwise, saves locally and returns the bare filename.
+     */
     public String storeFile(MultipartFile file) throws IOException {
-        // Normalize file name
         String originalFileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         
-        // Check if the file's name contains invalid characters
         if (originalFileName.contains("..")) {
             throw new IOException("Filename contains invalid path sequence: " + originalFileName);
         }
-        
-        // Generate unique filename to avoid conflicts
+
+        // Cloudinary path (production on Render)
+        if (cloudinary != null) {
+            Map<?, ?> result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+            return (String) result.get("secure_url");
+        }
+
+        // Local filesystem path (dev)
         String fileExtension = "";
         int dotIndex = originalFileName.lastIndexOf('.');
         if (dotIndex > 0) {
@@ -52,7 +68,6 @@ public class FileStorageService {
         
         String fileName = UUID.randomUUID().toString() + fileExtension;
         
-        // Copy file to the target location (Replacing existing file with the same name)
         Path targetLocation = this.fileStorageLocation.resolve(fileName);
         Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
         

@@ -1,5 +1,8 @@
 package com.mssd.controller;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -22,23 +25,24 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/files")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class FileUploadController {
 
     @Value("${app.upload.dir:src/main/resources/static/uploads}")
     private String uploadDir;
+
+    @Autowired(required = false)
+    private Cloudinary cloudinary;
 
     @PostMapping("/upload")
     public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {
         Map<String, String> response = new HashMap<>();
         
         try {
-            // Validate file
             if (file.isEmpty()) {
                 response.put("error", "Please select a file to upload");
                 return ResponseEntity.badRequest().body(response);
             }
-
 
             String contentType = file.getContentType();
             if (contentType == null || !contentType.startsWith("image/")) {
@@ -46,13 +50,22 @@ public class FileUploadController {
                 return ResponseEntity.badRequest().body(response);
             }
 
-            // Create upload directory if it doesn't exist
+            // Cloudinary path (production on Render)
+            if (cloudinary != null) {
+                Map<?, ?> result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+                String url = (String) result.get("secure_url");
+                response.put("filename", url);
+                response.put("path", url);
+                response.put("url", url);
+                return ResponseEntity.ok(response);
+            }
+
+            // Local filesystem path (dev)
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
 
-            // Generate unique filename
             String originalFilename = file.getOriginalFilename();
             String fileExtension = "";
             if (originalFilename != null && originalFilename.contains(".")) {
@@ -60,11 +73,9 @@ public class FileUploadController {
             }
             String filename = UUID.randomUUID()+ fileExtension;
 
-            // Save file
             Path filePath = uploadPath.resolve(filename);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            // Return file path
             response.put("filename", filename);
             response.put("path", "uploads/" + filename);
             response.put("url", "/api/files/" + filename);
