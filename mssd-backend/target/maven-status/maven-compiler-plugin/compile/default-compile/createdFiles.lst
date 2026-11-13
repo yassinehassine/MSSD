@@ -90,6 +90,7 @@ com\mssd\controller\TestController.class
 com\mssd\dto\LoginRequest.class
 com\mssd\model\User.class
 com\mssd\repository\ContactRepository.class
+com\mssd\config\CloudinaryConfig.class
 com\mssd\service\impl\HighlightServiceImpl.class
 com\mssd\service\BlogService.class
 com\mssd\service\UserService.class
