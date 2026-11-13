@@ -54,9 +54,9 @@ services:
         fromDatabase:
           name: mssd-db
           property: database
-      # CORS — the frontend URL on Render
+      # CORS — allow both Render and Vercel frontends (comma-separated)
       - key: CORS_ALLOWED_ORIGINS
-        value: https://mssd-frontend.onrender.com
+        value: https://mssd-frontend.onrender.com,https://*.vercel.app,https://mssd.vercel.app
       - key: APP_UPLOAD_DIR
         value: /app/uploads
       # Cloudinary (free cloud storage — sign up at cloudinary.com)
